@@ -11,7 +11,6 @@ public class AgentRenderer : MonoBehaviour
 
     private void Update()
     {
-
         Vector2 dir = (_agent.MovementSOCompo.mouseDir - (Vector2)transform.position).normalized;
         transform.right = dir; 
     }
