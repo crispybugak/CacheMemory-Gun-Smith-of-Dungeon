@@ -1,5 +1,6 @@
 ﻿using UnityEditor.Tilemaps;
 using UnityEngine;
+using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class AgentMovement : MonoBehaviour
@@ -8,6 +9,7 @@ public class AgentMovement : MonoBehaviour
     private Agent _agent;
     private Stamina _stamina;
 
+    public UnityEvent<float> onMove;
     [field : SerializeField] public float MoveSpeed { get;  set; }
     private void Awake()
     { 
@@ -25,6 +27,7 @@ public class AgentMovement : MonoBehaviour
     {
         Vector2 input = _agent.MovementSOCompo.inputcDir.normalized;
         _agent.RidCompo.linearVelocity = MoveSpeed * input;
+        onMove?.Invoke(input.magnitude);
     }
 
     private void OnDisable()
