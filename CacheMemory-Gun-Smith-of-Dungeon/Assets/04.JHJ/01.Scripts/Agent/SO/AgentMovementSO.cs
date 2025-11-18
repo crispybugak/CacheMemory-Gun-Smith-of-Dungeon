@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class AgentMovementSO : ScriptableObject, Controls.IAgentActions
 {
     public Vector2 inputcDir { get; private set; }
-    public Vector2 mouseDir { get;  set; }
+    public Vector2 mousePos { get;  set; }
 
     public Action OnMovePressed;
     public Action<bool> OnRunPressed;
@@ -48,7 +48,7 @@ public class AgentMovementSO : ScriptableObject, Controls.IAgentActions
 
     public void OnMousePosition(InputAction.CallbackContext context)
     {
-        mouseDir = Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>());
+        mousePos = context.ReadValue<Vector2>();
     }
 
     public void OnUseSkill(InputAction.CallbackContext context)
