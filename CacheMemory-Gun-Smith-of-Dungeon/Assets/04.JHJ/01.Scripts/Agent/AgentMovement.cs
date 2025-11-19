@@ -1,4 +1,5 @@
-﻿using UnityEditor.Tilemaps;
+﻿using Unity.VisualScripting;
+using UnityEditor.Tilemaps;
 using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
@@ -10,6 +11,7 @@ public class AgentMovement : MonoBehaviour
     private Stamina _stamina;
 
     public UnityEvent<float> onMove;
+    public UnityEvent<Vector2> onRenderer;
     [field : SerializeField] public float MoveSpeed { get;  set; }
     private void Awake()
     { 
@@ -26,6 +28,8 @@ public class AgentMovement : MonoBehaviour
     public void OnMove()
     {
         Vector2 input = _agent.MovementSOCompo.inputcDir.normalized;
+        onRenderer?.Invoke(input);
+        Debug.Log(input.x);
         _agent.RidCompo.linearVelocity = MoveSpeed * input;
         onMove?.Invoke(input.magnitude);
     }
