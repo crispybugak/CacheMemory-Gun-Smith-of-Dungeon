@@ -13,6 +13,13 @@ public class AgentAnimation : MonoBehaviour
     {
         AnimComp.SetBool(WalkHash, value);
     }
+    public void AgentRendererX(Vector2 input)
+    {
+        if (input.x < 0)
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        else if (input.x > 0)
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+    }
     public void AnimatePlay(float velocity)
     {
         if (velocity > 0)
