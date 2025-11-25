@@ -8,37 +8,32 @@ public class Health : MonoBehaviour
     private Agent _agent;
 
     [Header("UI")]
-    [SerializeField] private Image _healthBar; 
+    [SerializeField] private Image _healthBar;
 
     [Header("Health Setting")]
-    [SerializeField] private float _maxhealth = 100;
+    [SerializeField] private float _maxhealth;
     [SerializeField] private float _baseHealth;
-    public float _currentHealth { get; private set; }
+    public float _CurrentHealth { get; private set; }
 
     public HitEffect _hitEffect;
 
-    private event Action onDamagedPlayer;
+    [field : SerializeField]public HealthDataSO HealthDataSO { get; private set; }
+
+    public  Action onDamagedPlayer;
     private void Awake()
     {
         _agent = GetComponent<Agent>();
     }
     private void Start()
-    {    
-        _currentHealth = _maxhealth;
-    }
-    private void OnEnable()
     {
-        onDamagedPlayer += UpdateUI;
-    }
-
-    private void OnDisable()
-    {
-        onDamagedPlayer -= UpdateUI;
+        _maxhealth = HealthDataSO.Maxhealth;
+        _CurrentHealth = _maxhealth;
     }
     public void OnDamaged(float damage)
     {
+        _CurrentHealth = Mathf.Clamp(_CurrentHealth - damage, 0f, _maxhealth);
         onDamagedPlayer?.Invoke();
-        _currentHealth = Mathf.Clamp(_currentHealth - damage, 0f, _maxhealth);
+
     }
 
     private void OnCollisionEnter2D(Collision2D collision)
@@ -50,9 +45,8 @@ public class Health : MonoBehaviour
             OnDamaged(damage);
         }
     }
-    private void UpdateUI()
+    private void HealingHP()
     {
-        _hitEffect.Play();
-        _healthBar.fillAmount = _currentHealth / _maxhealth;
+        _CurrentHealth = Mathf.Clamp(0, _CurrentHealth, _maxhealth);
     }
 }
