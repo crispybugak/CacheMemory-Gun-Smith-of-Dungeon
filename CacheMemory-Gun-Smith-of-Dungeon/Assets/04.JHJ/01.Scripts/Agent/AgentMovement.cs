@@ -29,9 +29,13 @@ public class AgentMovement : MonoBehaviour
     {
         Vector2 input = _agent.MovementSOCompo.inputcDir.normalized;
         onRenderer?.Invoke(input);
-        Debug.Log(input.x);
         _agent.RidCompo.linearVelocity = MoveSpeed * input;
         onMove?.Invoke(input.magnitude);
+    }
+
+    private void OnCollisionExit2D(Collision2D collision)
+    {
+        OnMove();
     }
 
     private void OnDisable()
