@@ -405,6 +405,37 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 4914147023912944694, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
   m_PrefabInstance: {fileID: 6449381270012668960}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &905671653
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 905671654}
+  m_Layer: 0
+  m_Name: UIManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &905671654
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905671653}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: -0.029349566, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1146267169 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3826137454188484254, guid: fae2289e24d793d4ca858c0012b19d29, type: 3}
@@ -1291,3 +1322,4 @@ SceneRoots:
   - {fileID: 5703010064834982603}
   - {fileID: 8166017642684358623}
   - {fileID: 1948080798}
+  - {fileID: 905671654}
