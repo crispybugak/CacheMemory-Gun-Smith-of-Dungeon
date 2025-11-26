@@ -7,7 +7,6 @@ public class AgentMovementSO : ScriptableObject, Controls.IAgentActions
 {
     public Vector2 inputcDir { get; private set; }
     public Vector2 mouseDir { get;  set; }
-
     public Action OnMovePressed;
     public Action<bool> OnRunPressed;
     public Action OnInterractivePressed; // 상호작용 키 (F)

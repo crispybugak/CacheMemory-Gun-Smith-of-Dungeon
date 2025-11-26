@@ -1045,6 +1045,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6719143359309859971, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
+      propertyPath: <MoveSpeed>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6719143359309859971, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
       propertyPath: onMove.m_PersistentCalls.m_Calls.Array.size
       value: 1
       objectReference: {fileID: 0}
