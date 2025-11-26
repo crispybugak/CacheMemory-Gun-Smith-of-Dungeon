@@ -6,8 +6,8 @@ public class Stamina : MonoBehaviour
     
     // 스태미나 바 사용시 최대치(BackBar)가 줄어들으며 점진적으로 최대치가 다시 복구 됨.
     [Header("Max/Current")]
-    [SerializeField] private float _baseMaxStamina = 100f;   
-    private float _currentMaxStamina;                        
+    [SerializeField] public float _baseMaxStamina { get; private set; } = 100f;
+    [SerializeField] public float _currentMaxStamina { get; private set; }                        
 
     [Header("Rates")]
     [SerializeField] private float _useStaminaGage = 20f;   
@@ -16,27 +16,24 @@ public class Stamina : MonoBehaviour
     [SerializeField] private float _backBarRechargeSpeed = 4f;   
     [SerializeField] private float lastUseStaminaTime;
 
-    [Header("UI")]
-    [SerializeField] private Image _staminaBar;      
-    [SerializeField] private Image _backStaminaBar;   
-
     [Header("Move")]
     [SerializeField] private float _defaultSpeed = 5f;
     [SerializeField] private float _runSpeed;
 
-
-
-    private float _currentStamina; 
-    private float _backStamina;                     
+    [Header("Stamina")]
+    public float _currentStamina { get; private set; }
+    public float _backStamina { get; private set; }                    
     public bool _isRunning { get; private set; }
 
     private AgentMovement _agentMovement;
     private Agent _agent;
+    StaminaUI _staminaUI;
 
     private void Awake()
     {
         _agentMovement = GetComponent<AgentMovement>();
         _agent = GetComponent<Agent>();
+        _staminaUI = GetComponent<StaminaUI>();
     }
      
     private void Start()
@@ -45,7 +42,7 @@ public class Stamina : MonoBehaviour
         _backStamina = _baseMaxStamina;
         _currentMaxStamina = _backStamina;
         _agentMovement.MoveSpeed = _defaultSpeed;
-        UpdateUI();
+        _staminaUI.UpdateUI();
     }
     private void Update()
     {
@@ -53,7 +50,7 @@ public class Stamina : MonoBehaviour
 
         if (_isRunning && value)
             UseStamina();
-        else if(!_isRunning && !value)
+        else if(!_isRunning)
             RechargeStamina();
     }
 
@@ -71,7 +68,7 @@ public class Stamina : MonoBehaviour
         }
         _currentMaxStamina = _backStamina; // 최대치
         _currentStamina = Mathf.Clamp(_currentStamina, 0f, _currentMaxStamina);
-        UpdateUI();
+        _staminaUI.UpdateUI();
     }
 
     private void RechargeStamina()
@@ -88,17 +85,8 @@ public class Stamina : MonoBehaviour
         }
         _currentMaxStamina = _backStamina; // 최대치
         _currentStamina = Mathf.Clamp(_currentStamina, 0f, _currentMaxStamina);
-        UpdateUI();
+        _staminaUI.UpdateUI();
     }
-    private void UpdateUI()
-    {
-        float mainst = _currentStamina / _baseMaxStamina;
-        float backst = _backStamina / _baseMaxStamina;
-
-        if (_backStaminaBar != null) _backStaminaBar.fillAmount = backst; 
-        if (_staminaBar != null) _staminaBar.fillAmount = mainst;   
-    }
-
     public void SetRunning(bool isRunning)
     {
         _isRunning = isRunning;
