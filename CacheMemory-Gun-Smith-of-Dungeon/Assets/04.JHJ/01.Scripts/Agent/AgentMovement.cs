@@ -38,11 +38,16 @@ public class AgentMovement : MonoBehaviour
         OnMove();
     }
 
+
     private void OnDisable()
     {
         _agent.MovementSOCompo.OnMovePressed -= OnMove;
         _agent.MovementSOCompo.OnRunPressed -= _stamina.SetRunning;
     }
 
-
+    public Vector2 IsMoved()
+    {
+        Vector2 input = _agent.MovementSOCompo.inputcDir.normalized;
+        return input;
+    }
 }

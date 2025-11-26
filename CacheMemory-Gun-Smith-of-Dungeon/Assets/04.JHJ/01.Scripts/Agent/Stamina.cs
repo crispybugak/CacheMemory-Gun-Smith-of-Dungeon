@@ -14,7 +14,7 @@ public class Stamina : MonoBehaviour
     [SerializeField] private float _rechargeSpeed = 10f;     
     [SerializeField] private float _backFollowStaminaBar = 8f; 
     [SerializeField] private float _backBarRechargeSpeed = 4f;   
-    [SerializeField] private float _rechargeDelay = 1.5f;
+    [SerializeField] private float lastUseStaminaTime;
 
     [Header("UI")]
     [SerializeField] private Image _staminaBar;      
@@ -24,59 +24,79 @@ public class Stamina : MonoBehaviour
     [SerializeField] private float _defaultSpeed = 5f;
     [SerializeField] private float _runSpeed;
 
+
+
     private float _currentStamina; 
     private float _backStamina;                     
-    private bool _isRunning;
+    public bool _isRunning { get; private set; }
 
     private AgentMovement _agentMovement;
+    private Agent _agent;
 
     private void Awake()
     {
         _agentMovement = GetComponent<AgentMovement>();
+        _agent = GetComponent<Agent>();
     }
-
+     
     private void Start()
     {
         _currentStamina = _baseMaxStamina; 
         _backStamina = _baseMaxStamina;
         _currentMaxStamina = _backStamina;
+        _agentMovement.MoveSpeed = _defaultSpeed;
         UpdateUI();
     }
     private void Update()
     {
-        // 이동 속도 적용(옵션)
+        bool value = _agent.RidCompo.linearVelocity.sqrMagnitude > 0.1;
+
+        if (_isRunning && value)
+            UseStamina();
+        else if(!_isRunning && !value)
+            RechargeStamina();
+    }
+
+
+    private void UseStamina()
+    {
         if (_agentMovement != null)
-            _agentMovement.MoveSpeed = _isRunning ? _runSpeed : _defaultSpeed;
+            _agentMovement.MoveSpeed = _isRunning ? _agentMovement.MoveSpeed = _runSpeed : _defaultSpeed;
         if (_isRunning)
         {
+            lastUseStaminaTime = 0;
             _currentStamina -= _useStaminaGage * Time.deltaTime;
             if (_backStamina > _currentStamina)
                 _backStamina = Mathf.Lerp(_backStamina, _currentStamina, _backFollowStaminaBar * Time.deltaTime * 30); // 백바 감소
-        }
-        else
-        {   
-            if(_isRunning == false)
-            {
-                if (Time.time > 1 +_rechargeDelay)
-                {
-                    _currentStamina += _rechargeSpeed * Time.deltaTime;
-                    if (_backStamina < _baseMaxStamina)
-                        _backStamina += _backBarRechargeSpeed * Time.deltaTime;
-                }
-            }
         }
         _currentMaxStamina = _backStamina; // 최대치
         _currentStamina = Mathf.Clamp(_currentStamina, 0f, _currentMaxStamina);
         UpdateUI();
     }
 
+    private void RechargeStamina()
+    {
+        if (!_isRunning)
+        {
+            lastUseStaminaTime += Time.deltaTime;
+            if (1.5 < lastUseStaminaTime)
+            {
+                _currentStamina += _rechargeSpeed * Time.deltaTime;
+                if (_backStamina < _baseMaxStamina)
+                    _backStamina += _backBarRechargeSpeed * Time.deltaTime;
+            }
+        }
+        _currentMaxStamina = _backStamina; // 최대치
+        _currentStamina = Mathf.Clamp(_currentStamina, 0f, _currentMaxStamina);
+        UpdateUI();
+    }
     private void UpdateUI()
     {
-        float mainNorm = _currentStamina / _baseMaxStamina;
-        float backNorm = _backStamina / _baseMaxStamina;
+        float mainst = _currentStamina / _baseMaxStamina;
+        float backst = _backStamina / _baseMaxStamina;
 
-        if (_backStaminaBar != null) _backStaminaBar.fillAmount = backNorm; 
-        if (_staminaBar != null) _staminaBar.fillAmount = mainNorm;   
+        if (_backStaminaBar != null) _backStaminaBar.fillAmount = backst; 
+        if (_staminaBar != null) _staminaBar.fillAmount = mainst;   
     }
 
     public void SetRunning(bool isRunning)
