@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Collections;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
-public class Health : MonoBehaviour
+public class Health : MonoBehaviour, IGetDamage
 {
     private Agent _agent;
 
@@ -17,6 +18,10 @@ public class Health : MonoBehaviour
 
     public HitEffect _hitEffect;
 
+    [Header("Regeneration")]
+    [SerializeField] private float lastDamagedTime {get; set;}
+    [SerializeField] private float healingInterval { get; set; }
+
     [field : SerializeField]public HealthDataSO HealthDataSO { get; private set; }
 
     public  Action onDamagedPlayer;
@@ -29,12 +34,7 @@ public class Health : MonoBehaviour
         _maxhealth = HealthDataSO.Maxhealth;
         _CurrentHealth = _maxhealth;
     }
-    public void OnDamaged(float damage)
-    {
-        _CurrentHealth = Mathf.Clamp(_CurrentHealth - damage, 0f, _maxhealth);
-        onDamagedPlayer?.Invoke();
 
-    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -43,10 +43,22 @@ public class Health : MonoBehaviour
             float damage = _maxhealth * 0.1f;
             Debug.Log(damage);
             OnDamaged(damage);
+            lastDamagedTime = Time.deltaTime;
         }
     }
-    private void HealingHP()
+    private IEnumerator HealingHpCT()
     {
+        if(10 > lastDamagedTime)
+        {
+            yield return new WaitForSeconds(0.5f);
         _CurrentHealth = Mathf.Clamp(0, _CurrentHealth, _maxhealth);
+        }
+
+    }
+
+    public void OnDamaged(float damage)
+    {
+        _CurrentHealth = Mathf.Clamp(_CurrentHealth - damage, 0f, _maxhealth);
+        onDamagedPlayer?.Invoke();
     }
 }
