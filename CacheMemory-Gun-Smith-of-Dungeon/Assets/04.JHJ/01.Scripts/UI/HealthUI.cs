@@ -3,31 +3,28 @@ using UnityEngine.UI;
 
 public class HealthUI : MonoBehaviour
 {
-    public Health health;
+    [field: SerializeField] public Health Health { get; private set; }
+    [field: SerializeField] public HealthDataSO HealthDataSO { get; private set; }
 
     [Header("UI")]
     [SerializeField] private Image _healthBar;
 
-    [Header("Health Setting")]
-    [SerializeField] private float _maxhealth;
     public float _CurrentHealth { get; private set; }
 
     public HitEffect _hitEffect;
 
-
     private void OnEnable()
     {
-        health.OnDamagedPlayer += UpdateUI;
+        Health.OnDamagedPlayer += UpdateUI;
     }
     private void OnDisable()
     {
-        health.OnDamagedPlayer -= UpdateUI;
+        Health.OnDamagedPlayer -= UpdateUI;
     }
-    [field: SerializeField] public HealthDataSO HealthDataSO { get; private set; }
     private void UpdateUI()
     {
         _hitEffect.Play();
-        _healthBar.fillAmount = _CurrentHealth / _maxhealth;
+        _healthBar.fillAmount = Health.CurrentHealth / Health.Maxhealth;
     }
 
 }

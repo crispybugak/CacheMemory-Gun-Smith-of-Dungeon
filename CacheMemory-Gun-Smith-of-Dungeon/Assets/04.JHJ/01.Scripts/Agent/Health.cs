@@ -4,22 +4,28 @@ using UnityEngine;
 
 public class Health : MonoBehaviour, IGetDamage
 {
-    [field: SerializeField]public float CurrentHealth { get; private set; }
 
     [Header("Regeneration")]
     [SerializeField] private float lastDamagedTime;
 
     [field : SerializeField]public HealthDataSO HealthData { get; private set; }
+    [field: SerializeField]public float CurrentHealth { get; private set; }
 
     public float Maxhealth => HealthData.Maxhealth;
     public float HealingInterval => HealthData.HealingInterval;
 
-    public  Action OnDamagedPlayer;
+
+    public Action OnDamagedPlayer;
+    private bool isCanHealing;
     private void Start()
     {
         CurrentHealth = Maxhealth;
     }
 
+    private void Update()
+    {
+        
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -29,12 +35,12 @@ public class Health : MonoBehaviour, IGetDamage
             float damage = CurrentHealth * 0.1f;
             Debug.Log(damage);
             OnDamaged(damage);
-            lastDamagedTime += Time.deltaTime;
-        }
+        }  
     }
     private IEnumerator HealingHpCT()
     {
-        if(lastDamagedTime > 10f)
+        lastDamagedTime += Time.deltaTime;
+        while (lastDamagedTime > 10f)
         {
             CurrentHealth = Mathf.Clamp(CurrentHealth,0 , Maxhealth);
             yield return new WaitForSeconds(HealingInterval);
