@@ -45,7 +45,6 @@ public class DungeonGen : MonoBehaviour
       Generate();
    }
    
-   [ContextMenu("Generate")]
    private void Generate()
    {
       ran = new System.Random(currentSeed);
