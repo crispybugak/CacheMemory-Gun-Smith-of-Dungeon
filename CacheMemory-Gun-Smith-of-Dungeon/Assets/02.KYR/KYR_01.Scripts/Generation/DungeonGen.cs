@@ -12,9 +12,9 @@ public class DungeonGen : MonoBehaviour
    [SerializeField] private GameObject[] monsterRoomPrefab;
    [SerializeField, Range(0,1)] private float extraEdgeChance = 0.3f;
    [SerializeField, Range(0,1)] private float eventChance = 0.35f;
-   [SerializeField] private  int minRooms = 8; 
+   [SerializeField] private  int minRooms = 9; 
    [SerializeField] private  int maxRooms = 13; 
-   [SerializeField] private int maxEventRooms = 3;
+   [SerializeField] private int maxEventRooms = 2;
    [SerializeField] private bool randomStart = true;
    [SerializeField] private int seed = 0;
    
