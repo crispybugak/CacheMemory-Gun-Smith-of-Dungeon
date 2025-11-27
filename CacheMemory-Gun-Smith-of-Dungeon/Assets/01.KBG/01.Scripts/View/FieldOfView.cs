@@ -10,12 +10,18 @@ public class FieldOfView : MonoBehaviour
     [Range(0, 360)] public float fov = 90f;
     public int rayCount = 90;
     public float viewDistance = 10f;
+    public Vector3 pivot;
     public LayerMask layerMask;
     private Mesh mesh;
 
     private void Start()
     {
+        Transform parent = transform.parent;
 
+        transform.parent = null;
+        transform.localScale = Vector3.one;
+        transform.parent = parent;
+        
         mesh = new Mesh();
         mesh.name = "FOV";
         GetComponent<MeshFilter>().mesh = mesh;
@@ -35,7 +41,7 @@ public class FieldOfView : MonoBehaviour
         Vector2[] uv = new Vector2[vertices.Length];
         int[] triangles = new int[rayCount * 3];
 
-        vertices[0] = Vector3.zero;
+        vertices[0] = pivot;
 
         int vertexIndex = 1;
         int triangleIndex = 0;
@@ -50,7 +56,7 @@ public class FieldOfView : MonoBehaviour
             }
             else
             {
-                vertex = GetVectorFromAngle(angle) * (raycastHit2D.distance / viewDistance) * viewDistance;
+                vertex = GetVectorFromAngle(angle) * (raycastHit2D.distance / viewDistance * viewDistance);
             }
 
             vertices[vertexIndex] = vertex;
