@@ -1,38 +1,23 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
 
 public class Health : MonoBehaviour, IGetDamage
 {
-    private Agent _agent;
-
-    [Header("UI")]
-    [SerializeField] private Image _healthBar;
-
-    [Header("Health Setting")]
-    [SerializeField] private float _maxhealth;
-    [SerializeField] private float _baseHealth;
-    public float _CurrentHealth { get; private set; }
-
-    public HitEffect _hitEffect;
+    [field: SerializeField]public float CurrentHealth { get; private set; }
 
     [Header("Regeneration")]
-    [SerializeField] private float lastDamagedTime {get; set;}
-    [SerializeField] private float healingInterval { get; set; }
+    [SerializeField] private float lastDamagedTime;
 
-    [field : SerializeField]public HealthDataSO HealthDataSO { get; private set; }
+    [field : SerializeField]public HealthDataSO HealthData { get; private set; }
 
-    public  Action onDamagedPlayer;
-    private void Awake()
-    {
-        _agent = GetComponent<Agent>();
-    }
+    public float Maxhealth => HealthData.Maxhealth;
+    public float HealingInterval => HealthData.HealingInterval;
+
+    public  Action OnDamagedPlayer;
     private void Start()
     {
-        _maxhealth = HealthDataSO.Maxhealth;
-        _CurrentHealth = _maxhealth;
+        CurrentHealth = Maxhealth;
     }
 
 
@@ -40,25 +25,27 @@ public class Health : MonoBehaviour, IGetDamage
     {
         if (collision.gameObject.CompareTag("Wall"))
         {
-            float damage = _maxhealth * 0.1f;
+            lastDamagedTime = 0;
+            float damage = CurrentHealth * 0.1f;
             Debug.Log(damage);
             OnDamaged(damage);
-            lastDamagedTime = Time.deltaTime;
+            lastDamagedTime += Time.deltaTime;
         }
     }
     private IEnumerator HealingHpCT()
     {
-        if(10 > lastDamagedTime)
+        if(lastDamagedTime > 10f)
         {
-            yield return new WaitForSeconds(0.5f);
-        _CurrentHealth = Mathf.Clamp(0, _CurrentHealth, _maxhealth);
+            CurrentHealth = Mathf.Clamp(CurrentHealth,0 , Maxhealth);
+            yield return new WaitForSeconds(HealingInterval);
+            CurrentHealth += Maxhealth * 0.1f;
         }
-
     }
 
     public void OnDamaged(float damage)
     {
-        _CurrentHealth = Mathf.Clamp(_CurrentHealth - damage, 0f, _maxhealth);
-        onDamagedPlayer?.Invoke();
+        CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0f, Maxhealth);
+        OnDamagedPlayer?.Invoke();
+        StartCoroutine(HealingHpCT());
     }
 }

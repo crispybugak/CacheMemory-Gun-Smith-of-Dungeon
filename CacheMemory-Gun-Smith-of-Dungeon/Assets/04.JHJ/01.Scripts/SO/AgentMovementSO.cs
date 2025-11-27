@@ -9,8 +9,8 @@ public class AgentMovementSO : ScriptableObject, Controls.IAgentActions
     public Vector2 mouseDir { get;  set; }
     public Action OnMovePressed;
     public Action<bool> OnRunPressed;
-    public Action OnInterractivePressed; // 상호작용 키 (F)
-    public Action OnSkillPressed;//캐릭터별 전용 스킬 키(E)
+    public Action OnInterractivePressed; 
+    public Action OnSkillPressed;
 
     public Controls controls;
     private void OnEnable()

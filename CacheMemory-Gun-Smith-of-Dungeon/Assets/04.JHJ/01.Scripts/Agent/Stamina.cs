@@ -1,94 +1,111 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class Stamina : MonoBehaviour
 {
-    
-    // 스태미나 바 사용시 최대치(BackBar)가 줄어들으며 점진적으로 최대치가 다시 복구 됨.
+    [field: SerializeField] public AgentStaminaSO AgentStaminaData { get; private set; }
+    [Header("SO")]
+    public float DefaultSpeed => AgentStaminaData._defaultSpeed;
+    public float RunSpeed => AgentStaminaData._runSpeed;
+    public float RechargeSpeed => AgentStaminaData._rechargeSpeed;
+    public float BackBarRechargeSpeed => AgentStaminaData._backBarRechargeSpeed;
+    public float UseStaminaGage => AgentStaminaData._useStaminaGage;
+    public float BackFollowStaminaBar => AgentStaminaData._backFollowStaminaBar;
+
     [Header("Max/Current")]
-    [SerializeField] public float _baseMaxStamina { get; private set; } = 100f;
-    [SerializeField] public float _currentMaxStamina { get; private set; }                        
+    [field: SerializeField] public float _baseMaxStamina { get; private set; }
+    [field: SerializeField] public float lastUseStaminaTime { get; private set; }
+    [field: SerializeField] public float _currentMaxStamina { get; private set; }
+    [field: SerializeField] public float _currentStamina { get; private set; }
+    [field: SerializeField] public float _backStamina { get; private set; }
 
-    [Header("Rates")]
-    [SerializeField] private float _useStaminaGage = 20f;   
-    [SerializeField] private float _rechargeSpeed = 10f;     
-    [SerializeField] private float _backFollowStaminaBar = 8f; 
-    [SerializeField] private float _backBarRechargeSpeed = 4f;   
-    [SerializeField] private float lastUseStaminaTime;
-
-    [Header("Move")]
-    [SerializeField] private float _defaultSpeed = 5f;
-    [SerializeField] private float _runSpeed;
-
-    [Header("Stamina")]
-    public float _currentStamina { get; private set; }
-    public float _backStamina { get; private set; }                    
-    public bool _isRunning { get; private set; }
+    bool _isMove;
+    bool _runRequested;                    // _ 달리기 키 입력 상태
+    public bool _isRunning { get; private set; }  // 실제로 달리는 상태
 
     private AgentMovement _agentMovement;
     private Agent _agent;
-    StaminaUI _staminaUI;
+    [SerializeField] private StaminaUI _staminaUI;
 
     private void Awake()
     {
         _agentMovement = GetComponent<AgentMovement>();
         _agent = GetComponent<Agent>();
-        _staminaUI = GetComponent<StaminaUI>();
     }
-     
+
     private void Start()
     {
-        _currentStamina = _baseMaxStamina; 
+        _currentStamina = _baseMaxStamina;
         _backStamina = _baseMaxStamina;
         _currentMaxStamina = _backStamina;
-        _agentMovement.MoveSpeed = _defaultSpeed;
+        _agentMovement.MoveSpeed = DefaultSpeed;
         _staminaUI.UpdateUI();
+        _isMove = _agent.RidCompo.linearVelocity.sqrMagnitude > 0.1f;
     }
+
     private void Update()
     {
-        bool value = _agent.RidCompo.linearVelocity.sqrMagnitude > 0.1;
+        _isMove = _agent.RidCompo.linearVelocity.sqrMagnitude > 0.1f;      // _ 매 프레임 이동 여부 갱신
 
-        if (_isRunning && value)
-            UseStamina();
-        else if(!_isRunning)
-            RechargeStamina();
+        bool canRun =
+            _runRequested &&                                              // _ 달리기 키 눌렸고
+            _isMove &&                                                    // _ 실제로 움직이고 있고
+            _currentStamina > 0f;                                         // _ 스태미나 남았을 때만 런
+
+        _isRunning = canRun;                                              // _ 외부에서 확인용 실제 러닝 상태
+
+        if (canRun)                                                       // _ 런 상태
+        {
+            _agentMovement.MoveSpeed = RunSpeed;                          // _
+            UseStamina();                                                 // _
+        }
+        else                                                              // _ 걷기/정지 + 회복 상태
+        {
+            _agentMovement.MoveSpeed = DefaultSpeed;                      // _
+            RechargeStamina();                                            // _
+        }
     }
-
 
     private void UseStamina()
     {
-        if (_agentMovement != null)
-            _agentMovement.MoveSpeed = _isRunning ? _agentMovement.MoveSpeed = _runSpeed : _defaultSpeed;
-        if (_isRunning)
+        lastUseStaminaTime = 0f;                                          // _
+        _currentStamina -= UseStaminaGage * Time.deltaTime;               // _
+
+        if (_backStamina > _currentStamina)
         {
-            lastUseStaminaTime = 0;
-            _currentStamina -= _useStaminaGage * Time.deltaTime;
-            if (_backStamina > _currentStamina)
-                _backStamina = Mathf.Lerp(_backStamina, _currentStamina, _backFollowStaminaBar * Time.deltaTime * 30); // 백바 감소
+            _backStamina = Mathf.Lerp(
+                _backStamina,
+                _currentStamina,
+                BackFollowStaminaBar * Time.deltaTime * 30f
+            );
         }
-        _currentMaxStamina = _backStamina; // 최대치
+
+        _currentMaxStamina = _backStamina;
         _currentStamina = Mathf.Clamp(_currentStamina, 0f, _currentMaxStamina);
         _staminaUI.UpdateUI();
     }
 
     private void RechargeStamina()
     {
-        if (!_isRunning)
+        if (!_isRunning)                                                  // _ 실제로 달리는 중이 아닐 때만 회복
         {
             lastUseStaminaTime += Time.deltaTime;
-            if (1.5 < lastUseStaminaTime)
+
+            if (1.5f < lastUseStaminaTime)
             {
-                _currentStamina += _rechargeSpeed * Time.deltaTime;
+                _currentStamina += RechargeSpeed * Time.deltaTime;
+
                 if (_backStamina < _baseMaxStamina)
-                    _backStamina += _backBarRechargeSpeed * Time.deltaTime;
+                    _backStamina += BackBarRechargeSpeed * Time.deltaTime;
             }
         }
-        _currentMaxStamina = _backStamina; // 최대치
+
+        _currentMaxStamina = _backStamina;
         _currentStamina = Mathf.Clamp(_currentStamina, 0f, _currentMaxStamina);
         _staminaUI.UpdateUI();
     }
+
     public void SetRunning(bool isRunning)
     {
-        _isRunning = isRunning;
+        _runRequested = isRunning;                                        // _ 키 입력만 저장
     }
 }

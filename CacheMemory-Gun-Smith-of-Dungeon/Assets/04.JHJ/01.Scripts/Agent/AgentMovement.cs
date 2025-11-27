@@ -18,8 +18,6 @@ public class AgentMovement : MonoBehaviour
         _agent = GetComponent<Agent>();
         _stamina = GetComponent<Stamina>();
     }
-
-
     private void OnEnable()
     {
         _agent.MovementSOCompo.OnMovePressed += OnMove;

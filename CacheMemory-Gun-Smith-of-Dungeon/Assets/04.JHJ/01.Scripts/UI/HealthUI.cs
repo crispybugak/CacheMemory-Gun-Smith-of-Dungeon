@@ -17,11 +17,11 @@ public class HealthUI : MonoBehaviour
 
     private void OnEnable()
     {
-        health.onDamagedPlayer += UpdateUI;
+        health.OnDamagedPlayer += UpdateUI;
     }
     private void OnDisable()
     {
-        health.onDamagedPlayer -= UpdateUI;
+        health.OnDamagedPlayer -= UpdateUI;
     }
     [field: SerializeField] public HealthDataSO HealthDataSO { get; private set; }
     private void UpdateUI()
