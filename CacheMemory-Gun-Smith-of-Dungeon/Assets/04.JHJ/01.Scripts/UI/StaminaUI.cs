@@ -6,12 +6,7 @@ public class StaminaUI : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Image _staminaBar;
     [SerializeField] private Image _backStaminaBar;
-    private  Stamina _stamina;
-
-    private void Awake()
-    {
-        _stamina = GetComponent<Stamina>();
-    }
+    [SerializeField] private  Stamina _stamina;
 
     public void UpdateUI()
     {

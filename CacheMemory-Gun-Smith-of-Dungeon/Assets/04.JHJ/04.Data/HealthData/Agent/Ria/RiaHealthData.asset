@@ -10,7 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 63e571251d2fb91419b4392ce50b0bae, type: 3}
-  m_Name: HealthData
+  m_Name: RiaHealthData
   m_EditorClassIdentifier: 
-  <icon>k__BackingField: {fileID: 0}
-  <health>k__BackingField: 0
+  <Maxhealth>k__BackingField: 100
+  <HealingDelay>k__BackingField: 5
+  <HealAmountPercent>k__BackingField: 5
+  <HealInterval>k__BackingField: 1

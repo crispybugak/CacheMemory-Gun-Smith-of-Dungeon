@@ -414,6 +414,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 905671654}
+  - component: {fileID: 905671655}
   m_Layer: 0
   m_Name: UIManager
   m_TagString: Untagged
@@ -430,12 +431,27 @@ Transform:
   m_GameObject: {fileID: 905671653}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -0.029349566, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &905671655
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 905671653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e4a5cab71f95b347a132f1888501aa0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _staminaBar: {fileID: 216537725}
+  _backStaminaBar: {fileID: 1208000313}
+  _stamina: {fileID: 1561506202}
 --- !u!1 &1146267169 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3826137454188484254, guid: fae2289e24d793d4ca858c0012b19d29, type: 3}
@@ -599,20 +615,17 @@ CapsuleCollider2D:
   m_Offset: {x: 0.0077838423, y: -0.0058699134}
   m_Size: {x: 0.22912279, y: 0.6395446}
   m_Direction: 0
---- !u!114 &1561506206
+--- !u!114 &1561506202 stripped
 MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+  m_CorrespondingSourceObject: {fileID: 8013651416271253122, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
+  m_PrefabInstance: {fileID: 6449381270012668960}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 628841766}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7e4a5cab71f95b347a132f1888501aa0, type: 3}
+  m_Script: {fileID: 11500000, guid: fdccbbe213f88bc48848eaf564e231cf, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _staminaBar: {fileID: 216537725}
-  _backStaminaBar: {fileID: 1208000313}
 --- !u!114 &1772642915 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 492135273755797754, guid: 968e3b2e44fbab04186dcedabbe07be9, type: 3}
@@ -1158,9 +1171,21 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1772642915}
     - target: {fileID: 6968944555480879207, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
+      propertyPath: _maxhealth
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6968944555480879207, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
+      propertyPath: <HealthData>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 515a517f1087b3c4f8cc3567829fcbca, type: 2}
+    - target: {fileID: 6968944555480879207, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
       propertyPath: <HealthDataSO>k__BackingField
       value: 
       objectReference: {fileID: 11400000, guid: 515a517f1087b3c4f8cc3567829fcbca, type: 2}
+    - target: {fileID: 8013651416271253122, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
+      propertyPath: _staminaUI
+      value: 
+      objectReference: {fileID: 905671655}
     - target: {fileID: 8013651416271253122, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
       propertyPath: _staminaBar
       value: 
@@ -1169,6 +1194,22 @@ PrefabInstance:
       propertyPath: _backStaminaBar
       value: 
       objectReference: {fileID: 1208000313}
+    - target: {fileID: 8013651416271253122, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
+      propertyPath: <_backStamina>k__BackingField
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8013651416271253122, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
+      propertyPath: <_baseMaxStamina>k__BackingField
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 8013651416271253122, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
+      propertyPath: <AgentStaminaData>k__BackingField
+      value: 
+      objectReference: {fileID: 11400000, guid: 80acc174e6766df47bdca866b981708f, type: 2}
+    - target: {fileID: 8013651416271253122, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
+      propertyPath: <_currentMaxStamina>k__BackingField
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 328453210078251306, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
     m_RemovedGameObjects: []
@@ -1183,9 +1224,6 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 4914147023912944694, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1561506200}
-    - targetCorrespondingSourceObject: {fileID: 4914147023912944694, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1561506206}
   m_SourcePrefab: {fileID: 100100000, guid: f385a5bd48eb7264e9972e900ff3d615, type: 3}
 --- !u!1001 &8166017642684358623
 PrefabInstance:
