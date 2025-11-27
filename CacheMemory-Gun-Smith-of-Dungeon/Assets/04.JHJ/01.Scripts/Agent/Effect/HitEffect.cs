@@ -36,7 +36,7 @@ public class HitEffect : MonoBehaviour
     {
         Debug.Log("beginPlaying");
         _currentInTensityValue = 0;
-        if (_health._CurrentHealth > 0)
+        if (_health.CurrentHealth > 0)
         {
             while (_vignette.intensity.value < _maxIntensity)
             {
