@@ -15,4 +15,4 @@ MonoBehaviour:
   <Maxhealth>k__BackingField: 100
   <HealingDelay>k__BackingField: 5
   <HealAmountPercent>k__BackingField: 5
-  <HealInterval>k__BackingField: 1
+  <HealingInterval>k__BackingField: 1.5
