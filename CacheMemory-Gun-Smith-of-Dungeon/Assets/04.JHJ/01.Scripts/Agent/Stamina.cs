@@ -40,35 +40,35 @@ public class Stamina : MonoBehaviour
         _agentMovement.MoveSpeed = DefaultSpeed;
         _staminaUI.UpdateUI();
         _isMove = _agent.RidCompo.linearVelocity.sqrMagnitude > 0.1f;
+
     }
 
     private void Update()
     {
-        _isMove = _agent.RidCompo.linearVelocity.sqrMagnitude > 0.1f;      // _ 매 프레임 이동 여부 갱신
+        _isMove = _agent.RidCompo.linearVelocity.sqrMagnitude > 0.1f;      
 
         bool canRun =
-            _runRequested &&                                              // _ 달리기 키 눌렸고
-            _isMove &&                                                    // _ 실제로 움직이고 있고
-            _currentStamina > 0f;                                         // _ 스태미나 남았을 때만 런
+            _runRequested &&                                              
+            _isMove &&                                                    
+            _currentStamina > 0f;                                        
 
-        _isRunning = canRun;                                              // _ 외부에서 확인용 실제 러닝 상태
+        _isRunning = canRun;                                             
 
-        if (canRun)                                                       // _ 런 상태
+        if (canRun)                                                      
         {
-            _agentMovement.MoveSpeed = RunSpeed;                          // _
-            UseStamina();                                                 // _
+            _agentMovement.MoveSpeed = RunSpeed;                          
+            UseStamina();                                                 
         }
-        else                                                              // _ 걷기/정지 + 회복 상태
+        else                                                              
         {
-            _agentMovement.MoveSpeed = DefaultSpeed;                      // _
-            RechargeStamina();                                            // _
+            _agentMovement.MoveSpeed = DefaultSpeed;                     
+            RechargeStamina();                                            
         }
     }
-
     private void UseStamina()
     {
-        lastUseStaminaTime = 0f;                                          // _
-        _currentStamina -= UseStaminaGage * Time.deltaTime;               // _
+        lastUseStaminaTime = 0f;                                         
+        _currentStamina -= UseStaminaGage * Time.deltaTime;               
 
         if (_backStamina > _currentStamina)
         {
@@ -86,8 +86,9 @@ public class Stamina : MonoBehaviour
 
     private void RechargeStamina()
     {
-        if (!_isRunning)                                                  // _ 실제로 달리는 중이 아닐 때만 회복
+        if (!_isRunning)
         {
+            lastUseStaminaTime = Mathf.Clamp(lastUseStaminaTime, 0, 10);
             lastUseStaminaTime += Time.deltaTime;
 
             if (1.5f < lastUseStaminaTime)
@@ -106,6 +107,6 @@ public class Stamina : MonoBehaviour
 
     public void SetRunning(bool isRunning)
     {
-        _runRequested = isRunning;                                        // _ 키 입력만 저장
+        _runRequested = isRunning;                                       
     }
 }
