@@ -386,7 +386,6 @@ MonoBehaviour:
   maxRooms: 13
   maxEventRooms: 2
   randomStart: 1
-  seed: 0
   corridorGenerator: {fileID: 1616903167}
 --- !u!4 &1150796101
 Transform:
