@@ -3,7 +3,6 @@
 public class AgentAnimation : MonoBehaviour
 {
     public Animator AnimComp { get; private set; }
-    private readonly int WalkHash = Animator.StringToHash("Walk");
     private readonly int LeftWalkHash = Animator.StringToHash("Left");
     private readonly int RightWalkHash = Animator.StringToHash("Right");
 
@@ -13,7 +12,8 @@ public class AgentAnimation : MonoBehaviour
     }
     public void SetWalkAnimation(bool value)
     {
-        AnimComp.SetBool(WalkHash, value);
+        AnimComp.SetBool(LeftWalkHash, value);
+        AnimComp.SetBool(RightWalkHash, value);
     }
     public void SetFlipAnimation(float value)
     {

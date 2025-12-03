@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthUI : MonoBehaviour
@@ -9,22 +10,26 @@ public class HealthUI : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Image _healthBar;
 
-    public float _CurrentHealth { get; private set; }
-
     public HitEffect _hitEffect;
 
     private void OnEnable()
     {
-        Health.OnDamagedPlayer += UpdateUI;
+        Health.OnDamagedPlayer += MinusUpdateUI;
+        Health.OnHealing += PlusUpdateUI;
     }
     private void OnDisable()
     {
-        Health.OnDamagedPlayer -= UpdateUI;
+        Health.OnDamagedPlayer -= MinusUpdateUI;
+        Health.OnHealing -= PlusUpdateUI;
     }
-    private void UpdateUI()
-    {
+    private void MinusUpdateUI()
+    {   
         _hitEffect.Play();
         _healthBar.fillAmount = Health.CurrentHealth / Health.Maxhealth;
     }
 
+    private void PlusUpdateUI()
+    {
+        _healthBar.fillAmount = Health.CurrentHealth;
+    }
 }

@@ -1,16 +1,26 @@
+﻿using TMPro;
 using UnityEngine;
+using DG;
+using DG.Tweening;
 
 public class UiManager : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public TextMeshProUGUI _pressToAnyButton;
+
+
+    private void Start()
     {
-        
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Update()
     {
-        
+        ButtonFade(_pressToAnyButton);
+    }
+
+    private void ButtonFade(TextMeshProUGUI text)
+    {
+            Sequence mySequence = DOTween.Sequence();
+            mySequence.Append(_pressToAnyButton.DOFade(1, 3));
+            mySequence.Append(_pressToAnyButton.DOFade(0, 3));
     }
 }
