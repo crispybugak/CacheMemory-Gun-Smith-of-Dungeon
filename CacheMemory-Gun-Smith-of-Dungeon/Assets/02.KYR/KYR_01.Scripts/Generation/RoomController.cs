@@ -68,6 +68,21 @@ public class RoomController : MonoBehaviour
                 break;
         }
     }
+    public void OpenAllLinkedDoors()
+    {
+        if (_linkN) SwitchDoor(doorN, cdoorN, true);
+        if (_linkE) SwitchDoor(doorE, cdoorE, true);
+        if (_linkS) SwitchDoor(doorS, cdoorS, true);
+        if (_linkW) SwitchDoor(doorW, cdoorW, true);
+    }
+
+    public void CloseAllLinkedDoors()
+    {
+        if (_linkN) SwitchDoor(doorN, cdoorN, false);
+        if (_linkE) SwitchDoor(doorE, cdoorE, false);
+        if (_linkS) SwitchDoor(doorS, cdoorS, false);
+        if (_linkW) SwitchDoor(doorW, cdoorW, false);
+    }
 
     private void ApplyLinkVisual(GameObject openDoor, GameObject closeDoor, bool hasLink)
     {
