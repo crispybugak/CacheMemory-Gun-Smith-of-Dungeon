@@ -30,6 +30,6 @@ public class HealthUI : MonoBehaviour
 
     private void PlusUpdateUI()
     {
-        _healthBar.fillAmount = Health.CurrentHealth;
+        _healthBar.fillAmount = Health.CurrentHealth / Health.Maxhealth;
     }
 }

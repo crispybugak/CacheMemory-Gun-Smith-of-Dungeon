@@ -6,25 +6,34 @@ using TMPro;
 
 public class Health : MonoBehaviour, IGetDamage
 {
-
     [Header("Regeneration")]
     [SerializeField] private float lastDamagedTime;
 
-    [field : SerializeField]public HealthDataSO HealthData { get; private set; }
-    [field: SerializeField]public float CurrentHealth { get; private set; }
+    [field: SerializeField] public HealthDataSO HealthData { get; private set; }
+    [field: SerializeField] public float CurrentHealth { get; private set; }
 
-    public float Maxhealth => HealthData.Maxhealth;
-    public float HealingInterval => HealthData.HealingInterval;
+    // 패시브 보너스
+    [Header("패시브 보너스")]
+    [field: SerializeField] public float bonusMaxHealth { get; private set; }
 
-    public float sumDamage;
-    public float sumHealing;
+    // 기본 + 패시브 합친 실제 최대 체력
+    public float Maxhealth => HealthData.Maxhealth + bonusMaxHealth;
 
-    public Action OnDamagedPlayer;
-    public Action OnHealing;
+    // (아래쪽에 있을 이벤트 / 나머지 필드는 그대로)
+    public event Action OnDamagedPlayer;
+    public event Action OnHealing;
 
+    private void OnEnable()
+    {
+        lastDamagedTime = 0f;
+        CurrentHealth = Maxhealth;
+        OnHealing?.Invoke();
+    }
+
+    
     private void Start()
     {
-        CurrentHealth = Maxhealth;
+        bonusMaxHealth = 0f;
     }
 
     private void Update()
@@ -48,7 +57,8 @@ public class Health : MonoBehaviour, IGetDamage
         {
             OnHealing?.Invoke();
             CurrentHealth = Mathf.Clamp(CurrentHealth += randomhealing, 0 , Maxhealth);
-            yield return new WaitForSeconds(HealingInterval);
+            yield return new WaitForSeconds(HealthData.HealingInterval);
+
         }
     }
 
@@ -60,4 +70,12 @@ public class Health : MonoBehaviour, IGetDamage
 
         StartCoroutine(HealingHpCT());
     }
+    
+    public void AddBonusMaxHealth(float amount)
+    {
+        bonusMaxHealth += amount;
+        CurrentHealth = Maxhealth;
+        OnHealing?.Invoke();
+    }
+
 }
