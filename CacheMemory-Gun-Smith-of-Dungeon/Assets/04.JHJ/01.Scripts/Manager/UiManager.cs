@@ -21,6 +21,7 @@ public class UiManager : MonoBehaviour
         if (UiInputSO == null) return;
         UiInputSO.SetOptionPanel(optionPanel);
         UiInputSO.SetcharacterSelectPanel(characterSelectPanel);
+        
     }
 
     private void Start()
@@ -43,17 +44,26 @@ public class UiManager : MonoBehaviour
         if(id == 1)
         {
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(_riaImage.DOScale(1.2f, 0.2f));           
+            sequence.Append(_riaImage.DOScale(1.2f, 0.3f));           
         }
         else
         {
             Sequence sequence = DOTween.Sequence();
-            sequence.Append(_rinImage.DOScale(1.2f, 0.2f));
+            sequence.Append(_rinImage.DOScale(1.2f, 0.3f));
         }
     }
-    public void PointerOutImage()
+    public void PointerOutImage(int id)
     {
-        Sequence sequence = DOTween.Sequence();
-        sequence.Append(_riaImage.DOScale(1, 0.2f));
+        if (id == 1)
+        {
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(_riaImage.DOScale(1, 0.2f));
+        }
+        else
+        {
+            Sequence sequence = DOTween.Sequence();
+            sequence.Append(_rinImage.DOScale(1, 0.2f));
+        }
+
     }
 }
