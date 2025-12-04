@@ -24,6 +24,7 @@ public class UiManager : MonoBehaviour
         
     }
 
+    
     private void Start()
     {
         if (optionPanel != null)
