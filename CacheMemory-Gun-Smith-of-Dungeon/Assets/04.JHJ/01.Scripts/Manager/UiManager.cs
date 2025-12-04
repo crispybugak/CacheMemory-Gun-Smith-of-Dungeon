@@ -21,7 +21,6 @@ public class UiManager : MonoBehaviour
         if (UiInputSO == null) return;
         UiInputSO.SetOptionPanel(optionPanel);
         UiInputSO.SetcharacterSelectPanel(characterSelectPanel);
-        
     }
 
     
