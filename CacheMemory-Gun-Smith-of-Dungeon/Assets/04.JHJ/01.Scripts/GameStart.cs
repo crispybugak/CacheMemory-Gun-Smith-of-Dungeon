@@ -13,8 +13,8 @@ public class GameStart : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
         if (Keyboard.current.anyKey.wasPressedThisFrame)
         {
-            sequence.Append(fadePanel.DOFade(1, 3));
-            SceneManager.LoadScene("JHJ.MainScene");
+            fadePanel.DOFade(1f, 3f).OnComplete(() => SceneManager.LoadScene("JHJ.MainScene"));
+
         }
     }
 }

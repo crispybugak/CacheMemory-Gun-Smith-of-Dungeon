@@ -11,12 +11,15 @@ public class AgentMovement : MonoBehaviour
 
     [field: SerializeField] public float MoveSpeed { get; set; }
 
+    private AgentAnimation _agentAnimation;
+
     private Vector2 _moveInput;
 
     private void Awake()
     {
         _agent = GetComponent<Agent>();
         _stamina = GetComponent<Stamina>();
+        _agentAnimation = GetComponentInChildren<AgentAnimation>();
     }
 
     private void OnEnable()
@@ -40,8 +43,13 @@ public class AgentMovement : MonoBehaviour
     private void Update()
     {
         onRenderer?.Invoke(_moveInput);
+
         _agent.RidCompo.linearVelocity = MoveSpeed * _moveInput;
-        onMove?.Invoke(_moveInput.magnitude);
+
+        float moveAmount = _moveInput.magnitude; 
+        onMove?.Invoke(moveAmount);
+
+        _agentAnimation.Animate(_moveInput, moveAmount);
     }
 
     private void OnCollisionExit2D(Collision2D collision)
