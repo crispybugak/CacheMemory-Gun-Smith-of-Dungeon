@@ -931,7 +931,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 7438825297686306050, guid: 6f462f992161ebe49ae03a198840b34a, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -985,11 +985,11 @@ MonoBehaviour:
         - m_Target: {fileID: 1099337836}
           m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
           m_MethodName: PointerOutImage
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 1
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -1618,7 +1618,7 @@ GameObject:
   - component: {fileID: 1087010913}
   - component: {fileID: 1087010915}
   m_Layer: 5
-  m_Name: Riin
+  m_Name: Rin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1664,7 +1664,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 0}
+  m_Sprite: {fileID: 8414559557197077211, guid: 5d25926415a88894eb10b57cd21ed6ab, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1702,11 +1702,11 @@ MonoBehaviour:
         - m_Target: {fileID: 1099337836}
           m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
           m_MethodName: PointerEnterImage
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
+            m_IntArgument: 2
             m_FloatArgument: 0
             m_StringArgument: 
             m_BoolArgument: 0
@@ -1718,7 +1718,7 @@ MonoBehaviour:
         - m_Target: {fileID: 1099337836}
           m_TargetAssemblyTypeName: UiManager, Assembly-CSharp
           m_MethodName: PointerOutImage
-          m_Mode: 1
+          m_Mode: 3
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
             m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1775,8 +1775,8 @@ MonoBehaviour:
   _pressToAnyButton: {fileID: 0}
   optionPanel: {fileID: 540746575}
   characterSelectPanel: {fileID: 1131685976}
-  _riaImage: {fileID: 0}
-  _rinImage: {fileID: 0}
+  _riaImage: {fileID: 320536369}
+  _rinImage: {fileID: 1087010912}
 --- !u!1 &1130307605
 GameObject:
   m_ObjectHideFlags: 0
