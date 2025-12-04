@@ -1,0 +1,31 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c783d31ec0fe0c74f8a6de7cf16b7c33, type: 3}
+  m_Name: Bomber
+  m_EditorClassIdentifier: 
+  stats:
+    maxHealth: 20
+    attackCooldown: 1.5
+    detectionRange: 10
+    attackPower: 5
+    moveSpeed: 12.85
+  combatStats:
+    attackDamage: 10
+    attackRange: 1.5
+    defenseRate: 0
+    canAttack: 1
+  moveStats:
+    baseSpeed: 2
+    chaseSpeed: 10
+  rangedStats:
+    bulletPrefab: {fileID: 0}
+    bulletSpeed: 5
