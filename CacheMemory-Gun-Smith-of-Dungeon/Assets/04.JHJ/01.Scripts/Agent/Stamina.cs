@@ -1,72 +1,99 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class Stamina : MonoBehaviour
 {
-    
-    // 스태미나 바 사용시 최대치(BackBar)가 줄어들으며 점진적으로 최대치가 다시 복구 됨.
+    [field: SerializeField] public AgentStaminaSO AgentStaminaData { get; private set; }
+    [Header("SO")]
+    public float DefaultSpeed => AgentStaminaData._defaultSpeed;
+    public float RunSpeed => AgentStaminaData._runSpeed;
+    public float RechargeSpeed => AgentStaminaData._rechargeSpeed;
+    public float BackBarRechargeSpeed => AgentStaminaData._backBarRechargeSpeed;
+    public float UseStaminaGage => AgentStaminaData._useStaminaGage;
+    public float BackFollowStaminaBar => AgentStaminaData._backFollowStaminaBar;
+
     [Header("Max/Current")]
-    [SerializeField] public float _baseMaxStamina { get; private set; } = 100f;
-    [SerializeField] public float _currentMaxStamina { get; private set; }                        
+    [field: SerializeField] public float _baseMaxStamina { get; private set; }
+    [field: SerializeField] public float lastUseStaminaTime { get; private set; }
+    [field: SerializeField] public float _currentMaxStamina { get; private set; }
+    [field: SerializeField] public float _currentStamina { get; private set; }
+    [field: SerializeField] public float _backStamina { get; private set; }
+    
+    [Header("패시브 보너스")]
+    [field: SerializeField] public float bonusMaxStamina { get; private set; }
 
-    [Header("Rates")]
-    [SerializeField] private float _useStaminaGage = 20f;   
-    [SerializeField] private float _rechargeSpeed = 10f;     
-    [SerializeField] private float _backFollowStaminaBar = 8f; 
-    [SerializeField] private float _backBarRechargeSpeed = 4f;   
-    [SerializeField] private float lastUseStaminaTime;
-
-    [Header("Move")]
-    [SerializeField] private float _defaultSpeed = 5f;
-    [SerializeField] private float _runSpeed;
-
-    [Header("Stamina")]
-    public float _currentStamina { get; private set; }
-    public float _backStamina { get; private set; }                    
-    public bool _isRunning { get; private set; }
+    bool _isMove;
+    bool _runRequested;                    // _ 달리기 키 입력 상태
+    public bool _isRunning { get; private set; }  // 실제로 달리는 상태
 
     private AgentMovement _agentMovement;
     private Agent _agent;
-    StaminaUI _staminaUI;
+    [SerializeField] private StaminaUI _staminaUI;
+
+    public float MaxStaminaWithPassive => _baseMaxStamina + bonusMaxStamina;
 
     private void Awake()
     {
         _agentMovement = GetComponent<AgentMovement>();
         _agent = GetComponent<Agent>();
-        _staminaUI = GetComponent<StaminaUI>();
     }
-     
+    
+    private void OnEnable()
+    {
+        lastUseStaminaTime = 0f;
+
+        // ★ 처음 켜질 때는 항상 꽉 찬 상태
+        _currentMaxStamina = MaxStaminaWithPassive;
+        _currentStamina = _currentMaxStamina;
+        _backStamina = _currentMaxStamina;
+
+        if (_staminaUI != null)
+            _staminaUI.UpdateUI();
+    }
+
     private void Start()
     {
-        _currentStamina = _baseMaxStamina; 
-        _backStamina = _baseMaxStamina;
-        _currentMaxStamina = _backStamina;
-        _agentMovement.MoveSpeed = _defaultSpeed;
-        _staminaUI.UpdateUI();
+        _agentMovement.MoveSpeed = DefaultSpeed;
+        _isMove = _agent.RidCompo.linearVelocity.sqrMagnitude > 0.1f;
     }
+
     private void Update()
     {
-        bool value = _agent.RidCompo.linearVelocity.sqrMagnitude > 0.1;
+        _isMove = _agent.RidCompo.linearVelocity.sqrMagnitude > 0.1f;      
 
-        if (_isRunning && value)
-            UseStamina();
-        else if(!_isRunning)
-            RechargeStamina();
+        bool canRun =
+            _runRequested &&                                              
+            _isMove &&                                                    
+            _currentStamina > 0f;                                        
+
+        _isRunning = canRun;                                             
+
+        if (canRun)                                                      
+        {
+            _agentMovement.MoveSpeed = RunSpeed;                          
+            UseStamina();                                                 
+        }
+        else                                                              
+        {
+            _agentMovement.MoveSpeed = DefaultSpeed;                     
+            RechargeStamina();                                            
+        }
     }
-
-
+    
     private void UseStamina()
     {
-        if (_agentMovement != null)
-            _agentMovement.MoveSpeed = _isRunning ? _agentMovement.MoveSpeed = _runSpeed : _defaultSpeed;
-        if (_isRunning)
+        lastUseStaminaTime = 0f;                                         
+        _currentStamina -= UseStaminaGage * Time.deltaTime;               
+
+        if (_backStamina > _currentStamina)
         {
-            lastUseStaminaTime = 0;
-            _currentStamina -= _useStaminaGage * Time.deltaTime;
-            if (_backStamina > _currentStamina)
-                _backStamina = Mathf.Lerp(_backStamina, _currentStamina, _backFollowStaminaBar * Time.deltaTime * 30); // 백바 감소
+            _backStamina = Mathf.Lerp(
+                _backStamina,
+                _currentStamina,
+                BackFollowStaminaBar * Time.deltaTime * 30f
+            );
         }
-        _currentMaxStamina = _backStamina; // 최대치
+
+        _currentMaxStamina = _backStamina;
         _currentStamina = Mathf.Clamp(_currentStamina, 0f, _currentMaxStamina);
         _staminaUI.UpdateUI();
     }
@@ -75,20 +102,40 @@ public class Stamina : MonoBehaviour
     {
         if (!_isRunning)
         {
+            lastUseStaminaTime = Mathf.Clamp(lastUseStaminaTime, 0, 10);
             lastUseStaminaTime += Time.deltaTime;
-            if (1.5 < lastUseStaminaTime)
+
+            if (1.5f < lastUseStaminaTime)
             {
-                _currentStamina += _rechargeSpeed * Time.deltaTime;
-                if (_backStamina < _baseMaxStamina)
-                    _backStamina += _backBarRechargeSpeed * Time.deltaTime;
+                _currentStamina += RechargeSpeed * Time.deltaTime;
+
+                // ★ 이제는 baseMax가 아니라 패시브 포함 최대치까지 회복
+                if (_backStamina < MaxStaminaWithPassive)
+                    _backStamina += BackBarRechargeSpeed * Time.deltaTime;
             }
         }
-        _currentMaxStamina = _backStamina; // 최대치
+
+        _currentMaxStamina = _backStamina;
         _currentStamina = Mathf.Clamp(_currentStamina, 0f, _currentMaxStamina);
         _staminaUI.UpdateUI();
     }
+
     public void SetRunning(bool isRunning)
     {
-        _isRunning = isRunning;
+        _runRequested = isRunning;                                       
     }
+
+    public void AddBonusMaxStamina(float amount)
+    {
+        bonusMaxStamina += amount;
+
+        // 패시브 적용 시점에 새 최대치 기준으로 풀 충전
+        _currentMaxStamina = MaxStaminaWithPassive;
+        _currentStamina = _currentMaxStamina;
+        _backStamina = _currentMaxStamina;
+
+        if (_staminaUI != null)
+            _staminaUI.UpdateUI();
+    }
+
 }

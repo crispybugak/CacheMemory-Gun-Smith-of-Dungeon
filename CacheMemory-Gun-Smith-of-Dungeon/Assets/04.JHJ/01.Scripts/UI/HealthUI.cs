@@ -1,33 +1,35 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthUI : MonoBehaviour
 {
-    public Health health;
+    [field: SerializeField] public Health Health { get; private set; }
+    [field: SerializeField] public HealthDataSO HealthDataSO { get; private set; }
 
     [Header("UI")]
     [SerializeField] private Image _healthBar;
 
-    [Header("Health Setting")]
-    [SerializeField] private float _maxhealth;
-    public float _CurrentHealth { get; private set; }
-
     public HitEffect _hitEffect;
-
 
     private void OnEnable()
     {
-        health.onDamagedPlayer += UpdateUI;
+        Health.OnDamagedPlayer += MinusUpdateUI;
+        Health.OnHealing += PlusUpdateUI;
     }
     private void OnDisable()
     {
-        health.onDamagedPlayer -= UpdateUI;
+        Health.OnDamagedPlayer -= MinusUpdateUI;
+        Health.OnHealing -= PlusUpdateUI;
     }
-    [field: SerializeField] public HealthDataSO HealthDataSO { get; private set; }
-    private void UpdateUI()
-    {
+    private void MinusUpdateUI()
+    {   
         _hitEffect.Play();
-        _healthBar.fillAmount = _CurrentHealth / _maxhealth;
+        _healthBar.fillAmount = Health.CurrentHealth / Health.Maxhealth;
     }
 
+    private void PlusUpdateUI()
+    {
+        _healthBar.fillAmount = Health.CurrentHealth / Health.Maxhealth;
+    }
 }

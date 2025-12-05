@@ -1,64 +1,81 @@
-﻿using System;
+﻿using UnityEngine;
+using System;
 using System.Collections;
-using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UI;
+using Random = UnityEngine.Random;
+using TMPro;
 
 public class Health : MonoBehaviour, IGetDamage
 {
-    private Agent _agent;
-
-    [Header("UI")]
-    [SerializeField] private Image _healthBar;
-
-    [Header("Health Setting")]
-    [SerializeField] private float _maxhealth;
-    [SerializeField] private float _baseHealth;
-    public float _CurrentHealth { get; private set; }
-
-    public HitEffect _hitEffect;
-
     [Header("Regeneration")]
-    [SerializeField] private float lastDamagedTime {get; set;}
-    [SerializeField] private float healingInterval { get; set; }
+    [SerializeField] private float lastDamagedTime;
 
-    [field : SerializeField]public HealthDataSO HealthDataSO { get; private set; }
+    [field: SerializeField] public HealthDataSO HealthData { get; private set; }
+    [field: SerializeField] public float CurrentHealth { get; private set; }
 
-    public  Action onDamagedPlayer;
-    private void Awake()
+    // 패시브 보너스
+    [Header("패시브 보너스")]
+    [field: SerializeField] public float bonusMaxHealth { get; private set; }
+
+    // 기본 + 패시브 합친 실제 최대 체력
+    public float Maxhealth => HealthData.Maxhealth + bonusMaxHealth;
+
+    // (아래쪽에 있을 이벤트 / 나머지 필드는 그대로)
+    public event Action OnDamagedPlayer;
+    public event Action OnHealing;
+
+    private void OnEnable()
     {
-        _agent = GetComponent<Agent>();
+        lastDamagedTime = 0f;
+        CurrentHealth = Maxhealth;
+        OnHealing?.Invoke();
     }
+
+    
     private void Start()
     {
-        _maxhealth = HealthDataSO.Maxhealth;
-        _CurrentHealth = _maxhealth;
+        bonusMaxHealth = 0f;
     }
 
+    private void Update()
+    {
+        lastDamagedTime += Time.deltaTime;
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Wall"))
         {
-            float damage = _maxhealth * 0.1f;
-            Debug.Log(damage);
-            OnDamaged(damage);
-            lastDamagedTime = Time.deltaTime;
-        }
+            float randomDamage = Random.Range(1, 30);
+            OnDamaged(randomDamage);
+        }  
     }
     private IEnumerator HealingHpCT()
     {
-        if(10 > lastDamagedTime)
+        float randomhealing = Random.Range(1, 30);
+        while (lastDamagedTime < 10) yield return null;
+        while (CurrentHealth < Maxhealth && lastDamagedTime > 10)
         {
-            yield return new WaitForSeconds(0.5f);
-        _CurrentHealth = Mathf.Clamp(0, _CurrentHealth, _maxhealth);
-        }
+            OnHealing?.Invoke();
+            CurrentHealth = Mathf.Clamp(CurrentHealth += randomhealing, 0 , Maxhealth);
+            yield return new WaitForSeconds(HealthData.HealingInterval);
 
+        }
     }
 
     public void OnDamaged(float damage)
     {
-        _CurrentHealth = Mathf.Clamp(_CurrentHealth - damage, 0f, _maxhealth);
-        onDamagedPlayer?.Invoke();
+        CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0f, Maxhealth);
+        OnDamagedPlayer?.Invoke();
+        lastDamagedTime = 0;
+
+        StartCoroutine(HealingHpCT());
     }
+    
+    public void AddBonusMaxHealth(float amount)
+    {
+        bonusMaxHealth += amount;
+        CurrentHealth = Maxhealth;
+        OnHealing?.Invoke();
+    }
+
 }

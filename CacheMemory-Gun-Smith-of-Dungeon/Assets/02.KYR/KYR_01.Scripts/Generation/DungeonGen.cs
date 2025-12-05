@@ -16,7 +16,8 @@ public class DungeonGen : MonoBehaviour
    [SerializeField] private  int maxRooms = 13; 
    [SerializeField] private int maxEventRooms = 2;
    [SerializeField] private bool randomStart = true;
-   [SerializeField] private int seed = 0;
+   [SerializeField] private CorridorGenerator corridorGenerator;
+   
    
    int gridw=4,gridh=4;
    private System.Random ran;
@@ -45,7 +46,6 @@ public class DungeonGen : MonoBehaviour
       Generate();
    }
    
-   [ContextMenu("Generate")]
    private void Generate()
    {
       ran = new System.Random(currentSeed);
@@ -98,6 +98,12 @@ public class DungeonGen : MonoBehaviour
       }
       
       Debug.Log($"최종 생성된 방 개수: {graph.nodes.Count}개");
+      
+      if (corridorGenerator != null)
+      {
+         corridorGenerator.GenerateCorridors(graph, roomSize, roomSpacing);
+         corridorGenerator.GenerateBossCorridor(farRoom, bossPos, roomSize, roomSpacing);
+      }
    }
    
    Vector2Int FindFarRoom()
