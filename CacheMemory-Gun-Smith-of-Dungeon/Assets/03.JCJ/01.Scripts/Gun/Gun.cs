@@ -1,94 +1,70 @@
 using System;
+using System.Collections;
+using KBG.Item;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class Gun : MonoBehaviour
 {
-    private Transform gunTransform;
-    [SerializeField] private GameObject bulletPrefab;
     [SerializeField] private Transform gunPos;
-    [SerializeField] private int poolCount = 25;
-    private GameObject[] bullets;
-    [SerializeField] private float fireRate = 0.2f;
-    private float lastFireTime = 0f;
-    [SerializeField] private SpriteRenderer _spriteRenderer;  
-    [SerializeField] private ParticleSystem _particleSystem;
-    
-    
-    public static Action OnFire;
+    [SerializeField] private SpriteRenderer spriteRenderer;  
+    [SerializeField] private ParticleSystem particleSystem;
+    [SerializeField] private AgentMovementSO agentMovement;
 
-    [SerializeField]private float directionVariance = 5f; // 반동(단위 : 도)
+    private GunDataApplier _gunManager;
+    
+    private bool _isReloading;
     
     private void Start()
     {
-        bullets = new GameObject[poolCount];
-        gunTransform = GetComponent<Transform>();
-        for (int i = 0; i < poolCount; i++)
-        {
-            bullets[i] = Instantiate(bulletPrefab);
-            bullets[i].SetActive(false);
-        }
+        _gunManager = GunDataApplier.Instance;
     }
 
-    private void Update()
+    private void OnEnable()
     {
-        if (Input.GetMouseButton(0)&& Time.time > lastFireTime + fireRate)
-        {
-            ShotBullet();
-            lastFireTime = Time.time;
-        }
+        agentMovement.OnMousePressed += () => StartCoroutine(StartFire());
+        agentMovement.OnMouseReleased += () => StopCoroutine(StartFire());
+        agentMovement.OnReloadPressed +=  Reload;
     }
 
+    private void Reload()
+    {
+        _isReloading = true;
+        // _gunManager.gunStatusData.Reload();
+    }
+    private IEnumerator StartFire()
+    {
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(agentMovement.mouseDir);
+        float angle = Mathf.Atan2(mousePos.y - transform.position.y, mousePos.x - transform.position.x) * Mathf.Rad2Deg + 180;
+        ShotBullet(angle);
+        yield return new WaitForSeconds(_gunManager.defaultData.fireRate);
+        StartCoroutine(StartFire());
+    }
+    
     private void FixedUpdate()
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 gunPos = gunTransform.position;
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(agentMovement.mouseDir);
+        Vector2 gunPos = transform.position;
 
-        RotateGun(mousePos, gunPos, gunTransform);
+        RotateGun(mousePos, gunPos, transform);
     }
 
     void RotateGun(Vector2 mousePos, Vector2 gunPos, Transform gunTransform)
     {
         Vector2 direction = mousePos - gunPos;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg + 180;
         gunTransform.rotation = Quaternion.Euler(0, 0, angle);
         FlipSprite(angle > 90 || angle < -90);
     }
 
-    private void ShotBullet()
+    private void ShotBullet(float dir)
     {
-        for (int i = 0; i < poolCount; i++)
-        {
-            if (!bullets[i].activeSelf)
-            {
-                _particleSystem.Play();
-                bullets[i].SetActive(true);
-                OnFire?.Invoke();
-
-                bullets[i].transform.position = gunPos.position;
-
-                Vector2 baseDir = gunTransform.right; // 총 기준 오른쪽 방향
-
-                float randomAngle = Random.Range(-directionVariance, directionVariance); //랜덤 각도 생성
-                
-                Vector2 rotatedDir = RotateVector(baseDir, randomAngle); // 방향 벡터를 randomAngle만큼 회전
-                
-                float angle = Mathf.Atan2(rotatedDir.y, rotatedDir.x) * Mathf.Rad2Deg; // 총알을 rotatedDir 방향으로 회전시키기
-                bullets[i].transform.rotation = Quaternion.Euler(0, 0, angle);
-
-                bullets[i].GetComponent<Bullet>().ResetBullet();
-                break;
-            }
-        }
+        float accuracy = Mathf.Lerp(_gunManager.defaultData.maxSpread, _gunManager.defaultData.minSpread, _gunManager.gunStatusData.accuracy/100);
+        dir += Random.Range(-accuracy, accuracy);
+        BulletItem bullet = _gunManager.gunStatusData.ShootBullet();
+        Instantiate(bullet.bulletData.BulletPrefab, transform.position, Quaternion.Euler(0, 0, dir));
     }
     
-    private Vector2 RotateVector(Vector2 v, float degrees)
-    {
-        float rad = degrees * Mathf.Deg2Rad;
-        float cos = Mathf.Cos(rad);
-        float sin = Mathf.Sin(rad);
-        return new Vector2(v.x * cos - v.y * sin, v.x * sin + v.y * cos);
-    }
     private void FlipSprite(bool val)
     {
         int flip = val ? -1 : 1;

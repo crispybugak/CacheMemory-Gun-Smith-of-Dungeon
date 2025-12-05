@@ -11,6 +11,9 @@ public class AgentMovementSO : ScriptableObject, Controls.IAgentActions
     public Action<bool> OnRunPressed;
     public Action OnInterractivePressed; // 상호작용 키 (F)
     public Action OnSkillPressed;//캐릭터별 전용 스킬 키(E)
+    public Action OnMousePressed;
+    public Action OnMouseReleased;
+    public Action OnReloadPressed;
 
     public Controls controls;
     private void OnEnable()
@@ -60,5 +63,19 @@ public class AgentMovementSO : ScriptableObject, Controls.IAgentActions
     {
         if (context.performed)
             OnInterractivePressed?.Invoke();
+    }
+
+    public void OnMouseClick(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            OnMousePressed?.Invoke();
+        else if(context.canceled)
+            OnMouseReleased?.Invoke();
+    }
+
+    public void OnReload(InputAction.CallbackContext context)
+    {
+        if (context.performed)
+            OnReloadPressed?.Invoke();
     }
 }

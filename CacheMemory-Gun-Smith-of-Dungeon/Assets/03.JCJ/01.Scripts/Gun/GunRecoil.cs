@@ -12,13 +12,13 @@ public class GunRecoil : MonoBehaviour
 
     void Start()
     {
-        originalPosition = transform.localPosition;
-        Gun.OnFire += StartRecoil;
+        //originalPosition = transform.localPosition;
+        //Gun.OnFire += StartRecoil;
     }
 
     private void OnDestroy()
     {
-        Gun.OnFire -= StartRecoil;
+        //Gun.OnFire -= StartRecoil;
     }
 
     void Update()
