@@ -28,7 +28,7 @@
                     "name": "MousePosition",
                     "type": "Value",
                     "id": "55658317-b191-4af7-87c2-59f93c1b5c82",
-                    "expectedControlType": "",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -46,6 +46,24 @@
                     "name": "Interative",
                     "type": "Button",
                     "id": "bb036ce5-024c-4e8b-8018-6408ee485856",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MouseClick",
+                    "type": "Button",
+                    "id": "bb39981f-f500-4b59-8bab-4904734bb586",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "0f66c16b-7db5-433d-87a0-113e4074e474",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -149,6 +167,76 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interative",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fd200622-81fc-44e4-a10a-f56ed224ce69",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ae5a8cf3-57ea-44d3-b92d-4bda8d0436e6",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reload",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        },
+        {
+            "name": "UI",
+            "id": "89f57573-1973-4f5a-bdff-89257964ed9e",
+            "actions": [
+                {
+                    "name": "Option",
+                    "type": "Button",
+                    "id": "907d49cf-5c90-4d0e-9d23-5dcd40377879",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "CharacterSelect",
+                    "type": "Button",
+                    "id": "a2d20bd3-c739-4811-a220-b0ce4ddf0ce1",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "1495828c-12ca-4466-bc45-8270fd05daf2",
+                    "path": "<Keyboard>/escape",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Option",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "97db760d-660b-4839-a922-ce54f1c41f8d",
+                    "path": "<Keyboard>/c",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "CharacterSelect",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

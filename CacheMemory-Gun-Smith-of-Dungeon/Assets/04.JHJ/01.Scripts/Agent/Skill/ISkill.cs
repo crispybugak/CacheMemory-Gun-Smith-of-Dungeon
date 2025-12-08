@@ -1,6 +1,9 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
-public interface  ISkill
+public interface ISkill
 {
-  
+    float CoolTime { get; }
+    
+    IEnumerator UseSkill(GameObject owner);
 }

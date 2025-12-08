@@ -1,16 +1,36 @@
 using UnityEngine;
+using System;
 
 public class DungeonProgress : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public static DungeonProgress Instance { get; private set; }
+
+    private int _totalMonsterRooms;
+    private int _clearedMonsterRooms;
+
+    public event Action OnAllMonsterRoomsCleared;
+
+    private void Awake()
     {
-        
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
     }
 
-    // Update is called once per frame
-    void Update()
+    public void RegisterMonsterRoom(MonsterRoomBattle room)
     {
-        
+        _totalMonsterRooms++;
+    }
+
+    public void MonsterRoomCleared(MonsterRoomBattle room)
+    {
+        _clearedMonsterRooms++;
+        if (_clearedMonsterRooms >= _totalMonsterRooms)
+        {
+            OnAllMonsterRoomsCleared?.Invoke();
+        }
     }
 }

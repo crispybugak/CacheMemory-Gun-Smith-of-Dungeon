@@ -2,9 +2,8 @@ using UnityEngine;
 
 namespace KBG.Item
 {
-    public interface IItem
+    public abstract class IItem : ScriptableObject
     {
-        IItemData ItemData { get; set; }
-        int Stack { get; set; }
+        public abstract IItemData ItemData {get; set;}
     }
 }
