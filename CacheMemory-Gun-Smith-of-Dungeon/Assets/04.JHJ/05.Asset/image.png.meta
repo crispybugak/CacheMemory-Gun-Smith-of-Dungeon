@@ -1,19 +1,10 @@
 fileFormatVersion: 2
-guid: ea834b86d86712541b9d6dafcb5b472c
+guid: da3c6a2c7f2801a4b9aed5a7fff4a0a6
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: -7561759502206213965
-    second: PlayerIdelLeft-Sheet_0
-  - first:
-      213: -1153646571685438716
-    second: PlayerIdelLeft-Sheet_1
-  - first:
-      213: -5287037323153041481
-    second: PlayerIdelLeft-Sheet_2
-  - first:
-      213: 4814671263048965188
-    second: PlayerIdelLeft-Sheet_3
+      213: 1208040086343421634
+    second: image_0
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -46,7 +37,7 @@ TextureImporter:
   maxTextureSize: 2048
   textureSettings:
     serializedVersion: 2
-    filterMode: 0
+    filterMode: 1
     aniso: 1
     mipBias: 0
     wrapU: 1
@@ -60,7 +51,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 80
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -109,89 +100,23 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerIdelLeft-Sheet_0
+      name: image_0
       rect:
         serializedVersion: 2
-        x: 8
-        y: 48
-        width: 31
-        height: 39
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 3b06012fbcb3f0790800000000000000
-      internalID: -7561759502206213965
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerIdelLeft-Sheet_1
-      rect:
-        serializedVersion: 2
-        x: 55
-        y: 48
-        width: 33
-        height: 38
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 40b975a2e8c6dffe0800000000000000
-      internalID: -1153646571685438716
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerIdelLeft-Sheet_2
-      rect:
-        serializedVersion: 2
-        x: 6
+        x: 0
         y: 0
-        width: 34
-        height: 36
+        width: 1343
+        height: 757
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 7b71b37019ba0a6b0800000000000000
-      internalID: -5287037323153041481
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: PlayerIdelLeft-Sheet_3
-      rect:
-        serializedVersion: 2
-        x: 55
-        y: 0
-        width: 33
-        height: 38
-      alignment: 0
-      pivot: {x: 0.5, y: 0.5}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      customData: 
-      outline: []
-      physicsShape: []
-      tessellationDetail: -1
-      bones: []
-      spriteID: 44c9058210621d240800000000000000
-      internalID: 4814671263048965188
+      spriteID: 2ce8eecde02d3c010800000000000000
+      internalID: 1208040086343421634
       vertices: []
       indices: 
       edges: []
@@ -200,7 +125,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: 3de2400ce98e0644baee84ff7ea2b301
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -210,10 +135,7 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      PlayerIdelLeft-Sheet_0: -7561759502206213965
-      PlayerIdelLeft-Sheet_1: -1153646571685438716
-      PlayerIdelLeft-Sheet_2: -5287037323153041481
-      PlayerIdelLeft-Sheet_3: 4814671263048965188
+      image_0: 1208040086343421634
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
