@@ -13,8 +13,8 @@ MonoBehaviour:
   m_Name: RiaStaminaData
   m_EditorClassIdentifier: 
   <_useStaminaGage>k__BackingField: 20
-  <_rechargeSpeed>k__BackingField: 3
+  <_rechargeSpeed>k__BackingField: 7
   <_backFollowStaminaBar>k__BackingField: 0.03
-  <_backBarRechargeSpeed>k__BackingField: 1
+  <_backBarRechargeSpeed>k__BackingField: 5
   <_defaultSpeed>k__BackingField: 10
   <_runSpeed>k__BackingField: 30

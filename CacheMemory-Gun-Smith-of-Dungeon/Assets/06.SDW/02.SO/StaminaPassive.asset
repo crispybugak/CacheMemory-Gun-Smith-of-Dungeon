@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e7abb624fe664a76bcfe5623e209c2f6, type: 3}
   m_Name: StaminaPassive
   m_EditorClassIdentifier: 
-  bonusMaxStamina: 20
+  bonusMaxStamina: 100

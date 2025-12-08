@@ -114,7 +114,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""name"": ""MousePosition"",
                     ""type"": ""Value"",
                     ""id"": ""55658317-b191-4af7-87c2-59f93c1b5c82"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -132,6 +132,24 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""name"": ""Interative"",
                     ""type"": ""Button"",
                     ""id"": ""bb036ce5-024c-4e8b-8018-6408ee485856"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""MouseClick"",
+                    ""type"": ""Button"",
+                    ""id"": ""bb39981f-f500-4b59-8bab-4904734bb586"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""Reload"",
+                    ""type"": ""Button"",
+                    ""id"": ""0f66c16b-7db5-433d-87a0-113e4074e474"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -237,6 +255,28 @@ public partial class @Controls: IInputActionCollection2, IDisposable
                     ""action"": ""Interative"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""fd200622-81fc-44e4-a10a-f56ed224ce69"",
+                    ""path"": ""<Mouse>/leftButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""MouseClick"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ae5a8cf3-57ea-44d3-b92d-4bda8d0436e6"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Reload"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         },
@@ -298,6 +338,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Agent_MousePosition = m_Agent.FindAction("MousePosition", throwIfNotFound: true);
         m_Agent_UseSkill = m_Agent.FindAction("UseSkill", throwIfNotFound: true);
         m_Agent_Interative = m_Agent.FindAction("Interative", throwIfNotFound: true);
+        m_Agent_MouseClick = m_Agent.FindAction("MouseClick", throwIfNotFound: true);
+        m_Agent_Reload = m_Agent.FindAction("Reload", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Option = m_UI.FindAction("Option", throwIfNotFound: true);
@@ -388,6 +430,8 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     private readonly InputAction m_Agent_MousePosition;
     private readonly InputAction m_Agent_UseSkill;
     private readonly InputAction m_Agent_Interative;
+    private readonly InputAction m_Agent_MouseClick;
+    private readonly InputAction m_Agent_Reload;
     /// <summary>
     /// Provides access to input actions defined in input action map "Agent".
     /// </summary>
@@ -419,6 +463,14 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// Provides access to the underlying input action "Agent/Interative".
         /// </summary>
         public InputAction @Interative => m_Wrapper.m_Agent_Interative;
+        /// <summary>
+        /// Provides access to the underlying input action "Agent/MouseClick".
+        /// </summary>
+        public InputAction @MouseClick => m_Wrapper.m_Agent_MouseClick;
+        /// <summary>
+        /// Provides access to the underlying input action "Agent/Reload".
+        /// </summary>
+        public InputAction @Reload => m_Wrapper.m_Agent_Reload;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -460,6 +512,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Interative.started += instance.OnInterative;
             @Interative.performed += instance.OnInterative;
             @Interative.canceled += instance.OnInterative;
+            @MouseClick.started += instance.OnMouseClick;
+            @MouseClick.performed += instance.OnMouseClick;
+            @MouseClick.canceled += instance.OnMouseClick;
+            @Reload.started += instance.OnReload;
+            @Reload.performed += instance.OnReload;
+            @Reload.canceled += instance.OnReload;
         }
 
         /// <summary>
@@ -486,6 +544,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             @Interative.started -= instance.OnInterative;
             @Interative.performed -= instance.OnInterative;
             @Interative.canceled -= instance.OnInterative;
+            @MouseClick.started -= instance.OnMouseClick;
+            @MouseClick.performed -= instance.OnMouseClick;
+            @MouseClick.canceled -= instance.OnMouseClick;
+            @Reload.started -= instance.OnReload;
+            @Reload.performed -= instance.OnReload;
+            @Reload.canceled -= instance.OnReload;
         }
 
         /// <summary>
@@ -668,6 +732,20 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnInterative(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "MouseClick" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMouseClick(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Reload" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnReload(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

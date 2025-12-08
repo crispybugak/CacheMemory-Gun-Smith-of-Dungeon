@@ -24,8 +24,11 @@ public class HealthUI : MonoBehaviour
     }
     private void MinusUpdateUI()
     {   
-        _hitEffect.Play();
-        _healthBar.fillAmount = Health.CurrentHealth / Health.Maxhealth;
+        if(_hitEffect != null)
+        {
+            _hitEffect.Play();
+            _healthBar.fillAmount = Health.CurrentHealth / Health.Maxhealth;
+        }
     }
 
     private void PlusUpdateUI()

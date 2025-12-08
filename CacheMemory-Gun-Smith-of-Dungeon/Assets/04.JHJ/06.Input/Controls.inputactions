@@ -28,7 +28,7 @@
                     "name": "MousePosition",
                     "type": "Value",
                     "id": "55658317-b191-4af7-87c2-59f93c1b5c82",
-                    "expectedControlType": "",
+                    "expectedControlType": "Vector2",
                     "processors": "",
                     "interactions": "",
                     "initialStateCheck": true
@@ -46,6 +46,24 @@
                     "name": "Interative",
                     "type": "Button",
                     "id": "bb036ce5-024c-4e8b-8018-6408ee485856",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "MouseClick",
+                    "type": "Button",
+                    "id": "bb39981f-f500-4b59-8bab-4904734bb586",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
+                    "name": "Reload",
+                    "type": "Button",
+                    "id": "0f66c16b-7db5-433d-87a0-113e4074e474",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -149,6 +167,28 @@
                     "processors": "",
                     "groups": "",
                     "action": "Interative",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "fd200622-81fc-44e4-a10a-f56ed224ce69",
+                    "path": "<Mouse>/leftButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MouseClick",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ae5a8cf3-57ea-44d3-b92d-4bda8d0436e6",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Reload",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }
