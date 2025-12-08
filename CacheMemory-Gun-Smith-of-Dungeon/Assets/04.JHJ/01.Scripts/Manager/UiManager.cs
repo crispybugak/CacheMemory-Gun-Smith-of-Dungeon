@@ -12,9 +12,6 @@ public class UiManager : MonoBehaviour
     [SerializeField] private GameObject optionPanel;
     [SerializeField] private GameObject characterSelectPanel;
 
-    [Header("Image")]
-    [SerializeField] private RectTransform _riaImage;
-    [SerializeField] private RectTransform _rinImage;
 
     private void Awake()
     {
@@ -37,33 +34,5 @@ public class UiManager : MonoBehaviour
         _pressToAnyButton
             .DOFade(1f, 1.5f)
             .SetLoops(-1, LoopType.Yoyo);
-    }
-
-    public void PointerEnterImage(int id)
-    {
-        if(id == 1)
-        {
-            Sequence sequence = DOTween.Sequence();
-            sequence.Append(_riaImage.DOScale(1.2f, 0.3f));           
-        }
-        else
-        {
-            Sequence sequence = DOTween.Sequence();
-            sequence.Append(_rinImage.DOScale(1.2f, 0.3f));
-        }
-    }
-    public void PointerOutImage(int id)
-    {
-        if (id == 1)
-        {
-            Sequence sequence = DOTween.Sequence();
-            sequence.Append(_riaImage.DOScale(1, 0.2f));
-        }
-        else
-        {
-            Sequence sequence = DOTween.Sequence();
-            sequence.Append(_rinImage.DOScale(1, 0.2f));
-        }
-
     }
 }
