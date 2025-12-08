@@ -42,17 +42,17 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Walll
-    uniqueID: 735935107
-    locked: 0
-  - name: Player
-    uniqueID: 2178272115
+  - name: Ground
+    uniqueID: 91829041
     locked: 0
   - name: Wall
     uniqueID: 2884466143
     locked: 0
-  - name: Ground
-    uniqueID: 91829041
+  - name: Player
+    uniqueID: 2178272115
+    locked: 0
+  - name: Walll
+    uniqueID: 735935107
     locked: 0
   m_RenderingLayers:
   - Default
