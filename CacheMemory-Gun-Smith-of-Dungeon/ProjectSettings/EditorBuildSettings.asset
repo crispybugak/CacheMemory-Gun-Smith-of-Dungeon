@@ -11,7 +11,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/04.JHJ/00.Scenes/JHJ.TitleScene.unity
     guid: b8080874d5a82514a80042faf11cff13
-  - enabled: 1
+  - enabled: 0
     path: Assets/04.JHJ/00.Scenes/JHJ.MainScene.unity
     guid: 80868e01308081343a748aad88ed4fd0
   m_configObjects:
