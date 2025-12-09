@@ -244,8 +244,6 @@ MonoBehaviour:
   _pressToAnyButton: {fileID: 271937236}
   optionPanel: {fileID: 0}
   characterSelectPanel: {fileID: 0}
-  _riaImage: {fileID: 0}
-  _rinImage: {fileID: 0}
 --- !u!4 &54702871
 Transform:
   m_ObjectHideFlags: 0
@@ -581,6 +579,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadePanel: {fileID: 162511506}
+  fadePanel2: {fileID: 0}
 --- !u!4 &1187065147
 Transform:
   m_ObjectHideFlags: 0
