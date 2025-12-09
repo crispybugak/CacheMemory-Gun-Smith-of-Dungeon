@@ -1,0 +1,30 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f96c943b316fa194a8f082be2cd14f73, type: 3}
+  m_Name: Enemy_Necromancer
+  m_EditorClassIdentifier: 
+  moveSpeed: 2
+  maxHealth: 60
+  detectionRange: 8
+  attackRange: 2
+  attackCooldown: 2
+  attackDamage: 8
+  pathUpdateInterval: 0.4
+  stoppingDistance: 0.3
+  specialAbilityCooldown: 4
+  specialAbilityRange: 5
+  specialAbilityDamage: 10
+  sleepDuration: 2.5
+  explosionRadius: 2
+  explosionForce: 10
+  maxMinions: 3
+  spawnCooldown: 30
