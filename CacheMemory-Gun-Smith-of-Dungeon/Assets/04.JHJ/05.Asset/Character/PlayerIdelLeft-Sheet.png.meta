@@ -112,12 +112,12 @@ TextureImporter:
       name: PlayerIdelLeft-Sheet_0
       rect:
         serializedVersion: 2
-        x: 8
+        x: 0
         y: 48
-        width: 31
-        height: 39
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -134,12 +134,12 @@ TextureImporter:
       name: PlayerIdelLeft-Sheet_1
       rect:
         serializedVersion: 2
-        x: 55
+        x: 48
         y: 48
-        width: 33
-        height: 38
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -156,12 +156,12 @@ TextureImporter:
       name: PlayerIdelLeft-Sheet_2
       rect:
         serializedVersion: 2
-        x: 6
+        x: 0
         y: 0
-        width: 34
-        height: 36
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
@@ -178,12 +178,12 @@ TextureImporter:
       name: PlayerIdelLeft-Sheet_3
       rect:
         serializedVersion: 2
-        x: 55
+        x: 48
         y: 0
-        width: 33
-        height: 38
+        width: 48
+        height: 48
       alignment: 0
-      pivot: {x: 0.5, y: 0.5}
+      pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
       customData: 
       outline: []
