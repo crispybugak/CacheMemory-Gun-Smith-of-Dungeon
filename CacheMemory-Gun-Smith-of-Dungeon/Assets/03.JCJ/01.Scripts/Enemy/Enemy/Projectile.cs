@@ -2,41 +2,46 @@ using UnityEngine;
 
 public class Projectile : MonoBehaviour
 {
-    [SerializeField] private float speed = 5f;
     [SerializeField] private float lifetime = 5f;
-    
-    private Vector2 direction;
     private Rigidbody2D rb;
     private float damage;
     private bool isLaunched;
-    
-    private void Start()
+
+    private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
-        Destroy(gameObject, lifetime);
-    }
-    
-    public void Launch(Vector2 launchDir, float dmg)
-    {
-        direction = launchDir.normalized;
-        damage = dmg;
-        isLaunched = true;
-        
         if (rb != null)
         {
-            rb.linearVelocity = direction * speed;
+            rb.linearDamping = 0f;
+            rb.gravityScale = 0f;
+            rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
-        
-        // 회전 설정
+    }
+
+    private void Start()
+    {
+        Destroy(gameObject, lifetime);
+    }
+
+    public void Launch(Vector2 direction, float dmg, float speed)
+    {
+        direction = direction.normalized;
+        damage = dmg;
+        isLaunched = true;
+        if (rb == null)
+        {
+            Debug.LogError($"{gameObject.name}: Rigidbody2D 없음!");
+            return;
+        }
+        rb.linearVelocity = direction * speed;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
+        // Debug.Log($"[Projectile] 발사! 속도: {speed}, 속력: {rb.linearVelocity}");
     }
-    
+
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!isLaunched) return;
-        
-        // 플레이어 피해
         if (collision.CompareTag("Player"))
         {
             if (collision.TryGetComponent<Health>(out var health))
@@ -44,14 +49,10 @@ public class Projectile : MonoBehaviour
                 health.OnDamaged(damage);
             }
             Destroy(gameObject);
-            return;
         }
-        
-        // 벽 충돌
-        if (collision.CompareTag("Wall"))
+        else if (collision.CompareTag("Wall"))
         {
             Destroy(gameObject);
-            return;
         }
     }
 }

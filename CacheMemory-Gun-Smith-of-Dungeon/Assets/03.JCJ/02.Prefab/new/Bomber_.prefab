@@ -155,8 +155,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: -0.0040132552}
-  m_Radius: 0.16288857
+  m_Offset: {x: 0, y: -0.04671645}
+  m_Radius: 1.0084107
 --- !u!114 &8385654004185257650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -265,11 +265,12 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: 2939f78676feed941b8dc3f98b3371b6, type: 2}
   flipCooldown: 0.1
   fieldOfViewAngle: 90
-  showFieldOfView: 1
+  showFieldOfViewGizmos: 1
+  showFieldOfViewInGame: 1
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
   isRangedEnemy: 0
-  postAttackCooldown: 1.5
+  projectilePrefab: {fileID: 0}
   patrolDuration: 0.5
   patrolRayDistance: 2

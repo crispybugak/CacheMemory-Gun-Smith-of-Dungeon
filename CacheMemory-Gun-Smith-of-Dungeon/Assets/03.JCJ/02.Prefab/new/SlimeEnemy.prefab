@@ -226,7 +226,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.005036056, y: 0.016787022}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -236,7 +236,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.21, y: 0.16}
+  m_Size: {x: 1.2272922, y: 0.93891674}
   m_EdgeRadius: 0
 --- !u!95 &8424686143728004293
 Animator:
@@ -275,12 +275,13 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: 203edb9316d40cc42945ad05897264bb, type: 2}
   flipCooldown: 0.1
   fieldOfViewAngle: 100
-  showFieldOfView: 1
+  showFieldOfViewGizmos: 1
+  showFieldOfViewInGame: 1
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
   isRangedEnemy: 0
-  postAttackCooldown: 1.5
+  projectilePrefab: {fileID: 684113144402210295, guid: 85ca5d093e194a74cb8c5e8a7f9eab7f, type: 3}
   patrolDuration: 0.5
   patrolRayDistance: 2
   acidBlobPrefab: {fileID: 684113144402210295, guid: 85ca5d093e194a74cb8c5e8a7f9eab7f, type: 3}

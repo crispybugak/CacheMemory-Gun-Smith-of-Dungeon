@@ -124,8 +124,8 @@ CircleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
-  m_Radius: 0.4
+  m_Offset: {x: 0, y: -0.06960958}
+  m_Radius: 0.33039045
 --- !u!50 &815150570564518458
 Rigidbody2D:
   serializedVersion: 5
@@ -165,5 +165,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f837267473e9f4e45bc4efa0df05671e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 6
   lifetime: 5

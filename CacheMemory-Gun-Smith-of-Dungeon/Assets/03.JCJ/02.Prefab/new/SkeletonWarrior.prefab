@@ -226,7 +226,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: -0.09832236, y: -0.014643759}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -236,7 +236,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.36, y: 0.47}
+  m_Size: {x: 0.8829914, y: 1.4448559}
   m_EdgeRadius: 0
 --- !u!95 &8710842948711545035
 Animator:
@@ -275,11 +275,12 @@ MonoBehaviour:
   enemyData: {fileID: 11400000, guid: d477ca3e95299c5428d99b3b97bf7d7a, type: 2}
   flipCooldown: 0.1
   fieldOfViewAngle: 130
-  showFieldOfView: 1
+  showFieldOfViewGizmos: 1
+  showFieldOfViewInGame: 1
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
   isRangedEnemy: 0
-  postAttackCooldown: 1.5
+  projectilePrefab: {fileID: 0}
   patrolDuration: 0.5
   patrolRayDistance: 2
