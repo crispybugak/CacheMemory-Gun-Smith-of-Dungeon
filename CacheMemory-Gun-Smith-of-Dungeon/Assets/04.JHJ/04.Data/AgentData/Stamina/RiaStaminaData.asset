@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <_useStaminaGage>k__BackingField: 20
   <_rechargeSpeed>k__BackingField: 7
-  <_backFollowStaminaBar>k__BackingField: 0.03
-  <_backBarRechargeSpeed>k__BackingField: 5
+  <_backFollowStaminaBar>k__BackingField: 0.01
+  <_backBarRechargeSpeed>k__BackingField: 1
   <_defaultSpeed>k__BackingField: 10
   <_runSpeed>k__BackingField: 30

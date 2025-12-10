@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class HealthUI : MonoBehaviour
@@ -23,14 +22,11 @@ public class HealthUI : MonoBehaviour
         Health.OnHealing -= PlusUpdateUI;
     }
     private void MinusUpdateUI()
-    {   
-        if(_hitEffect != null)
-        {
-            _hitEffect.Play();
-            _healthBar.fillAmount = Health.CurrentHealth / Health.Maxhealth;
-        }
+    {
+        if(_hitEffect !=null)
+        _hitEffect.Play();
+        _healthBar.fillAmount = Health.CurrentHealth / Health.Maxhealth;
     }
-
     private void PlusUpdateUI()
     {
         _healthBar.fillAmount = Health.CurrentHealth / Health.Maxhealth;
