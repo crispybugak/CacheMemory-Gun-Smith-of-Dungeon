@@ -29,8 +29,6 @@ public class Health : MonoBehaviour, IGetDamage
         CurrentHealth = Maxhealth;
         OnHealing?.Invoke();
     }
-
-    
     private void Start()
     {
         bonusMaxHealth = 0f;
@@ -45,20 +43,27 @@ public class Health : MonoBehaviour, IGetDamage
     {
         if (collision.gameObject.CompareTag("Wall"))
         {
+            Camera.main.GetComponent<CameraShake>().ShakeCamera(0.2f,0.1f);
+            GameManager.Instance.HitTimeScaleCT();
             float randomDamage = Random.Range(1, 30);
             OnDamaged(randomDamage);
         }  
     }
     private IEnumerator HealingHpCT()
     {
-        float randomhealing = Random.Range(1, 30);
         while (lastDamagedTime < 10) yield return null;
         while (CurrentHealth < Maxhealth && lastDamagedTime > 10)
         {
             OnHealing?.Invoke();
+            float randomhealing = 10;
+            Debug.Log("한번한번한번한번한번한번한번한번한번한번한번한번한번");
+            randomhealing = Random.Range(1, 15);
             CurrentHealth = Mathf.Clamp(CurrentHealth += randomhealing, 0 , Maxhealth);
+            if (CurrentHealth >= Maxhealth)
+                OnHealing?.Invoke();
             yield return new WaitForSeconds(HealthData.HealingInterval);
-
+            //여기서 HP 100이 되어버리면 위쪽 While문에서 막히면서 OnHealing?.Invoke();가 안 먹혀서 마지막 UI가 갱신이 안 됨
+            //가장 아래로 내리면 해결은 되지만, 힐이 3번 정도 동시에 되면서 HP가 비정상적으로 많이 회복 됨
         }
     }
 
@@ -68,7 +73,9 @@ public class Health : MonoBehaviour, IGetDamage
         OnDamagedPlayer?.Invoke();
         lastDamagedTime = 0;
 
+        StopAllCoroutines();
         StartCoroutine(HealingHpCT());
+
     }
     
     public void AddBonusMaxHealth(float amount)
@@ -76,6 +83,6 @@ public class Health : MonoBehaviour, IGetDamage
         bonusMaxHealth += amount;
         CurrentHealth = Maxhealth;
         OnHealing?.Invoke();
-    }
 
+    }
 }

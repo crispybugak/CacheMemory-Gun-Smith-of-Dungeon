@@ -560,7 +560,7 @@ MonoBehaviour:
   eventChance: 0.35
   minRooms: 9
   maxRooms: 40
-  maxEventRooms: 2
+  maxEventRooms: 3
   randomStart: 1
   corridorGenerator: {fileID: 1616903167}
 --- !u!4 &1150796101

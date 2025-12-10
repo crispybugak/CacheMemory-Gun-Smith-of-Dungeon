@@ -30,8 +30,9 @@ public class LobbyUI : MonoBehaviour
     public Button GameExitBtn;
     public Button GameExitExitBtn;
 
-    private float fadeDuration = 0.3f;
+    private float fadeDuration = 0.2f;
 
+    private bool _isPanelOpen = false;
     private void Start()
     {
         _volume.enabled = false;
@@ -97,13 +98,13 @@ public class LobbyUI : MonoBehaviour
         Ria.raycastTarget = true;
         Rin.raycastTarget = true;
 
-        Color riaColor = Ria.color; 
+/*        Color riaColor = Ria.color; 
         riaColor.a = 0f; 
         Ria.color = riaColor;
 
         Color rinColor = Rin.color; 
         rinColor.a = 0f;
-        Rin.color = rinColor;
+        Rin.color = rinColor;*/
 
         _volume.enabled = true;
 
@@ -139,6 +140,7 @@ public class LobbyUI : MonoBehaviour
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(panel.DOFade(1, 0.2f).OnComplete(() => panel.raycastTarget = true));
+        sequence.Join(panel.GetComponentInChildren<TextMeshProUGUI>().DOFade(1, 0.2f).OnComplete(() => panel.raycastTarget = true));
     }
 
     private void OnClickemptiness(Image panel)
@@ -147,6 +149,7 @@ public class LobbyUI : MonoBehaviour
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(panel.DOFade(0, 0.2f).OnComplete(() => panel.raycastTarget = false));
+        sequence.Join(panel.GetComponentInChildren<TextMeshProUGUI>().DOFade(0, 0.2f).OnComplete(() => panel.raycastTarget = false));
     }
     public void OpenOptionPanel(Image panel)
     {
@@ -155,7 +158,6 @@ public class LobbyUI : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
         sequence.Append(panel.DOFade(1, 0.2f).OnComplete(() => panel.raycastTarget = true));
     }
-
     public void GameExit()
     {
         Application.Quit();

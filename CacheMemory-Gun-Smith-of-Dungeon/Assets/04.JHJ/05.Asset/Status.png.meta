@@ -1,19 +1,28 @@
 fileFormatVersion: 2
-guid: 3e02d9aa340c88042937fb27691f8adf
+guid: 02997501345aebb42b51fa7f3563f85a
 TextureImporter:
   internalIDToNameTable:
   - first:
-      213: 4326607834422402477
-    second: PlayerIdelRight-Sheet_0
+      213: -3019516997887768502
+    second: Status_0
   - first:
-      213: -401516060688130453
-    second: PlayerIdelRight-Sheet_1
+      213: 814004640374956523
+    second: Status_1
   - first:
-      213: 3190150657867843379
-    second: PlayerIdelRight-Sheet_2
+      213: 6962396484033635494
+    second: Status_2
   - first:
-      213: 7627489098020512149
-    second: PlayerIdelRight-Sheet_3
+      213: -6713231963320828161
+    second: Status_3
+  - first:
+      213: -9111092196008513476
+    second: Status_4
+  - first:
+      213: -4791753407910122166
+    second: Status_5
+  - first:
+      213: -7115641777840415526
+    second: Status_6
   externalObjects: {}
   serializedVersion: 13
   mipmaps:
@@ -60,7 +69,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 80
+  spritePixelsToUnits: 100
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -84,7 +93,7 @@ TextureImporter:
     maxTextureSize: 2048
     resizeAlgorithm: 0
     textureFormat: -1
-    textureCompression: 0
+    textureCompression: 1
     compressionQuality: 50
     crunchedCompression: 0
     allowsAlphaSplitting: 0
@@ -109,13 +118,13 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: PlayerIdelRight-Sheet_0
+      name: Status_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 48
-        width: 48
-        height: 48
+        x: 5
+        y: 3
+        width: 71
+        height: 42
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -124,20 +133,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: dad5b2de6e23b0c30800000000000000
-      internalID: 4326607834422402477
+      spriteID: a4845abd9458816d0800000000000000
+      internalID: -3019516997887768502
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerIdelRight-Sheet_1
+      name: Status_1
       rect:
         serializedVersion: 2
-        x: 48
-        y: 48
-        width: 48
-        height: 48
+        x: 83
+        y: 19
+        width: 11
+        height: 10
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -146,20 +155,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: b6ed11725478d6af0800000000000000
-      internalID: -401516060688130453
+      spriteID: be1a11b58eceb4b00800000000000000
+      internalID: 814004640374956523
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerIdelRight-Sheet_2
+      name: Status_2
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 48
-        height: 48
+        x: 96
+        y: 29
+        width: 54
+        height: 9
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -168,20 +177,20 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 33701360f11b54c20800000000000000
-      internalID: 3190150657867843379
+      spriteID: 6a4e040c6b66f9060800000000000000
+      internalID: 6962396484033635494
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: PlayerIdelRight-Sheet_3
+      name: Status_3
       rect:
         serializedVersion: 2
-        x: 48
-        y: 0
-        width: 48
-        height: 48
+        x: 164
+        y: 18
+        width: 8
+        height: 12
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -190,8 +199,74 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: -1
       bones: []
-      spriteID: 5916da72ce84ad960800000000000000
-      internalID: 7627489098020512149
+      spriteID: ffeb67bf81fc5d2a0800000000000000
+      internalID: -6713231963320828161
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Status_4
+      rect:
+        serializedVersion: 2
+        x: 176
+        y: 29
+        width: 54
+        height: 9
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: c30341d9be5ee8180800000000000000
+      internalID: -9111092196008513476
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Status_5
+      rect:
+        serializedVersion: 2
+        x: 98
+        y: 14
+        width: 52
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: a4def3ec9a5408db0800000000000000
+      internalID: -4791753407910122166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Status_6
+      rect:
+        serializedVersion: 2
+        x: 178
+        y: 14
+        width: 52
+        height: 7
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: adc94ead089204d90800000000000000
+      internalID: -7115641777840415526
       vertices: []
       indices: 
       edges: []
@@ -200,7 +275,7 @@ TextureImporter:
     customData: 
     physicsShape: []
     bones: []
-    spriteID: b1c0a5452914a2040bbb785b9e612c81
+    spriteID: 
     internalID: 0
     vertices: []
     indices: 
@@ -210,10 +285,13 @@ TextureImporter:
     spriteCustomMetadata:
       entries: []
     nameFileIdTable:
-      PlayerIdelRight-Sheet_0: 4326607834422402477
-      PlayerIdelRight-Sheet_1: -401516060688130453
-      PlayerIdelRight-Sheet_2: 3190150657867843379
-      PlayerIdelRight-Sheet_3: 7627489098020512149
+      Status_0: -3019516997887768502
+      Status_1: 814004640374956523
+      Status_2: 6962396484033635494
+      Status_3: -6713231963320828161
+      Status_4: -9111092196008513476
+      Status_5: -4791753407910122166
+      Status_6: -7115641777840415526
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
