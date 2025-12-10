@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 958d14b511684ea7ba63d7a1ec09a0c4, type: 3}
+  m_Name: CircleDotFieldSkill
+  m_EditorClassIdentifier: 
+  damage: 10
+  coolTime: 3
+  skillIcon: {fileID: 0}
+  animationName: 
+  fieldPrefab: {fileID: 5341883316481157948, guid: 87c15b3e36c4dba47b8b969aebc6ad1d, type: 3}
