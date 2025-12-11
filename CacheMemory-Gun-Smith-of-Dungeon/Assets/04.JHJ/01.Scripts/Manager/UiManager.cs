@@ -8,25 +8,10 @@ public class UiManager : MonoBehaviour
 
     [SerializeField] private TextMeshProUGUI _pressToAnyButton;
 
-    [Header("Panel")]
-    [SerializeField] private GameObject optionPanel;
-    [SerializeField] private GameObject characterSelectPanel;
 
-
-    private void Awake()
-    {
-        if (UiInputSO == null) return;
-        UiInputSO.SetOptionPanel(optionPanel);
-        UiInputSO.SetcharacterSelectPanel(characterSelectPanel);
-    }
-
-    
     private void Start()
     {
-        if (optionPanel != null)
-            optionPanel.SetActive(false);
-        if (characterSelectPanel != null)
-            characterSelectPanel.SetActive(false);
+
 
         if (_pressToAnyButton == null) return;
 
