@@ -241,5 +241,12 @@ MonoBehaviour:
   pathUpdateInterval: 0.15
   hitFlashDuration: 0.2
   hitFlashColor: {r: 1, g: 1, b: 1, a: 0.6}
-  rangedKeepDistance: 3.5
+  rangedKeepDistance: 3
   rangedBackAwaySpeed: 0.6
+  separationRadius: 0.56
+  separationWeight: 2.5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  attackAnimationDuration: 0.6
+  useLineOfSightCheck: 1

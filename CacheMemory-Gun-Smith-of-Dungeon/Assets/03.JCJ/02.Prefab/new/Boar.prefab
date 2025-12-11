@@ -181,7 +181,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.002846837, y: -0.019928128}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -191,7 +191,7 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 1.4072192, y: 0.8958815}
+  m_Size: {x: 1.4072189, y: 0.8958815}
   m_EdgeRadius: 0
 --- !u!95 &5842690252782447706
 Animator:
@@ -236,10 +236,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   isRangedEnemy: 0
-  projectilePrefab: {fileID: 0}
+  projectilePrefab_inspector: {fileID: 0}
   flipDelay: 0.15
   pathUpdateInterval: 0.15
   hitFlashDuration: 0.2
   hitFlashColor: {r: 1, g: 1, b: 1, a: 0.6}
-  rangedKeepDistance: 3.5
+  rangedKeepDistance: 0
   rangedBackAwaySpeed: 0.6
+  separationRadius: 0.44
+  separationWeight: 2.5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  attackAnimationDuration: 0.6
+  useLineOfSightCheck: 1

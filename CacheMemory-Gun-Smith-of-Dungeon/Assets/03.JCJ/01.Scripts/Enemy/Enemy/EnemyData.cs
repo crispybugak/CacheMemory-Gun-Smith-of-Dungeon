@@ -17,14 +17,11 @@ public class EnemyData : ScriptableObject
     public float specialAbilityCooldown = 2f;
     public float specialAbilityRange = 3f;
     public int specialAbilityDamage = 6;
-    // ========== BOAR 특수 ==========
     [Header("Boar 특수")]
     public float sleepDuration = 2.5f;
-    // ========== BOMB 특수 ==========
     [Header("Bomb 특수")]
     public float explosionRadius = 2f;
     public float explosionForce = 10f;
-    // ========== NECROMANCER 특수 ==========
     [Header("Necromancer 특수")]
     public int maxMinions = 3;
     public float spawnCooldown = 4f;

@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96c943b316fa194a8f082be2cd14f73, type: 3}
   m_Name: Enemy_Boar
   m_EditorClassIdentifier: 
-  moveSpeed: 2
+  moveSpeed: 4
   maxHealth: 45
-  detectionRange: 6
-  attackRange: 1.8
+  detectionRange: 10
+  attackRange: 1.7
   attackCooldown: 1.5
   attackDamage: 15
   pathUpdateInterval: 0.3

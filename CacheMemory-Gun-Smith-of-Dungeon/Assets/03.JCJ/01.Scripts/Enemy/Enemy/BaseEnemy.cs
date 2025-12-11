@@ -49,13 +49,14 @@ public abstract class BaseEnemy : MonoBehaviour
     [SerializeField] private LayerMask obstacleLayer = ~0;
 
     [Header("원거리 공격")]
-    [SerializeField] private bool isRangedEnemy = false;
+    [SerializeField] protected bool isRangedEnemy = false; 
     [SerializeField] private GameObject projectilePrefab_inspector;
     public float projectileSpeed { get; private set; } = 12f;
 
     [Header("플립 떨림 방지")]
-    [SerializeField] private float flipDelay = 0.15f;
+    [SerializeField] private float flipDelay = 0.1f;
     private float lastFlipTime = 0f;
+    private float flipThreshold = 0.05f;
 
     [Header("추적 성능")]
     [SerializeField] private float pathUpdateInterval = 0.15f;
@@ -69,15 +70,19 @@ public abstract class BaseEnemy : MonoBehaviour
     [SerializeField] private float rangedKeepDistance = 3.5f;
     [SerializeField] private float rangedBackAwaySpeed = 0.6f;
 
-    [Header("혼잡 회피")]
-    [SerializeField] private float pushForce = 2f;
-    [SerializeField] private float pushRadius = 1.5f;
+    [Header("길막 방지 (Traffic Jam Fix) ")]
+    [SerializeField] private float separationRadius = 1.5f;
+    [SerializeField] private float separationWeight = 4.5f;
+    [SerializeField] private LayerMask enemyLayer;
 
     [Header("공격 설정")]
     [SerializeField] protected float attackAnimationDuration = 0.6f;
 
     private Color originalColor;
     private bool isShowingAttackWarning = false;
+
+    [Header("시선 확인 ")]
+    [SerializeField] private bool useLineOfSightCheck = true;
 
     private float sqrDetectionRange;
     private float sqrAttackRange;
@@ -100,7 +105,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
         currentHealth = enemyData.maxHealth;
         lastAttackTime = -enemyData.attackCooldown;
-        lastSpecialTime = -999f;
+        lastSpecialTime = Time.time;
 
         lastPatrolChangeTime = Time.time;
         patrolDirection = Random.insideUnitCircle.normalized;
@@ -116,30 +121,36 @@ public abstract class BaseEnemy : MonoBehaviour
             Patrol();
             ApplyMovement();
             UpdateFacingAndFlip();
-            PushAwayFromEnemies();
             return;
         }
 
-        float sqrDist = Vector2.SqrMagnitude((Vector2)playerTransform.position - (Vector2)transform.position);
+        Vector2 toPlayer = (Vector2)playerTransform.position - (Vector2)transform.position;
+        float dist = toPlayer.magnitude;
 
-        if (sqrDist < sqrAttackRange)
-        {
-            HandleAttackRange(sqrDist);
-        }
-        else if (sqrDist < sqrDetectionRange)
-        {
-            HandleChaseRange(sqrDist);
-        }
-        else
+        if (dist > enemyData.detectionRange)
         {
             isChasing = false;
             DisablePathfinding();
             Patrol();
         }
+        else
+        {
+            isChasing = true;
+
+            if (isRangedEnemy)
+            {
+                UpdateRangedMovement(dist);
+            }
+            else
+            {
+                UpdateMeleeMovement(dist);
+            }
+
+            TryAttack(dist);
+        }
 
         ApplyMovement();
         UpdateFacingAndFlip();
-        PushAwayFromEnemies();
 
         if (isChasing && Time.time > nextPathUpdateTime)
         {
@@ -147,6 +158,63 @@ public abstract class BaseEnemy : MonoBehaviour
             nextPathUpdateTime = Time.time + pathUpdateInterval;
         }
     }
+    private void UpdateMeleeMovement(float dist)
+    {
+        float approachDistance = enemyData.attackRange * 0.8f;
+
+        if (dist > approachDistance)
+        {
+            EnablePathfinding();
+            MoveTowardPlayer();
+        }
+        else
+        {
+            DisablePathfinding();
+            moveDirection = Vector2.zero;
+
+            if (rb != null)
+                rb.linearVelocity = Vector2.zero;
+        }
+    }
+
+    private void UpdateRangedMovement(float dist)
+    {
+        float minDist = rangedKeepDistance * 0.8f;
+        float maxDist = rangedKeepDistance * 1.2f;
+
+        if (dist > maxDist)
+        {
+            EnablePathfinding();
+            MoveTowardPlayer();
+        }
+        else if (dist < minDist)
+        {
+            DisablePathfinding();
+            BackAwayFromPlayer(rangedBackAwaySpeed);
+        }
+        else
+        {
+            DisablePathfinding();
+            moveDirection = Vector2.zero;
+
+            if (rb != null)
+                rb.linearVelocity = Vector2.zero;
+        }
+    }
+    private void TryAttack(float dist)
+    {
+        if (dist > enemyData.attackRange)
+            return;
+
+        if (Time.time - lastAttackTime < enemyData.attackCooldown)
+            return;
+
+        if (isRangedEnemy && useLineOfSightCheck && !HasLineOfSightToPlayer())
+            return;
+
+        AttackWithWarning();
+    }
+
 
     private void InitializeComponents()
     {
@@ -188,15 +256,15 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         if (enemyData == null)
         {
-            Debug.LogError($"{name}: EnemyData 없음!", this);
+            Debug.LogError($"{name}: EnemyData", this);
             enabled = false;
         }
     }
 
     private void HandleAttackRange(float sqrDist)
     {
-        isChasing = true;
-        
+        float dist = Mathf.Sqrt(sqrDist);
+
         if (isRangedEnemy)
         {
             if (sqrDist < sqrRangedMinDistance)
@@ -214,20 +282,30 @@ public abstract class BaseEnemy : MonoBehaviour
                 EnablePathfinding();
                 MoveTowardPlayer();
             }
+
+            if (Time.time - lastAttackTime >= enemyData.attackCooldown)
+            {
+                if (!useLineOfSightCheck || HasLineOfSightToPlayer())
+                {
+                    AttackWithWarning();
+                }
+            }
+
+            return;
         }
-        else
+
+        if (dist > enemyData.attackRange)
         {
-            if (sqrDist < sqrMeleeMinDistance)
-            {
-                DisablePathfinding();
-                BackAwayFromPlayer(enemyData.moveSpeed * 0.5f);
-            }
-            else
-            {
-                DisablePathfinding();
-                Idle();
-            }
+            EnablePathfinding();
+            MoveTowardPlayer();
+            return;
         }
+
+        DisablePathfinding();
+        moveDirection = Vector2.zero;
+
+        if (rb != null)
+            rb.linearVelocity = Vector2.zero;
 
         if (Time.time - lastAttackTime >= enemyData.attackCooldown)
         {
@@ -235,23 +313,48 @@ public abstract class BaseEnemy : MonoBehaviour
         }
     }
 
+
+
+
+    private void TryAttackIfReady(float sqrDistToPlayer)
+    {
+        if (enemyData == null || playerTransform == null)
+            return;
+
+        if (sqrDistToPlayer > sqrAttackRange)
+            return;
+
+        if (Time.time - lastAttackTime < enemyData.attackCooldown)
+            return;
+
+        if (isRangedEnemy && useLineOfSightCheck && !HasLineOfSightToPlayer())
+            return;
+
+        AttackWithWarning();
+    }
+
     private void HandleChaseRange(float sqrDist)
     {
         isChasing = true;
         EnablePathfinding();
+        MoveTowardPlayer();
+    }
 
-        if (isRangedEnemy && sqrDist > sqrRangedKeepDistance)
-        {
-            MoveTowardPlayer();
-        }
-        else if (!isRangedEnemy)
-        {
-            MoveTowardPlayer();
-        }
-        else
-        {
-            Idle();
-        }
+
+    private bool HasLineOfSightToPlayer()
+    {
+        if (playerTransform == null) return false;
+
+        Vector2 dirToPlayer = ((Vector2)playerTransform.position - (Vector2)transform.position);
+        float distToPlayer = dirToPlayer.magnitude;
+
+        RaycastHit2D hit = Physics2D.Raycast(
+            transform.position,
+            dirToPlayer.normalized,
+            distToPlayer,
+            obstacleLayer);
+
+        return !hit.collider || hit.collider.CompareTag("Player");
     }
 
     private void Patrol()
@@ -313,7 +416,13 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         if (seeker == null || playerTransform == null || pathPending) return;
         pathPending = true;
-        seeker.StartPath(transform.position, playerTransform.position, OnPathComplete);
+    
+        Vector2 offset2D = Random.insideUnitCircle * 0.5f;
+        Vector3 offset = new Vector3(offset2D.x, offset2D.y, 0f); // Vector2 → Vector3 변환
+    
+        Vector3 targetPosition = playerTransform.position + offset;
+    
+        seeker.StartPath(transform.position, targetPosition, OnPathComplete);
     }
 
     private void OnPathComplete(Path p)
@@ -355,21 +464,62 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         if (rb == null) return;
 
-        bool moving = moveDirection.sqrMagnitude > 0.01f;
-        animator?.SetBool(hashIsMoving, moving);
+        Vector2 finalDirection = moveDirection;
+
+        if (moveDirection.sqrMagnitude > 0.01f)
+        {
+            Vector2 separation = CalculateSeparationVector();
+            finalDirection += separation * separationWeight;
+        }
+
+        finalDirection.Normalize();
 
         float speed = isChasing ? enemyData.moveSpeed : patrolSpeed;
-        rb.linearVelocity = moving ? moveDirection * speed : Vector2.zero;
+        
+        if (moveDirection.sqrMagnitude > 0.01f)
+        {
+            rb.linearVelocity = finalDirection * speed;
+        }
+        else
+        {
+            rb.linearVelocity = Vector2.zero;
+        }
+
+        bool isActuallyMoving = rb.linearVelocity.sqrMagnitude > 0.1f;
+        animator?.SetBool(hashIsMoving, isActuallyMoving);
+    }
+
+    private Vector2 CalculateSeparationVector()
+    {
+        Vector2 separation = Vector2.zero;
+        
+        Collider2D[] neighbors = Physics2D.OverlapCircleAll(transform.position, separationRadius, enemyLayer);
+
+        foreach (var neighbor in neighbors)
+        {
+            if (neighbor.gameObject == gameObject) continue;
+
+            Vector2 pushDir = transform.position - neighbor.transform.position;
+            float dist = pushDir.magnitude;
+
+            if (dist > 0.01f)
+            {
+                separation += pushDir.normalized / dist;
+            }
+        }
+        
+        return separation;
     }
 
     private void UpdateFacingAndFlip()
     {
-        Vector2 targetDirection;
-        if (moveDirection.sqrMagnitude < 0.01f && playerTransform != null)
+        Vector2 targetDirection = Vector2.zero;
+
+        if (playerTransform != null && (isChasing || Vector2.SqrMagnitude((Vector2)playerTransform.position - (Vector2)transform.position) < sqrDetectionRange))
         {
             targetDirection = ((Vector2)playerTransform.position - (Vector2)transform.position).normalized;
         }
-        else
+        else if (moveDirection.sqrMagnitude > 0.01f)
         {
             targetDirection = moveDirection.normalized;
         }
@@ -379,9 +529,11 @@ public abstract class BaseEnemy : MonoBehaviour
         facingDirection = targetDirection;
 
         if (Time.time - lastFlipTime < flipDelay) return;
+        
+        if (isShowingAttackWarning) return;
 
-        bool shouldFaceRight = facingDirection.x > 0.15f;
-        bool shouldFaceLeft = facingDirection.x < -0.15f;
+        bool shouldFaceRight = facingDirection.x > flipThreshold;
+        bool shouldFaceLeft = facingDirection.x < -flipThreshold;
 
         if (shouldFaceRight && !isFacingRight)
         {
@@ -394,27 +546,6 @@ public abstract class BaseEnemy : MonoBehaviour
             isFacingRight = false;
             spriteRenderer.flipX = true;
             lastFlipTime = Time.time;
-        }
-    }
-
-    private void PushAwayFromEnemies()
-    {
-        if (rb == null) return;
-
-        Collider2D[] nearbyEnemies = Physics2D.OverlapCircleAll(
-            transform.position,
-            pushRadius,
-            LayerMask.GetMask("Enemy"));
-
-        foreach (var enemy in nearbyEnemies)
-        {
-            if (enemy.gameObject == gameObject) continue;
-
-            BaseEnemy otherEnemy = enemy.GetComponent<BaseEnemy>();
-            if (otherEnemy == null) continue;
-
-            Vector2 pushDirection = ((Vector2)transform.position - (Vector2)enemy.transform.position).normalized;
-            rb.linearVelocity += pushDirection * pushForce * Time.deltaTime;
         }
     }
 
@@ -453,7 +584,6 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected virtual void Attack()
     {
-        // 서브클래스에서 오버라이드
     }
 
     protected virtual void ApplyAttackDamage()
@@ -525,8 +655,8 @@ public abstract class BaseEnemy : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, enemyData.attackRange);
 
-        Gizmos.color = Color.cyan;
-        Gizmos.DrawWireSphere(transform.position, 1.5f);
+        Gizmos.color = Color.green;
+        Gizmos.DrawWireSphere(transform.position, separationRadius);
     }
 
     public bool IsShowingAttackWarning => isShowingAttackWarning;

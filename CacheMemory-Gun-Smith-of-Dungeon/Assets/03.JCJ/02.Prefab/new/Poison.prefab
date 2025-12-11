@@ -236,10 +236,17 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   isRangedEnemy: 0
-  projectilePrefab: {fileID: 684113144402210295, guid: 85ca5d093e194a74cb8c5e8a7f9eab7f, type: 3}
+  projectilePrefab_inspector: {fileID: 0}
   flipDelay: 0.15
   pathUpdateInterval: 0.15
   hitFlashDuration: 0.2
   hitFlashColor: {r: 1, g: 1, b: 1, a: 0.6}
-  rangedKeepDistance: 3.5
+  rangedKeepDistance: 1
   rangedBackAwaySpeed: 0.6
+  separationRadius: 0.77
+  separationWeight: 2.5
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 32768
+  attackAnimationDuration: 0.6
+  useLineOfSightCheck: 1

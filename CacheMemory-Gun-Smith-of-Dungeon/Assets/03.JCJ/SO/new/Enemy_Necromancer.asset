@@ -14,13 +14,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2
   maxHealth: 60
-  detectionRange: 8
-  attackRange: 3.5
-  attackCooldown: 2
+  detectionRange: 10
+  attackRange: 6
+  attackCooldown: 6
   attackDamage: 8
   pathUpdateInterval: 0.4
-  stoppingDistance: 0.3
-  specialAbilityCooldown: 4
+  stoppingDistance: 1
+  specialAbilityCooldown: 30
   specialAbilityRange: 5
   specialAbilityDamage: 10
   sleepDuration: 2.5

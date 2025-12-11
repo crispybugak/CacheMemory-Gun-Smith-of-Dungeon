@@ -5,7 +5,7 @@ public class BombEnemy : BaseEnemy
 {
     private int hashIsExploding;
     private bool isExploding = false;
-    [SerializeField] private float explosionWarningTime = 0.1f; // ✅ 0.3초 → 0.1초로 단축
+    [SerializeField] private float explosionWarningTime = 0.1f;
 
     protected override void Start()
     {

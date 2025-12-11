@@ -25,15 +25,10 @@ public class Projectile : MonoBehaviour
         direction = direction.normalized;
         damage = dmg;
         isLaunched = true;
-        if (rb == null)
-        {
-            Debug.LogError($"{gameObject.name}: Rigidbody2D 없음!");
-            return;
-        }
+        if (rb == null) return;
         rb.linearVelocity = direction * speed;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
-        // Debug.Log($"[Projectile] 발사! 속도: {speed}, 속력: {rb.linearVelocity}");
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

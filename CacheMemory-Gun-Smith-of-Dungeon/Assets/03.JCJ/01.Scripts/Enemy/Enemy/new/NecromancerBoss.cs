@@ -7,9 +7,12 @@ public class NecromancerBoss : BaseEnemy
     private int hashSpawnTrigger;
     private int minionSpawned = 0;
 
+    [SerializeField] private GameObject minionPrefab;
+
     protected override void Start()
     {
         base.Start();
+        isRangedEnemy = true;
         hashIsAttacking = Animator.StringToHash("isAttacking");
         hashSpawnTrigger = Animator.StringToHash("spawnTrigger");
     }
@@ -30,6 +33,7 @@ public class NecromancerBoss : BaseEnemy
             animator?.SetTrigger(hashSpawnTrigger);
             lastSpecialTime = Time.time;
             minionSpawned++;
+            StartCoroutine(SpawnMinionAfterAnimation(0.5f));
         }
     }
 
@@ -43,7 +47,7 @@ public class NecromancerBoss : BaseEnemy
     {
         if (projectilePrefab == null)
         {
-            Debug.LogWarning($"{name}: projectilePrefab이 없습니다!");
+            Debug.LogWarning($"{name}: projectilePrefab이 없습니다");
             return;
         }
 
@@ -58,8 +62,22 @@ public class NecromancerBoss : BaseEnemy
         }
         else
         {
-            Debug.LogError($"{name}: Projectile 스크립트가 없습니다!");
+            Debug.LogError($"{name}: Projectile 스크립트가 없습니다");
             Destroy(projectileObj);
+        }
+    }
+
+    private IEnumerator SpawnMinionAfterAnimation(float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        if (minionPrefab != null)
+        {
+            Vector2 spawnOffset = Random.insideUnitCircle * 1.5f;
+            Instantiate(minionPrefab, transform.position + (Vector3)spawnOffset, Quaternion.identity);
+        }
+        else
+        {
+            Debug.LogError($"{name}: minionPrefab이 없습니다");
         }
     }
 
