@@ -22,22 +22,21 @@ public class Health : MonoBehaviour, IGetDamage
     private Dead _dead;
     public UnityEvent OnDead;
 
-    // (아래쪽에 있을 이벤트 / 나머지 필드는 그대로)
+    // 이벤트
     public event Action OnDamagedPlayer;
     public event Action OnHealing;
-
-
 
     private void Awake()
     {
         _dead = GetComponent<Dead>();
     }
+
     private void OnEnable()
     {
-        lastDamagedTime = 0f;
-        CurrentHealth = Maxhealth;
-        OnHealing?.Invoke();
+        // SO 값 기준으로 체력 초기화 (세이브 로드 후에도 이 함수만 다시 호출하면 됨)
+        InitFromSO();
     }
+
     private void Start()
     {
         bonusMaxHealth = 0f;
@@ -47,29 +46,41 @@ public class Health : MonoBehaviour, IGetDamage
     {
         lastDamagedTime += Time.deltaTime;
     }
+    
+    public void InitFromSO()
+    {
+        lastDamagedTime = 0f;
+        CurrentHealth = Maxhealth;
+        OnHealing?.Invoke(); // UI 갱신
+    }
 
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.gameObject.CompareTag("Wall"))
         {
-            Camera.main.GetComponent<CameraShake>().ShakeCamera(0.2f,0.1f);
+            Camera.main.GetComponent<CameraShake>().ShakeCamera(0.2f, 0.1f);
             GameManager.Instance.HitTimeScale();
             float randomDamage = Random.Range(1, 30);
             OnDamaged(randomDamage);
-        }  
+        }
     }
+
     private IEnumerator HealingHpCT()
     {
+        // 데미지 안 맞은 시간 10초 될 때까지 대기
         while (lastDamagedTime < 10) yield return null;
+
+        // 체력이 최대치보다 낮고, 여전히 10초 이상 데미지 안 맞았을 때 회복
         while (CurrentHealth < Maxhealth && lastDamagedTime > 10)
         {
             OnHealing?.Invoke();
             float randomhealing = 10;
             Debug.Log("한번한번한번한번한번한번한번한번한번한번한번한번한번");
             randomhealing = Random.Range(1, 15);
-            CurrentHealth = Mathf.Clamp(CurrentHealth += randomhealing, 0 , Maxhealth);
+            CurrentHealth = Mathf.Clamp(CurrentHealth += randomhealing, 0, Maxhealth);
             if (CurrentHealth >= Maxhealth)
                 OnHealing?.Invoke();
+
             yield return new WaitForSeconds(HealthData.HealingInterval);
             //여기서 HP 100이 되어버리면 위쪽 While문에서 막히면서 OnHealing?.Invoke();가 안 먹혀서 마지막 UI가 갱신이 안 됨
             //가장 아래로 내리면 해결은 되지만, 힐이 3번 정도 동시에 되면서 HP가 비정상적으로 많이 회복 됨
@@ -91,12 +102,11 @@ public class Health : MonoBehaviour, IGetDamage
             OnDead?.Invoke();
         }
     }
-    
+
     public void AddBonusMaxHealth(float amount)
     {
         bonusMaxHealth += amount;
         CurrentHealth = Maxhealth;
         OnHealing?.Invoke();
-
     }
 }

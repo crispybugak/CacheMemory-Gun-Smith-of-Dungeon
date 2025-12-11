@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "Health", menuName = "SO/Health")]
 public class HealthDataSO : ScriptableObject
@@ -11,24 +12,32 @@ public class HealthDataSO : ScriptableObject
     [field: SerializeField] public float HealAmountPercent { get; private set; } = 5f;
     [field: SerializeField] public float HealingInterval { get; private set; } = 1f;
 
-    public HealthSaveData ToSaveData()
+    // === JSON 저장용 구조체 ===
+    [Serializable]
+    public struct SaveData
     {
-        return new HealthSaveData
+        public float maxhealth;
+        public float healingDelay;
+        public float healAmountPercent;
+        public float healingInterval;
+    }
+
+    public SaveData ToSaveData()
+    {
+        return new SaveData
         {
-            maxHealth = Maxhealth,
+            maxhealth = Maxhealth,
             healingDelay = HealingDelay,
             healAmountPercent = HealAmountPercent,
             healingInterval = HealingInterval
         };
     }
 
-    public void ApplySaveData(HealthSaveData data)
+    public void ApplySaveData(SaveData data)
     {
-        if (data == null) return;
-
-        Maxhealth        = data.maxHealth;
-        HealingDelay     = data.healingDelay;
+        Maxhealth = data.maxhealth;
+        HealingDelay = data.healingDelay;
         HealAmountPercent = data.healAmountPercent;
-        HealingInterval  = data.healingInterval;
+        HealingInterval = data.healingInterval;
     }
 }

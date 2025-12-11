@@ -7,47 +7,27 @@ namespace _06.SDW._01.Scripts.Passive
     {
         [SerializeField] private PassiveSO[] passives;
 
-        private bool _initialized;
-
         private void Start()
         {
-            ApplyAll();
-            _initialized = true;
-        }
-
-        private void ApplyAll()
-        {
-            if (passives == null) return;
-
+            // 시작할 때 가지고 있는 패시브 전부 적용
             foreach (var passive in passives)
             {
-                passive?.Apply(gameObject);
+                if (passive == null) continue;
+                passive.Apply(gameObject);
             }
         }
 
-        public void SetPassives(PassiveSO[] newPassives, bool applyNow = true)
+        // === 저장된 패시브 하나를 런타임에 세팅 ===
+        public void SetSinglePassive(PassiveSO passive)
         {
-            // 이미 한 번 적용된 상태면 Remove로 원상복구
-            if (_initialized && passives != null)
+            if (passive == null)
             {
-                foreach (var passive in passives)
-                {
-                    passive?.Remove(gameObject);
-                }
+                passives = System.Array.Empty<PassiveSO>();
             }
-
-            passives = newPassives;
-
-            if (applyNow)
+            else
             {
-                ApplyAll();
-                _initialized = true;
+                passives = new[] { passive };
             }
-        }
-
-        public void SetSinglePassive(PassiveSO passive, bool applyNow = true)
-        {
-            SetPassives(passive != null ? new[] { passive } : null, applyNow);
         }
     }
 }

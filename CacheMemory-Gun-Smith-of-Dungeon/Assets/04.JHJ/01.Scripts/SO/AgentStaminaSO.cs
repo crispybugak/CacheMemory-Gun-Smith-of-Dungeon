@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "AgentStaminaSO", menuName = "Scriptable Objects/AgentStaminaSO")]
 public class AgentStaminaSO : ScriptableObject
@@ -13,28 +14,38 @@ public class AgentStaminaSO : ScriptableObject
     [field: SerializeField] public float _defaultSpeed { get; private set; }
     [field: SerializeField] public float _runSpeed { get; private set; }
 
-    public StaminaSaveData ToSaveData()
+    // === JSON 저장용 구조체 ===
+    [Serializable]
+    public struct SaveData
     {
-        return new StaminaSaveData
+        public float useStaminaGage;
+        public float rechargeSpeed;
+        public float backFollowStaminaBar;
+        public float backBarRechargeSpeed;
+        public float defaultSpeed;
+        public float runSpeed;
+    }
+
+    public SaveData ToSaveData()
+    {
+        return new SaveData
         {
-            useStaminaGage       = _useStaminaGage,
-            rechargeSpeed        = _rechargeSpeed,
+            useStaminaGage = _useStaminaGage,
+            rechargeSpeed = _rechargeSpeed,
             backFollowStaminaBar = _backFollowStaminaBar,
             backBarRechargeSpeed = _backBarRechargeSpeed,
-            defaultSpeed         = _defaultSpeed,
-            runSpeed             = _runSpeed
+            defaultSpeed = _defaultSpeed,
+            runSpeed = _runSpeed
         };
     }
 
-    public void ApplySaveData(StaminaSaveData data)
+    public void ApplySaveData(SaveData data)
     {
-        if (data == null) return;
-
-        _useStaminaGage       = data.useStaminaGage;
-        _rechargeSpeed        = data.rechargeSpeed;
+        _useStaminaGage = data.useStaminaGage;
+        _rechargeSpeed = data.rechargeSpeed;
         _backFollowStaminaBar = data.backFollowStaminaBar;
         _backBarRechargeSpeed = data.backBarRechargeSpeed;
-        _defaultSpeed         = data.defaultSpeed;
-        _runSpeed             = data.runSpeed;
+        _defaultSpeed = data.defaultSpeed;
+        _runSpeed = data.runSpeed;
     }
 }

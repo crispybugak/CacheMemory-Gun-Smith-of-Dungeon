@@ -1,73 +1,84 @@
-﻿using System.IO;
+﻿using System;
+using System.IO;
 using UnityEngine;
 using _06.SDW._01.Scripts.SO;
 using Skill;
 
-public static class PlayerStatSaveManager
+public static class PlayerSelectionSaveSystem
 {
-    private const string FileName = "player_stats.json";
+    [Serializable]
+    public class PlayerSelectionSaveData
+    {
+        public HealthDataSO.SaveData health;
+        public AgentStaminaSO.SaveData stamina;
 
-    private static string SavePath =>
-        Path.Combine(Application.persistentDataPath, FileName);
+        public string passiveName;
+        public string skillName;
+        public string animatorName;
+    }
 
-    public static PlayerStatSaveData LastLoadedData { get; private set; }
+    private const string FileName = "playerSelection.json";
+    private static string FullPath => Path.Combine(Application.persistentDataPath, FileName);
 
-    public static void Save(
+    // === 캐릭터 선택 씬에서 호출 (버튼 OnClick 등) ===
+    public static void SaveSelection(
         HealthDataSO healthSO,
         AgentStaminaSO staminaSO,
-        PassiveSO passiveSO,
-        SkillSO skillSO,
-        RuntimeAnimatorController animatorController
-    )
+        PassiveSO passive,
+        SkillSO skill,
+        RuntimeAnimatorController animator)
     {
-        PlayerStatSaveData data = new PlayerStatSaveData
+        if (healthSO == null || staminaSO == null)
+        {
+            Debug.LogError("[PlayerSelectionSaveSystem] healthSO 또는 staminaSO가 null 입니다.");
+            return;
+        }
+
+        PlayerSelectionSaveData data = new PlayerSelectionSaveData
         {
             health = healthSO.ToSaveData(),
             stamina = staminaSO.ToSaveData(),
-            passiveName = passiveSO != null ? passiveSO.name : null,
-            skillName   = skillSO   != null ? skillSO.name   : null,
-            animatorName = animatorController != null ? animatorController.name : null
+            passiveName = passive != null ? passive.name : string.Empty,
+            skillName = skill != null ? skill.name : string.Empty,
+            animatorName = animator != null ? animator.name : string.Empty
         };
 
         string json = JsonUtility.ToJson(data, true);
-        File.WriteAllText(SavePath, json);
 
+        try
+        {
+            File.WriteAllText(FullPath, json);
 #if UNITY_EDITOR
-        Debug.Log($"Saved Player Stats: {SavePath}\n{json}");
+            Debug.Log($"[PlayerSelectionSaveSystem] 저장 완료: {FullPath}\n{json}");
 #endif
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[PlayerSelectionSaveSystem] 저장 실패: {e}");
+        }
     }
 
-    public static PlayerStatSaveData Load(
-        HealthDataSO healthSO,
-        AgentStaminaSO staminaSO,
-        Health health,
-        Stamina stamina
-    )
+    // === 인게임에서 불러올 때 사용 ===
+    public static bool TryLoad(out PlayerSelectionSaveData data)
     {
-        if (!File.Exists(SavePath))
+        data = null;
+
+        if (!File.Exists(FullPath))
         {
-            Debug.LogWarning("No player stat save file found.");
-            return null;
+            Debug.LogWarning("[PlayerSelectionSaveSystem] 저장 파일이 없습니다.");
+            return false;
         }
 
-        string json = File.ReadAllText(SavePath);
-        PlayerStatSaveData data = JsonUtility.FromJson<PlayerStatSaveData>(json);
-
-        if (data.health != null)
-            healthSO.ApplySaveData(data.health);
-        if (data.stamina != null)
-            staminaSO.ApplySaveData(data.stamina);
-
-        // Health / Stamina 컴포넌트에 반영
-        health?.OnDamaged(0); // or health.InitFromSO() if 네가 만들어뒀으면 그걸로
-        stamina?.AddBonusMaxStamina(0); // 또는 stamina.InitFromSO()
-
-        LastLoadedData = data;
-
-#if UNITY_EDITOR
-        Debug.Log($"Loaded Player Stats from {SavePath}\n{json}");
-#endif
-
-        return data;
+        try
+        {
+            string json = File.ReadAllText(FullPath);
+            data = JsonUtility.FromJson<PlayerSelectionSaveData>(json);
+            return data != null;
+        }
+        catch (Exception e)
+        {
+            Debug.LogError($"[PlayerSelectionSaveSystem] 로드 실패: {e}");
+            return false;
+        }
     }
 }
