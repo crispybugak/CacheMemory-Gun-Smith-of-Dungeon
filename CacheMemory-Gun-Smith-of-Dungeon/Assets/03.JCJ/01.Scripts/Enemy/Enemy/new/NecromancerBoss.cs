@@ -1,80 +1,81 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class NecromancerBoss : BaseEnemy
 {
-    [SerializeField] private GameObject skeletonPrefab;
-    [SerializeField] private GameObject shadowBoltPrefab;
-    private float lastSpawnTime = -999f;
-    private readonly List<GameObject> minions = new List<GameObject>();
+    private int hashIsAttacking;
+    private int hashSpawnTrigger;
+    private int minionSpawned = 0;
 
     protected override void Start()
     {
         base.Start();
+        hashIsAttacking = Animator.StringToHash("isAttacking");
+        hashSpawnTrigger = Animator.StringToHash("spawnTrigger");
     }
 
-    protected override void Update()
+    protected override void Attack()
     {
-        minions.RemoveAll(m => m == null);
-        if (GetEnemyData() != null &&
-            Time.time - lastSpawnTime > GetEnemyData().spawnCooldown &&
-            minions.Count < GetEnemyData().maxMinions)
-        {
-            SpawnMinion();
-            return;
-        }
-        base.Update();
-    }
-
-    private void SpawnMinion()
-    {
-        lastSpawnTime = Time.time;
-        if (GetAnimator() != null)
-            GetAnimator().SetTrigger("spawnTrigger");
-        StartCoroutine(SpawnCoroutine());
-    }
-
-    private IEnumerator SpawnCoroutine()
-    {
-        yield return new WaitForSeconds(0.8f);
-        if (skeletonPrefab != null)
-        {
-            Vector2 spawnPos = (Vector2)transform.position + Random.insideUnitCircle * 1.5f;
-            GameObject minion = Instantiate(skeletonPrefab, spawnPos, Quaternion.identity);
-            if (minion.TryGetComponent<BaseEnemy>(out var minionEnemy))
-            {
-                minionEnemy.EnemyData = GetEnemyData();
-            }
-            minions.Add(minion);
-        }
+        animator?.SetBool(hashIsAttacking, true);
+        PerformAttack();
     }
 
     protected override void PerformAttack()
     {
-        if (shadowBoltPrefab == null || GetPlayerTransform() == null) return;
-        Vector2 shootDir = ((Vector2)GetPlayerTransform().position - (Vector2)transform.position).normalized;
-        Vector3 spawnOffset = (Vector3)shootDir * 0.5f;
-        GameObject bolt = Instantiate(shadowBoltPrefab, transform.position + spawnOffset, Quaternion.identity);
-        if (bolt.TryGetComponent<Projectile>(out var projectile))
+        LaunchProjectile();
+
+        if (minionSpawned < GetEnemyData().maxMinions && 
+            Time.time - lastSpecialTime >= GetEnemyData().specialAbilityCooldown)
         {
-            projectile.Launch(shootDir, GetEnemyData().specialAbilityDamage, projectileSpeed);
+            animator?.SetTrigger(hashSpawnTrigger);
+            lastSpecialTime = Time.time;
+            minionSpawned++;
         }
+    }
+
+    protected override void ApplyAttackDamage()
+    {
+        base.ApplyAttackDamage();
+        animator?.SetBool(hashIsAttacking, false);
+    }
+
+    private void LaunchProjectile()
+    {
+        if (projectilePrefab == null)
+        {
+            Debug.LogWarning($"{name}: projectilePrefab이 없습니다!");
+            return;
+        }
+
+        Vector2 direction = (GetPlayerTransform().position - transform.position).normalized;
+        Vector3 spawnPosition = transform.position + (Vector3)direction * 1.2f;
+        GameObject projectileObj = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
+        
+        Projectile projectile = projectileObj.GetComponent<Projectile>();
+        if (projectile != null)
+        {
+            projectile.Launch(direction, GetEnemyData().specialAbilityDamage, projectileSpeed);
+        }
+        else
+        {
+            Debug.LogError($"{name}: Projectile 스크립트가 없습니다!");
+            Destroy(projectileObj);
+        }
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+        if (GetAnimator() != null)
+            GetAnimator().SetTrigger("isHurt");
     }
 
     protected override void Die()
     {
+        if (GetAnimator() != null)
+            GetAnimator().SetTrigger("isDead");
         base.Die();
-        foreach (var minion in minions)
-        {
-            if (minion != null)
-            {
-                if (minion.TryGetComponent<BaseEnemy>(out var enemy))
-                    enemy.TakeDamage(9999f);
-                else
-                    Destroy(minion);
-            }
-        }
-        minions.Clear();
     }
+
+    public void ResetMinionCount() => minionSpawned = 0;
 }

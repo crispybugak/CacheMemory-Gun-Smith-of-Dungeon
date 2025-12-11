@@ -12,8 +12,6 @@ GameObject:
   - component: {fileID: 8598927007947644065}
   - component: {fileID: 1136554345030719202}
   - component: {fileID: 7894378320067633300}
-  - component: {fileID: 7130167156672038413}
-  - component: {fileID: 7796367984660903922}
   - component: {fileID: 4576069111117005066}
   - component: {fileID: 7957806765370883015}
   - component: {fileID: 8244005206517671499}
@@ -149,49 +147,6 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
---- !u!114 &7130167156672038413
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8745866089490844517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 847a14d4dc9cc43679ab34fc78e0182f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 4
-  autoRepath:
-    mode: 2
-    interval: 0.5
-    sensitivity: 10
-    maximumInterval: 3
-    visualizeSensitivity: 0
-  canMove: 1
-  speed: 3
-  orientation: 1
-  enableRotation: 0
-  rotationSpeed: 10
-  interpolatePathSwitches: 1
-  switchPathInterpolationSpeed: 5
-  targetCompatibility: {fileID: 0}
-  repathRateCompatibility: NaN
-  canSearchCompability: 0
---- !u!114 &7796367984660903922
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8745866089490844517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9679e68a0f1144e79c664d9a11ca121, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  target: {fileID: 0}
 --- !u!95 &4576069111117005066
 Animator:
   serializedVersion: 7
@@ -273,15 +228,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: e6c8c812b9886aa4898d2f636c4b20dc, type: 2}
-  flipCooldown: 0.1
-  fieldOfViewAngle: 140
-  showFieldOfViewGizmos: 1
+  patrolSpeed: 2.5
+  patrolDuration: 0.5
+  patrolRayDistance: 2
   showFieldOfViewInGame: 1
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
   isRangedEnemy: 0
   projectilePrefab: {fileID: 684113144402210295, guid: 85ca5d093e194a74cb8c5e8a7f9eab7f, type: 3}
-  patrolDuration: 0.5
-  patrolRayDistance: 2
-  acidBlobPrefab: {fileID: 684113144402210295, guid: 85ca5d093e194a74cb8c5e8a7f9eab7f, type: 3}
+  flipDelay: 0.15
+  pathUpdateInterval: 0.15
+  hitFlashDuration: 0.2
+  hitFlashColor: {r: 1, g: 1, b: 1, a: 0.6}
+  rangedKeepDistance: 3.5
+  rangedBackAwaySpeed: 0.6

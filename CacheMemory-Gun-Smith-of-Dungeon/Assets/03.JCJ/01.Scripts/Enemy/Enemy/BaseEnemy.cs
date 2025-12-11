@@ -13,102 +13,100 @@ public abstract class BaseEnemy : MonoBehaviour
         set { enemyData = value; ValidateEnemyData(); CacheValues(); }
     }
 
-    // 컴포넌트
-    private Animator animator;
-    private SpriteRenderer spriteRenderer;
-    private Rigidbody2D rb;
-    private Transform playerTransform;
-    private Health playerHealth;
-    private Seeker seeker;
-    private LineRenderer lineRenderer;
-    private AIPath _conflictingAIPath;
+    protected Animator animator;
+    protected SpriteRenderer spriteRenderer;
+    protected Rigidbody2D rb;
+    protected Transform playerTransform;
+    protected Health playerHealth;
+    protected Seeker seeker;
 
-    // 상태
-    private int currentHealth;
-    private float lastAttackTime = -999f;
-    private bool isFacingRight = true;
-    private Vector2 facingDirection = Vector2.right;
-    private Vector2 moveDirection = Vector2.zero;
+    protected int currentHealth;
+    protected float lastAttackTime = -999f;
+    protected float lastSpecialTime = -999f;
+    protected bool isFacingRight = true;
+    protected Vector2 facingDirection = Vector2.right;
+    protected Vector2 moveDirection = Vector2.zero;
+    protected GameObject projectilePrefab;
 
-    // A* 경로탐색
+    protected int hashIsMoving;
+
     private Path path;
     private int currentWaypoint;
     private bool pathPending;
     private bool isPathfindingActive = false;
-    private bool isChasing = false;
+    protected bool isChasing = false;
 
-    // 패트롤 (이제 절대 멈추지 않음!)
     [Header("패트롤 설정")]
     [SerializeField] private float patrolSpeed = 2.5f;
-    [SerializeField] private float patrolDuration = 3f;        // 몇 초마다 방향 바꿀지
-    [SerializeField] private float patrolRayDistance = 1.5f;    // 벽 감지 거리
+    [SerializeField] private float patrolDuration = 3f;
+    [SerializeField] private float patrolRayDistance = 1.5f;
 
     private Vector2 patrolDirection = Vector2.right;
     private float lastPatrolChangeTime = 0f;
 
-    // 시야
     [Header("시야 설정")]
-    [SerializeField] private float fieldOfViewAngle = 120f;
-    [SerializeField] private bool showFieldOfViewGizmos = true;
-    [SerializeField] private bool showFieldOfViewInGame = true;
+    [SerializeField] private bool showFieldOfViewInGame = false;
     [SerializeField] private LayerMask obstacleLayer = ~0;
 
-    // 원거리 공격
     [Header("원거리 공격")]
     [SerializeField] private bool isRangedEnemy = false;
-    [SerializeField] private GameObject projectilePrefab;
+    [SerializeField] private GameObject projectilePrefab_inspector;
     public float projectileSpeed { get; private set; } = 12f;
 
-    // Flip
-    [SerializeField] private float flipCooldown = 0.2f;
+    [Header("플립 떨림 방지")]
+    [SerializeField] private float flipDelay = 0.15f;
     private float lastFlipTime = 0f;
 
-    // 캐싱된 값
+    [Header("추적 성능")]
+    [SerializeField] private float pathUpdateInterval = 0.15f;
+    private float nextPathUpdateTime = 0f;
+
+    [Header("피격 효과")]
+    [SerializeField] private float hitFlashDuration = 0.2f;
+    [SerializeField] private Color hitFlashColor = new Color(1f, 1f, 1f, 0.6f);
+
+    [Header("거리 유지 설정")]
+    [SerializeField] private float rangedKeepDistance = 3.5f;
+    [SerializeField] private float rangedBackAwaySpeed = 0.6f;
+
+    [Header("혼잡 회피")]
+    [SerializeField] private float pushForce = 2f;
+    [SerializeField] private float pushRadius = 1.5f;
+
+    [Header("공격 설정")]
+    [SerializeField] protected float attackAnimationDuration = 0.6f;
+
+    private Color originalColor;
+    private bool isShowingAttackWarning = false;
+
     private float sqrDetectionRange;
     private float sqrAttackRange;
     private float sqrMeleeMinDistance;
     private float sqrRangedMinDistance;
-    private float sqrSafeAttackDistance;
-
-    private readonly Collider2D[] overlapResults = new Collider2D[10];
+    private float sqrRangedKeepDistance;
 
     protected bool IsSafeToUpdate => enemyData != null && playerTransform != null && enabled;
 
     protected virtual void Start()
     {
         InitializeComponents();
-
-        _conflictingAIPath = GetComponent<AIPath>();
-        if (_conflictingAIPath != null)
-        {
-            _conflictingAIPath.canMove = false;
-            _conflictingAIPath.enabled = false;
-        }
-
         FindPlayer();
-
-        // Player 레이어 시야에서 제외 (이거 없으면 추적 안 됨!)
-        int playerLayerIndex = LayerMask.NameToLayer("Player");
-        if (playerLayerIndex != -1)
-        {
-            obstacleLayer &= ~(1 << playerLayerIndex);
-        }
-
         ValidateEnemyData();
 
         if (IsSafeToUpdate)
         {
             CacheValues();
-            SetupFOVVisualizer();
-            InvokeRepeating(nameof(UpdatePath), 0f, enemyData.pathUpdateInterval);
         }
 
         currentHealth = enemyData.maxHealth;
         lastAttackTime = -enemyData.attackCooldown;
+        lastSpecialTime = -999f;
 
-        // 패트롤 초기화
         lastPatrolChangeTime = Time.time;
         patrolDirection = Random.insideUnitCircle.normalized;
+        
+        if (spriteRenderer != null)
+            originalColor = spriteRenderer.color;
     }
 
     protected virtual void Update()
@@ -118,27 +116,36 @@ public abstract class BaseEnemy : MonoBehaviour
             Patrol();
             ApplyMovement();
             UpdateFacingAndFlip();
+            PushAwayFromEnemies();
             return;
         }
 
-        float sqrDistToPlayer = Vector2.SqrMagnitude((Vector2)playerTransform.position - (Vector2)transform.position);
+        float sqrDist = Vector2.SqrMagnitude((Vector2)playerTransform.position - (Vector2)transform.position);
 
-        if (sqrDistToPlayer < sqrAttackRange)
+        if (sqrDist < sqrAttackRange)
         {
-            HandleAttackRange(sqrDistToPlayer);
+            HandleAttackRange(sqrDist);
         }
-        else if (IsPlayerInSight() && sqrDistToPlayer < sqrDetectionRange)
+        else if (sqrDist < sqrDetectionRange)
         {
-            HandleChaseRange();
+            HandleChaseRange(sqrDist);
         }
         else
         {
+            isChasing = false;
+            DisablePathfinding();
             Patrol();
         }
 
         ApplyMovement();
         UpdateFacingAndFlip();
-        UpdateFOVVisualizer();
+        PushAwayFromEnemies();
+
+        if (isChasing && Time.time > nextPathUpdateTime)
+        {
+            UpdatePathNow();
+            nextPathUpdateTime = Time.time + pathUpdateInterval;
+        }
     }
 
     private void InitializeComponents()
@@ -147,9 +154,12 @@ public abstract class BaseEnemy : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         rb = GetComponent<Rigidbody2D>();
         seeker = GetComponent<Seeker>();
+        projectilePrefab = projectilePrefab_inspector;
+
+        hashIsMoving = Animator.StringToHash("isMoving");
 
         rb.gravityScale = 0f;
-        rb.linearDamping = 8f;
+        rb.linearDamping = 4f;
         rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
         rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
     }
@@ -168,10 +178,10 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         sqrDetectionRange = enemyData.detectionRange * enemyData.detectionRange;
         sqrAttackRange = enemyData.attackRange * enemyData.attackRange;
-
-        sqrMeleeMinDistance = Mathf.Pow(Mathf.Max(0.3f, enemyData.attackRange - 0.4f), 2);
-        sqrRangedMinDistance = Mathf.Pow(Mathf.Max(1f, enemyData.attackRange * 0.7f), 2);
-        sqrSafeAttackDistance = Mathf.Pow(enemyData.attackRange * 1.2f, 2);
+        
+        sqrMeleeMinDistance = Mathf.Pow(enemyData.attackRange * 0.7f, 2);
+        sqrRangedMinDistance = Mathf.Pow(rangedKeepDistance * 0.8f, 2);
+        sqrRangedKeepDistance = Mathf.Pow(rangedKeepDistance, 2);
     }
 
     private void ValidateEnemyData()
@@ -183,54 +193,72 @@ public abstract class BaseEnemy : MonoBehaviour
         }
     }
 
-    private bool IsPlayerInSight()
-    {
-        if (playerTransform == null) return false;
-
-        Vector2 toPlayer = playerTransform.position - transform.position;
-        float dist = toPlayer.magnitude;
-
-        if (dist > enemyData.detectionRange) return false;
-
-        toPlayer.Normalize();
-        if (Vector2.Angle(facingDirection, toPlayer) > fieldOfViewAngle / 2f) return false;
-
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, toPlayer, dist, obstacleLayer);
-        return hit.collider == null;
-    }
-
     private void HandleAttackRange(float sqrDist)
     {
-        DisablePathfinding();
-        Idle();
-
-        float minDist = isRangedEnemy ? sqrRangedMinDistance : sqrMeleeMinDistance;
-        if (sqrDist < minDist)
+        isChasing = true;
+        
+        if (isRangedEnemy)
         {
-            BackAwayFromPlayer();
-            return;
+            if (sqrDist < sqrRangedMinDistance)
+            {
+                DisablePathfinding();
+                BackAwayFromPlayer(rangedBackAwaySpeed);
+            }
+            else if (sqrDist < sqrRangedKeepDistance)
+            {
+                DisablePathfinding();
+                Idle();
+            }
+            else
+            {
+                EnablePathfinding();
+                MoveTowardPlayer();
+            }
+        }
+        else
+        {
+            if (sqrDist < sqrMeleeMinDistance)
+            {
+                DisablePathfinding();
+                BackAwayFromPlayer(enemyData.moveSpeed * 0.5f);
+            }
+            else
+            {
+                DisablePathfinding();
+                Idle();
+            }
         }
 
-        if (Time.time - lastAttackTime < enemyData.attackCooldown || IsAnimatorPlaying("Attack"))
-            return;
-
-        Attack();
+        if (Time.time - lastAttackTime >= enemyData.attackCooldown)
+        {
+            AttackWithWarning();
+        }
     }
 
-    private void HandleChaseRange()
+    private void HandleChaseRange(float sqrDist)
     {
         isChasing = true;
         EnablePathfinding();
-        MoveTowardPlayer();
+
+        if (isRangedEnemy && sqrDist > sqrRangedKeepDistance)
+        {
+            MoveTowardPlayer();
+        }
+        else if (!isRangedEnemy)
+        {
+            MoveTowardPlayer();
+        }
+        else
+        {
+            Idle();
+        }
     }
 
-    // 진짜 핵심: 이 Patrol()이 문제였음 → 이제 완벽하게 고침
     private void Patrol()
     {
         DisablePathfinding();
         isChasing = false;
 
-        // 1. 벽 감지 → 방향만 바꾸고 타이머는 그대로
         Vector2 rayOrigin = (Vector2)transform.position + patrolDirection * 0.6f;
         if (Physics2D.Raycast(rayOrigin, patrolDirection, patrolRayDistance, obstacleLayer))
         {
@@ -238,15 +266,13 @@ public abstract class BaseEnemy : MonoBehaviour
             return;
         }
 
-        // 2. 일정 시간마다 자연스럽게 방향 전환
         if (Time.time - lastPatrolChangeTime >= patrolDuration)
         {
             ChangePatrolDirection();
-            lastPatrolChangeTime = Time.time;  // 여기서만 갱신
+            lastPatrolChangeTime = Time.time;
             return;
         }
 
-        // 3. 계속 걷기 (절대 멈추지 않음)
         moveDirection = patrolDirection.normalized;
     }
 
@@ -275,7 +301,7 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         if (isPathfindingActive || seeker == null) return;
         isPathfindingActive = true;
-        seeker.StartPath(transform.position, playerTransform.position, OnPathComplete);
+        UpdatePathNow();
     }
 
     private void DisablePathfinding()
@@ -283,11 +309,9 @@ public abstract class BaseEnemy : MonoBehaviour
         isPathfindingActive = false;
     }
 
-    private void UpdatePath()
+    private void UpdatePathNow()
     {
-        if (!isPathfindingActive || pathPending || seeker == null) return;
-        if (!IsPlayerInSight()) return;
-
+        if (seeker == null || playerTransform == null || pathPending) return;
         pathPending = true;
         seeker.StartPath(transform.position, playerTransform.position, OnPathComplete);
     }
@@ -304,7 +328,9 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected void MoveTowardPlayer()
     {
-        if (path == null || path.vectorPath.Count == 0)
+        if (playerTransform == null) return;
+
+        if (path == null || path.vectorPath.Count == 0 || pathPending)
         {
             moveDirection = ((Vector2)playerTransform.position - (Vector2)transform.position).normalized;
             return;
@@ -312,7 +338,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
         if (currentWaypoint >= path.vectorPath.Count)
         {
-            moveDirection = Vector2.zero;
+            moveDirection = ((Vector2)playerTransform.position - (Vector2)transform.position).normalized;
             return;
         }
 
@@ -330,7 +356,7 @@ public abstract class BaseEnemy : MonoBehaviour
         if (rb == null) return;
 
         bool moving = moveDirection.sqrMagnitude > 0.01f;
-        animator?.SetBool("isMoving", moving);
+        animator?.SetBool(hashIsMoving, moving);
 
         float speed = isChasing ? enemyData.moveSpeed : patrolSpeed;
         rb.linearVelocity = moving ? moveDirection * speed : Vector2.zero;
@@ -338,65 +364,118 @@ public abstract class BaseEnemy : MonoBehaviour
 
     private void UpdateFacingAndFlip()
     {
-        if (moveDirection.sqrMagnitude > 0.01f)
+        Vector2 targetDirection;
+        if (moveDirection.sqrMagnitude < 0.01f && playerTransform != null)
         {
-            facingDirection = moveDirection;
-            if (Time.time - lastFlipTime > flipCooldown)
-            {
-                bool faceRight = moveDirection.x > 0;
-                if (isFacingRight != faceRight)
-                {
-                    isFacingRight = faceRight;
-                    spriteRenderer.flipX = !faceRight;
-                    lastFlipTime = Time.time;
-                }
-            }
+            targetDirection = ((Vector2)playerTransform.position - (Vector2)transform.position).normalized;
+        }
+        else
+        {
+            targetDirection = moveDirection.normalized;
+        }
+
+        if (targetDirection.sqrMagnitude < 0.01f) return;
+
+        facingDirection = targetDirection;
+
+        if (Time.time - lastFlipTime < flipDelay) return;
+
+        bool shouldFaceRight = facingDirection.x > 0.15f;
+        bool shouldFaceLeft = facingDirection.x < -0.15f;
+
+        if (shouldFaceRight && !isFacingRight)
+        {
+            isFacingRight = true;
+            spriteRenderer.flipX = false;
+            lastFlipTime = Time.time;
+        }
+        else if (shouldFaceLeft && isFacingRight)
+        {
+            isFacingRight = false;
+            spriteRenderer.flipX = true;
+            lastFlipTime = Time.time;
         }
     }
 
-    private void BackAwayFromPlayer()
+    private void PushAwayFromEnemies()
     {
-        moveDirection = ((Vector2)transform.position - (Vector2)playerTransform.position).normalized;
+        if (rb == null) return;
+
+        Collider2D[] nearbyEnemies = Physics2D.OverlapCircleAll(
+            transform.position,
+            pushRadius,
+            LayerMask.GetMask("Enemy"));
+
+        foreach (var enemy in nearbyEnemies)
+        {
+            if (enemy.gameObject == gameObject) continue;
+
+            BaseEnemy otherEnemy = enemy.GetComponent<BaseEnemy>();
+            if (otherEnemy == null) continue;
+
+            Vector2 pushDirection = ((Vector2)transform.position - (Vector2)enemy.transform.position).normalized;
+            rb.linearVelocity += pushDirection * pushForce * Time.deltaTime;
+        }
+    }
+
+    private void BackAwayFromPlayer(float speed = -1f)
+    {
+        if (speed < 0) speed = enemyData.moveSpeed * 0.5f;
+        
+        Vector2 awayDirection = ((Vector2)transform.position - (Vector2)playerTransform.position).normalized;
+        moveDirection = awayDirection;
+        
+        if (rb != null)
+        {
+            rb.linearVelocity = awayDirection * speed;
+        }
     }
 
     protected virtual void Idle() => moveDirection = Vector2.zero;
 
-    private bool IsAnimatorPlaying(string name)
+    private void AttackWithWarning()
     {
-        return animator != null && animator.GetCurrentAnimatorStateInfo(0).IsName(name) &&
-               animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f;
+        lastAttackTime = Time.time;
+        StartCoroutine(AttackWarningSequence());
+    }
+
+    private IEnumerator AttackWarningSequence()
+    {
+        isShowingAttackWarning = true;
+        Attack();
+
+        yield return new WaitForSeconds(attackAnimationDuration);
+
+        ApplyAttackDamage();
+
+        isShowingAttackWarning = false;
     }
 
     protected virtual void Attack()
     {
-        if (Time.time - lastAttackTime < enemyData.attackCooldown) return;
-        lastAttackTime = Time.time;
-        animator?.SetTrigger("Attack");
-        PerformAttack();
+        // 서브클래스에서 오버라이드
     }
 
-    protected virtual void PerformAttack()
+    protected virtual void ApplyAttackDamage()
     {
-        if (isRangedEnemy && projectilePrefab != null)
+        if (playerTransform == null) return;
+
+        float distToPlayer = Vector2.Distance(transform.position, playerTransform.position);
+        
+        if (distToPlayer <= enemyData.attackRange * 1.2f)
         {
-            Vector2 dir = (playerTransform.position - transform.position).normalized;
-            var proj = Instantiate(projectilePrefab, transform.position + (Vector3)dir * 0.5f, Quaternion.identity);
-            proj.GetComponent<Projectile>()?.Launch(dir, enemyData.attackDamage, projectileSpeed);
-        }
-        else
-        {
-            var hits = Physics2D.OverlapCircleAll(transform.position, enemyData.attackRange, LayerMask.GetMask("Player"));
-            foreach (var hit in hits)
+            if (playerHealth != null)
             {
-                if (hit.CompareTag("Player") && playerHealth != null)
-                {
-                    playerHealth.OnDamaged(enemyData.attackDamage);
-                }
+                playerHealth.OnDamaged(enemyData.attackDamage);
             }
         }
     }
 
-    // 이거 없으면 Boar, Bomb, Skeleton, Slime 다 에러남
+    protected virtual void PerformAttack()
+    {
+        // 서브클래스에서 구현
+    }
+
     protected bool TryDamagePlayer(int damage)
     {
         if (playerHealth != null)
@@ -410,13 +489,25 @@ public abstract class BaseEnemy : MonoBehaviour
     public virtual void TakeDamage(float damage)
     {
         currentHealth -= Mathf.RoundToInt(damage);
-        animator?.SetTrigger("Hurt");
+        StartCoroutine(HitFlash());
+
         if (currentHealth <= 0) Die();
+    }
+
+    private IEnumerator HitFlash()
+    {
+        if (spriteRenderer == null) yield break;
+        Color original = spriteRenderer.color;
+        
+        spriteRenderer.color = hitFlashColor;
+        
+        yield return new WaitForSeconds(hitFlashDuration);
+        
+        spriteRenderer.color = original;
     }
 
     protected virtual void Die()
     {
-        animator?.SetTrigger("Die");
         DisablePathfinding();
         rb.linearVelocity = Vector2.zero;
         rb.bodyType = RigidbodyType2D.Static;
@@ -424,40 +515,21 @@ public abstract class BaseEnemy : MonoBehaviour
         Destroy(gameObject, 2f);
     }
 
-    private void SetupFOVVisualizer()
-    {
-        if (!showFieldOfViewInGame) return;
-        var obj = new GameObject("FOV");
-        obj.transform.SetParent(transform, false);
-        lineRenderer = obj.AddComponent<LineRenderer>();
-        lineRenderer.positionCount = 21;
-        lineRenderer.startWidth = lineRenderer.endWidth = 0.05f;
-        lineRenderer.material = new Material(Shader.Find("Sprites/Default"));
-        lineRenderer.startColor = new Color(0f, 1f, 1f, 0.4f);
-        lineRenderer.endColor = new Color(0f, 1f, 1f, 0f);
-        lineRenderer.loop = true;
-    }
-
-    private void UpdateFOVVisualizer()
-    {
-        if (!lineRenderer) return;
-        float half = fieldOfViewAngle / 2f;
-        for (int i = 0; i < 21; i++)
-        {
-            float angle = Mathf.Lerp(-half, half, i / 20f) * Mathf.Deg2Rad;
-            Vector2 dir = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle)) * (enemyData?.detectionRange ?? 5f);
-            lineRenderer.SetPosition(i, transform.position + transform.TransformDirection(dir));
-        }
-    }
-
     protected virtual void OnDrawGizmosSelected()
     {
         if (enemyData == null) return;
+        
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, enemyData.detectionRange);
+        
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, enemyData.attackRange);
+
+        Gizmos.color = Color.cyan;
+        Gizmos.DrawWireSphere(transform.position, 1.5f);
     }
+
+    public bool IsShowingAttackWarning => isShowingAttackWarning;
 
     protected Transform GetPlayerTransform() => playerTransform;
     protected Animator GetAnimator() => animator;

@@ -1,83 +1,104 @@
-using System.Collections;
 using UnityEngine;
 
 public class SlimeEnemy : BaseEnemy
 {
-    [SerializeField] private GameObject acidBlobPrefab;
-
-    private float lastAbilityTime = -999f;
+    private int hashIsAbility;
+    private bool isAttacking = false;
 
     protected override void Start()
     {
         base.Start();
+        hashIsAbility = Animator.StringToHash("isAbility");
+        
+        Debug.Log($"{name}: SlimeEnemy 원거리 공격 활성화!");
     }
 
+    // ✅ 수정: BaseEnemy에서 호출되지 않으면 직접 공격 시도
     protected override void Update()
     {
-        if (GetPlayerTransform() == null) return;
-
-        float sqrDistToPlayer = ((Vector2)transform.position -
-            (Vector2)GetPlayerTransform().position).sqrMagnitude;
-
-        float sqrAbilityRange = GetEnemyData().specialAbilityRange *
-            GetEnemyData().specialAbilityRange;
-
-        if (sqrDistToPlayer < sqrAbilityRange &&
-            Time.time - lastAbilityTime > GetEnemyData().specialAbilityCooldown)
+        base.Update();
+        
+        // ✅ 추가 디버그: 공격 시도 상태 확인
+        if (!isAttacking && GetPlayerTransform() != null)
         {
-            CastAbility();
+            float distToPlayer = Vector2.Distance(transform.position, GetPlayerTransform().position);
+            
+            if (distToPlayer <= GetEnemyData().attackRange)
+            {
+                Debug.Log($"{name}: 공격 범위 내! 거리: {distToPlayer}, 공격 범위: {GetEnemyData().attackRange}");
+            }
+        }
+    }
+
+    protected override void Attack()
+    {
+        Debug.Log($"{name}: Attack() 호출됨");
+        isAttacking = true;
+        animator?.SetBool(hashIsAbility, true);
+        PerformAttack();
+    }
+
+    // ✅ 원거리 공격: 발사체 발사
+    protected override void PerformAttack()
+    {
+        Debug.Log($"{name}: PerformAttack() 호출됨");
+        LaunchAcidProjectile();
+    }
+
+    protected override void ApplyAttackDamage()
+    {
+        Debug.Log($"{name}: ApplyAttackDamage() 호출됨");
+        // 슬라임은 발사체로 데미지를 주므로 여기서는 스킵
+        animator?.SetBool(hashIsAbility, false);
+        isAttacking = false;
+    }
+
+    // ✅ 산성 발사체 발사
+    private void LaunchAcidProjectile()
+    {
+        if (projectilePrefab == null)
+        {
+            Debug.LogError($"{name}: projectilePrefab이 없습니다! Inspector에서 Projectile Prefab을 할당하세요!");
             return;
         }
 
-        base.Update();
-    }
-
-    private void CastAbility()
-    {
-        lastAbilityTime = Time.time;
-        if (GetAnimator() != null)
-            GetAnimator().SetBool("isAbility", true);
-
-        StartCoroutine(ShootCoroutine());
-    }
-
-    private IEnumerator ShootCoroutine()
-    {
-        yield return new WaitForSeconds(0.5f);
         if (GetPlayerTransform() == null)
         {
-            if (GetAnimator() != null)
-                GetAnimator().SetBool("isAbility", false);
-            yield break;
+            Debug.LogError($"{name}: 플레이어를 찾을 수 없습니다!");
+            return;
         }
-        Vector2 shootDir = ((Vector2)GetPlayerTransform().position - (Vector2)transform.position).normalized;
-        if (acidBlobPrefab != null)
+
+        Vector2 direction = (GetPlayerTransform().position - transform.position).normalized;
+        Vector3 spawnPosition = transform.position + (Vector3)direction * 1.2f;
+        
+        Debug.Log($"{name}: 발사체 발사! 방향: {direction}");
+        
+        GameObject projectileObj = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
+        
+        Projectile projectile = projectileObj.GetComponent<Projectile>();
+        if (projectile != null)
         {
-            GameObject blob = Instantiate(acidBlobPrefab,
-                transform.position + (Vector3)shootDir * 0.5f,
-                Quaternion.identity);
-            if (blob.TryGetComponent<Projectile>(out var projectile))
-            {
-                projectile.Launch(shootDir, GetEnemyData().specialAbilityDamage, projectileSpeed);
-            }
+            Debug.Log($"{name}: Projectile 발사 성공! 데미지: {GetEnemyData().attackDamage}");
+            projectile.Launch(direction, GetEnemyData().attackDamage, projectileSpeed);
         }
-        yield return new WaitForSeconds(0.5f);
-        if (GetAnimator() != null)
-            GetAnimator().SetBool("isAbility", false);
+        else
+        {
+            Debug.LogError($"{name}: Projectile 스크립트가 없습니다!");
+            Destroy(projectileObj);
+        }
     }
 
-    protected override void PerformAttack()
+    public override void TakeDamage(float damage)
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(
-            transform.position,
-            GetEnemyData().attackRange);
+        base.TakeDamage(damage);
+        if (GetAnimator() != null)
+            GetAnimator().SetTrigger("isHurt");
+    }
 
-        foreach (var hit in hits)
-        {
-            if (hit.CompareTag("Player"))
-            {
-                TryDamagePlayer(GetEnemyData().attackDamage);
-            }
-        }
+    protected override void Die()
+    {
+        if (GetAnimator() != null)
+            GetAnimator().SetTrigger("isDead");
+        base.Die();
     }
 }

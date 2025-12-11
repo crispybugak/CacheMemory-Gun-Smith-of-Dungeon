@@ -13,11 +13,9 @@ GameObject:
   - component: {fileID: 5649916165539738465}
   - component: {fileID: 262735523271664381}
   - component: {fileID: 8385654004185257650}
-  - component: {fileID: 7539716096814680116}
-  - component: {fileID: 4838302107360672305}
   - component: {fileID: 3468795393923472312}
   - component: {fileID: 5290951875205479727}
-  m_Layer: 0
+  m_Layer: 15
   m_Name: Bomber_
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -185,49 +183,6 @@ MonoBehaviour:
   tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
   graphMask:
     value: -1
---- !u!114 &7539716096814680116
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5405132748367135438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 847a14d4dc9cc43679ab34fc78e0182f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 4
-  autoRepath:
-    mode: 2
-    interval: 0.5
-    sensitivity: 10
-    maximumInterval: 3
-    visualizeSensitivity: 0
-  canMove: 1
-  speed: 3
-  orientation: 1
-  enableRotation: 0
-  rotationSpeed: 10
-  interpolatePathSwitches: 1
-  switchPathInterpolationSpeed: 5
-  targetCompatibility: {fileID: 0}
-  repathRateCompatibility: NaN
-  canSearchCompability: 0
---- !u!114 &4838302107360672305
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5405132748367135438}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c9679e68a0f1144e79c664d9a11ca121, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  version: 1
-  target: {fileID: 0}
 --- !u!95 &3468795393923472312
 Animator:
   serializedVersion: 7
@@ -263,14 +218,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   enemyData: {fileID: 11400000, guid: 2939f78676feed941b8dc3f98b3371b6, type: 2}
-  flipCooldown: 0.1
-  fieldOfViewAngle: 90
-  showFieldOfViewGizmos: 1
+  patrolSpeed: 2.5
+  patrolDuration: 0.5
+  patrolRayDistance: 2
   showFieldOfViewInGame: 1
   obstacleLayer:
     serializedVersion: 2
     m_Bits: 64
   isRangedEnemy: 0
   projectilePrefab: {fileID: 0}
-  patrolDuration: 0.5
-  patrolRayDistance: 2
+  flipDelay: 0.15
+  pathUpdateInterval: 0.15
+  hitFlashDuration: 0.2
+  hitFlashColor: {r: 1, g: 1, b: 1, a: 0.6}
+  rangedKeepDistance: 3.5
+  rangedBackAwaySpeed: 0.6

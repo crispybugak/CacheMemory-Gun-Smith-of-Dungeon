@@ -1,90 +1,61 @@
-using System.Collections;
 using UnityEngine;
-using Pathfinding;
+using System.Collections;
 
 public class BoarEnemy : BaseEnemy
 {
-    private bool isSleeping;
-    private float sleepTimer;
-
-    private AIPath _aiPath;
+    private int hashIsAttacking;
+    private int hashIsSleeping;
+    private bool isSleeping = false;
 
     protected override void Start()
     {
         base.Start();
-        _aiPath = GetComponent<AIPath>();
+        hashIsAttacking = Animator.StringToHash("isAttacking");
+        hashIsSleeping = Animator.StringToHash("isSleeping");
     }
 
-    protected override void Update()
+    protected override void Attack()
     {
-        if (isSleeping)
-        {
-            sleepTimer -= Time.deltaTime;
-            if (sleepTimer <= 0)
-            {
-                WakeUp();
-            }
-            return;
-        }
-
-        base.Update();
+        if (isSleeping) return;
+        
+        animator?.SetBool(hashIsSleeping, false);
+        animator?.SetBool(hashIsAttacking, true);
+        PerformAttack();
     }
 
     protected override void PerformAttack()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(
-            transform.position,
-            GetEnemyData().attackRange);
-
-        foreach (var hit in hits)
-        {
-            if (hit.CompareTag("Player"))
-            {
-                TryDamagePlayer((int)(GetEnemyData().attackDamage * 1.6f));
-
-                if (!isSleeping)
-                {
-                    Sleep();
-                }
-            }
-        }
+        // 돌진 공격 로직 (필요시 추가)
     }
 
-    private void Sleep()
+    protected override void ApplyAttackDamage()
     {
+        base.ApplyAttackDamage();
+        animator?.SetBool(hashIsAttacking, false);
+        StartCoroutine(SleepAfterAttack());
+    }
+
+    private IEnumerator SleepAfterAttack()
+    {
+        yield return new WaitForSeconds(0.5f);
+        animator?.SetBool(hashIsSleeping, true);
         isSleeping = true;
-        sleepTimer = GetEnemyData().sleepDuration;
-
-        if (_aiPath != null)
-        {
-            _aiPath.canMove = false;
-        }
-
-        if (GetAnimator() != null)
-        {
-            GetAnimator().SetBool("isSleeping", true);
-            GetAnimator().SetTrigger("sleepTransition");
-        }
-    }
-
-    private void WakeUp()
-    {
+        yield return new WaitForSeconds(GetEnemyData().sleepDuration);
+        animator?.SetBool(hashIsSleeping, false);
         isSleeping = false;
-
-        if (_aiPath != null)
-        {
-            _aiPath.canMove = true;
-        }
-
-        if (GetAnimator() != null)
-            GetAnimator().SetBool("isSleeping", false);
     }
 
-    public void TakeDamage(float damage)
+    public override void TakeDamage(float damage)
     {
-        if (isSleeping)
-            damage *= 1.5f;
-
         base.TakeDamage(damage);
+        if (GetAnimator() != null)
+            GetAnimator().SetTrigger("isHurt");
+    }
+
+    protected override void Die()
+    {
+        if (GetAnimator() != null)
+            GetAnimator().SetTrigger("isDead");
+        base.Die();
     }
 }

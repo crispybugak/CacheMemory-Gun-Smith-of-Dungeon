@@ -6,7 +6,6 @@ public class Projectile : MonoBehaviour
     private Rigidbody2D rb;
     private float damage;
     private bool isLaunched;
-
     private void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
@@ -17,12 +16,10 @@ public class Projectile : MonoBehaviour
             rb.constraints = RigidbodyConstraints2D.FreezeRotation;
         }
     }
-
     private void Start()
     {
         Destroy(gameObject, lifetime);
     }
-
     public void Launch(Vector2 direction, float dmg, float speed)
     {
         direction = direction.normalized;
@@ -38,7 +35,6 @@ public class Projectile : MonoBehaviour
         transform.rotation = Quaternion.AngleAxis(angle, Vector3.forward);
         // Debug.Log($"[Projectile] 발사! 속도: {speed}, 속력: {rb.linearVelocity}");
     }
-
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (!isLaunched) return;

@@ -14,13 +14,11 @@ public class RandomEnemySpawner : MonoBehaviour
     [SerializeField] private int enemyCount = 10;
     [SerializeField] private float spawnRadius = 10f;
     [SerializeField] private Vector2 spawnAreaCenter = Vector2.zero;
-
     private void Start()
     {
         spawnAreaCenter = transform.position; // 스포너 위치 중심
         SpawnEnemies();
     }
-
     private void SpawnEnemies()
     {
         if (spawnableEnemies == null || spawnableEnemies.Count == 0)
@@ -39,7 +37,6 @@ public class RandomEnemySpawner : MonoBehaviour
             }
         }
     }
-
     private EnemySpawnData GetRandomEnemy()
     {
         int total = 0;
@@ -58,7 +55,6 @@ public class RandomEnemySpawner : MonoBehaviour
         }
         return spawnableEnemies[0];
     }
-
     private Vector2 GetRandomSpawnPosition()
     {
         return spawnAreaCenter + Random.insideUnitCircle.normalized * Random.Range(spawnRadius * 0.7f, spawnRadius);
