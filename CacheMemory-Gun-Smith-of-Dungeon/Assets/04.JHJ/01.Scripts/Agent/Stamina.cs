@@ -3,6 +3,7 @@
 public class Stamina : MonoBehaviour
 {
     [field: SerializeField] public AgentStaminaSO AgentStaminaData { get; private set; }
+
     [Header("SO")]
     public float DefaultSpeed => AgentStaminaData._defaultSpeed;
     public float RunSpeed => AgentStaminaData._runSpeed;
@@ -17,12 +18,12 @@ public class Stamina : MonoBehaviour
     [field: SerializeField] public float _currentMaxStamina { get; private set; }
     [field: SerializeField] public float _currentStamina { get; private set; }
     [field: SerializeField] public float _backStamina { get; private set; }
-    
+
     [Header("패시브 보너스")]
     [field: SerializeField] public float bonusMaxStamina { get; private set; }
 
     bool _isMove;
-    bool _runRequested;                    // _ 달리기 키 입력 상태
+    bool _runRequested;                    // 달리기 키 입력 상태
     public bool _isRunning { get; private set; }  // 실제로 달리는 상태
 
     private AgentMovement _agentMovement;
@@ -36,18 +37,11 @@ public class Stamina : MonoBehaviour
         _agentMovement = GetComponent<AgentMovement>();
         _agent = GetComponent<Agent>();
     }
-    
+
     private void OnEnable()
     {
-        lastUseStaminaTime = 0f;
-
-        // ★ 처음 켜질 때는 항상 꽉 찬 상태
-        _currentMaxStamina = MaxStaminaWithPassive;
-        _currentStamina = _currentMaxStamina;
-        _backStamina = _currentMaxStamina;
-
-        if (_staminaUI != null)
-            _staminaUI.UpdateUI();
+        // ★ SO / 패시브 기준으로 스태미나 수치 초기화
+        InitFromSO();
     }
 
     private void Start()
@@ -58,31 +52,46 @@ public class Stamina : MonoBehaviour
 
     private void Update()
     {
-        _isMove = _agent.RidCompo.linearVelocity.sqrMagnitude > 0.1f;      
+        _isMove = _agent.RidCompo.linearVelocity.sqrMagnitude > 0.1f;
 
         bool canRun =
-            _runRequested &&                                              
-            _isMove &&                                                    
-            _currentStamina > 0f;                                        
+            _runRequested &&
+            _isMove &&
+            _currentStamina > 0f;
 
-        _isRunning = canRun;                                             
+        _isRunning = canRun;
 
-        if (canRun)                                                      
+        if (canRun)
         {
-            _agentMovement.MoveSpeed = RunSpeed;                          
-            UseStamina();                                                 
+            _agentMovement.MoveSpeed = RunSpeed;
+            UseStamina();
         }
-        else                                                              
+        else
         {
-            _agentMovement.MoveSpeed = DefaultSpeed;                     
-            RechargeStamina();                                            
+            _agentMovement.MoveSpeed = DefaultSpeed;
+            RechargeStamina();
         }
     }
-    
+
+    // ★ 세이브 로드 후에도 호출할 수 있는 초기화 함수
+    //    - AgentStaminaSO 값이 바뀐 뒤에 다시 최대/현재 스태미나를 맞춰줄 때 사용
+    public void InitFromSO()
+    {
+        lastUseStaminaTime = 0f;
+
+        // 처음 켜질 때는 항상 꽉 찬 상태
+        _currentMaxStamina = MaxStaminaWithPassive;
+        _currentStamina = _currentMaxStamina;
+        _backStamina = _currentMaxStamina;
+
+        if (_staminaUI != null)
+            _staminaUI.UpdateUI();
+    }
+
     private void UseStamina()
     {
-        lastUseStaminaTime = 0f;                                         
-        _currentStamina -= UseStaminaGage * Time.deltaTime;               
+        lastUseStaminaTime = 0f;
+        _currentStamina -= UseStaminaGage * Time.deltaTime;
 
         if (_backStamina > _currentStamina)
         {
@@ -109,7 +118,7 @@ public class Stamina : MonoBehaviour
             {
                 _currentStamina += RechargeSpeed * Time.deltaTime;
 
-                // ★ 이제는 baseMax가 아니라 패시브 포함 최대치까지 회복
+                // 이제는 baseMax가 아니라 패시브 포함 최대치까지 회복
                 if (_backStamina < MaxStaminaWithPassive)
                     _backStamina += BackBarRechargeSpeed * Time.deltaTime;
             }
@@ -122,7 +131,7 @@ public class Stamina : MonoBehaviour
 
     public void SetRunning(bool isRunning)
     {
-        _runRequested = isRunning;                                       
+        _runRequested = isRunning;
     }
 
     public void AddBonusMaxStamina(float amount)
@@ -137,5 +146,4 @@ public class Stamina : MonoBehaviour
         if (_staminaUI != null)
             _staminaUI.UpdateUI();
     }
-
 }

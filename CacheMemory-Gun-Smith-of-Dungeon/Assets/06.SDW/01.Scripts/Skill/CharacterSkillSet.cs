@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Skill;
+
 public class CharacterSkillSet : MonoBehaviour, ICharacterSet
 {
     [Header("참조")]
@@ -17,8 +18,7 @@ public class CharacterSkillSet : MonoBehaviour, ICharacterSet
     {
         if (agent == null) agent = GetComponent<Agent>();
 
-        if (skillData is ISkill s)
-            _skill1 = s;
+        InitSkillFromSO();
     }
 
     private void OnEnable()
@@ -31,6 +31,20 @@ public class CharacterSkillSet : MonoBehaviour, ICharacterSet
     {
         if (agent != null && agent.MovementSOCompo != null)
             agent.MovementSOCompo.OnSkillPressed -= UseSkill;
+    }
+
+    private void InitSkillFromSO()
+    {
+        if (skillData is ISkill s)
+            _skill1 = s;
+        else
+            _skill1 = null;
+    }
+
+    public void SetSkill(SkillSO newSkill)
+    {
+        skillData = newSkill;
+        InitSkillFromSO();
     }
 
     // ICharacterSet 구현 - 스킬 사용
@@ -55,9 +69,8 @@ public class CharacterSkillSet : MonoBehaviour, ICharacterSet
         _isCastingSkill1 = false;
     }
 
-    // ICharacterSet 구현 - 패시브
     public void Passive()
     {
-        // 나중에 패시브 2개 연결하는 자리
+
     }
 }
