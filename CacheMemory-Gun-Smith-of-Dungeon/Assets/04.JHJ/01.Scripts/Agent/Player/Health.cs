@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 using Random = UnityEngine.Random;
-using TMPro;
+using UnityEngine.Events;
 
 public class Health : MonoBehaviour, IGetDamage
 {
@@ -19,10 +19,19 @@ public class Health : MonoBehaviour, IGetDamage
     // 기본 + 패시브 합친 실제 최대 체력
     public float Maxhealth => HealthData.Maxhealth + bonusMaxHealth;
 
+    private Dead _dead;
+    public UnityEvent OnDead;
+
     // (아래쪽에 있을 이벤트 / 나머지 필드는 그대로)
     public event Action OnDamagedPlayer;
     public event Action OnHealing;
 
+
+
+    private void Awake()
+    {
+        _dead = GetComponent<Dead>();
+    }
     private void OnEnable()
     {
         lastDamagedTime = 0f;
@@ -44,7 +53,7 @@ public class Health : MonoBehaviour, IGetDamage
         if (collision.gameObject.CompareTag("Wall"))
         {
             Camera.main.GetComponent<CameraShake>().ShakeCamera(0.2f,0.1f);
-            GameManager.Instance.HitTimeScaleCT();
+            GameManager.Instance.HitTimeScale();
             float randomDamage = Random.Range(1, 30);
             OnDamaged(randomDamage);
         }  
@@ -76,6 +85,11 @@ public class Health : MonoBehaviour, IGetDamage
         StopAllCoroutines();
         StartCoroutine(HealingHpCT());
 
+        if (CurrentHealth <= 0)
+        {
+            _dead.PlayerDead(gameObject);
+            OnDead?.Invoke();
+        }
     }
     
     public void AddBonusMaxHealth(float amount)
