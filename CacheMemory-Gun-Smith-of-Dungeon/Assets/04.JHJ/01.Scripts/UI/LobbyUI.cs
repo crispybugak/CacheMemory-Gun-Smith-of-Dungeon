@@ -17,18 +17,15 @@ public class LobbyUI : MonoBehaviour
     public Image Ria;
     public Image Rin;
     public Button playBtn;
-    public Button playExitBtn;
 
     [Header("B. Settings Panel")]
     public Image optionPanel;
     public Button optionBtn;
-    public Button optionExitBtn;
 
     [Header("D.Game Exit Panel")]
-    public TextMeshProUGUI _text;
     public Image GameExitPanel;
     public Button GameExitBtn;
-    public Button GameExitExitBtn;
+    public Image GameExitYesBtn;
 
     private float fadeDuration = 0.2f;
 
@@ -70,6 +67,7 @@ public class LobbyUI : MonoBehaviour
     public void OnClicExitButton()
     {
         OpenExitPanel(GameExitPanel);
+        OpenExitPanel(GameExitYesBtn);
     }
 
     //===============OFF=============//
@@ -85,6 +83,7 @@ public class LobbyUI : MonoBehaviour
     public void OnClickExitButtonExitButton()
     {
         OnClickemptiness(GameExitPanel);
+        OnClickemptiness(GameExitYesBtn);
         Debug.Log("허공이 눌림");
     }
 
