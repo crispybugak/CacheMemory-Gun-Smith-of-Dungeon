@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: Holographic
   m_EditorClassIdentifier: 
   <icon>k__BackingField: {fileID: -8733854437165646556, guid: c4f2c275072f56e4cafa34f4fb52128e, type: 3}
+  <upScaling>k__BackingField: 2
   <itemName>k__BackingField: "\uD640\uB85C\uADF8\uB7A8 \uC870\uC900\uACBD"
-  <mass>k__BackingField: 0
-  type: 0
-  requirePartType: 0
+  type: 6
+  requirePartType: 3
   partDegree: 0
   localPos: {x: 0, y: 0}
-  effects: []
   ingredients: []
