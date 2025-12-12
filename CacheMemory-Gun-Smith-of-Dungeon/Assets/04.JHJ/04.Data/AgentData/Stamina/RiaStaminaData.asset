@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a23642e012365c744af6f4987e99f789, type: 3}
   m_Name: RiaStaminaData
   m_EditorClassIdentifier: 
-  <_useStaminaGage>k__BackingField: 20
+  <_useStaminaGage>k__BackingField: 3
   <_rechargeSpeed>k__BackingField: 7
   <_backFollowStaminaBar>k__BackingField: 0.01
   <_backBarRechargeSpeed>k__BackingField: 1

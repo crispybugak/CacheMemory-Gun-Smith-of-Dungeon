@@ -56,17 +56,6 @@ public class CharacterSkillSet : MonoBehaviour, ICharacterSet
         _isCastingSkill1 = false;
     }
 
-    // === 저장된 스킬 SO를 런타임에 교체 ===
-    public void SetSkill(SkillSO newSkill)
-    {
-        skillData = newSkill;
-
-        if (skillData is ISkill s)
-            _skill1 = s;
-        else
-            _skill1 = null;
-    }
-    
     public void Passive()
     {
     }
