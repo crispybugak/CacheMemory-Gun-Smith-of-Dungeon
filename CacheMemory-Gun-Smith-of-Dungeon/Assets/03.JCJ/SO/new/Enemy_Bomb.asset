@@ -15,7 +15,7 @@ MonoBehaviour:
   moveSpeed: 3
   maxHealth: 25
   detectionRange: 8
-  attackRange: 3.5
+  attackRange: 2.06
   attackCooldown: 2.5
   attackDamage: 15
   pathUpdateInterval: 0.4

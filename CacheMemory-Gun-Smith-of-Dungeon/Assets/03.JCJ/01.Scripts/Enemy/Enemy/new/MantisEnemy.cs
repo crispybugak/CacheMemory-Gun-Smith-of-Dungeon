@@ -18,7 +18,6 @@ public class MentisEnemy : BaseEnemy
 
     protected override void PerformAttack()
     {
-        // 독 공격 로직 (필요시 추가)
     }
 
     protected override void ApplyAttackDamage()

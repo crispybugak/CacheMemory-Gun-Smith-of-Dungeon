@@ -49,7 +49,7 @@ public class SlimeEnemy : BaseEnemy
     {
         if (projectilePrefab == null)
         {
-            Debug.LogError($"{name}: projectilePrefab이 없습니다");
+            Debug.LogError($"{name}: projectilePrefab이 없습니다 Inspector에서 Projectile Prefab을 할당하세요");
             return;
         }
 
@@ -61,22 +61,31 @@ public class SlimeEnemy : BaseEnemy
 
         Vector2 direction = (GetPlayerTransform().position - transform.position).normalized;
         Vector3 spawnPosition = transform.position + (Vector3)direction * 1.2f;
-        
-        Debug.Log($"{name}: 발사체 발사! 방향: {direction}");
-        
-        GameObject projectileObj = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
-        
-        Projectile projectile = projectileObj.GetComponent<Projectile>();
+
+        Projectile projectile = null;
+
+        if (ProjectilePool.Instance != null)
+        {
+            projectile = ProjectilePool.Instance
+                .Get(projectilePrefab, spawnPosition, Quaternion.identity);
+        }
+        else
+        {
+            GameObject projectileObj = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
+            projectile = projectileObj.GetComponent<Projectile>();
+        }
+
         if (projectile != null)
         {
             projectile.Launch(direction, GetEnemyData().attackDamage, projectileSpeed);
         }
         else
         {
-            Debug.LogError($"{name}: Projectile 스크립트가 없습니다!");
-            Destroy(projectileObj);
+            Debug.LogError($"{name}: Projectile 스크립트가 없습니다");
         }
     }
+
+
 
     public override void TakeDamage(float damage)
     {

@@ -18,7 +18,6 @@ public class SkeletonWarriorEnemy : BaseEnemy
 
     protected override void PerformAttack()
     {
-        // 검 휘두르기 로직
     }
 
     protected override void ApplyAttackDamage()

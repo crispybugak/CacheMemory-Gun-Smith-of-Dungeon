@@ -51,11 +51,24 @@ public class NecromancerBoss : BaseEnemy
             return;
         }
 
+        if (GetPlayerTransform() == null) return;
+
         Vector2 direction = (GetPlayerTransform().position - transform.position).normalized;
         Vector3 spawnPosition = transform.position + (Vector3)direction * 1.2f;
-        GameObject projectileObj = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
-        
-        Projectile projectile = projectileObj.GetComponent<Projectile>();
+
+        Projectile projectile = null;
+
+        if (ProjectilePool.Instance != null)
+        {
+            projectile = ProjectilePool.Instance
+                .Get(projectilePrefab, spawnPosition, Quaternion.identity);
+        }
+        else
+        {
+            GameObject projectileObj = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
+            projectile = projectileObj.GetComponent<Projectile>();
+        }
+
         if (projectile != null)
         {
             projectile.Launch(direction, GetEnemyData().specialAbilityDamage, projectileSpeed);
@@ -63,9 +76,10 @@ public class NecromancerBoss : BaseEnemy
         else
         {
             Debug.LogError($"{name}: Projectile 스크립트가 없습니다");
-            Destroy(projectileObj);
         }
     }
+
+
 
     private IEnumerator SpawnMinionAfterAnimation(float delay)
     {

@@ -1,7 +1,9 @@
+using System;
 using UnityEngine;
 using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
+using Random = UnityEngine.Random;
 
 public abstract class BaseEnemy : MonoBehaviour
 {
@@ -13,11 +15,18 @@ public abstract class BaseEnemy : MonoBehaviour
         set { enemyData = value; ValidateEnemyData(); CacheValues(); }
     }
 
+    public int CurrentHealth => currentHealth;
+    public int MaxHealth => enemyData != null ? enemyData.maxHealth : 1;
+
+    public event Action<int, int> OnHealthChanged;
+    public event Action<BaseEnemy> OnDeath;
+
     protected Animator animator;
     protected SpriteRenderer spriteRenderer;
     protected Rigidbody2D rb;
     protected Transform playerTransform;
     protected Health playerHealth;
+    protected Collider2D playerCollider;
     protected Seeker seeker;
 
     protected int currentHealth;
@@ -49,7 +58,7 @@ public abstract class BaseEnemy : MonoBehaviour
     [SerializeField] private LayerMask obstacleLayer = ~0;
 
     [Header("원거리 공격")]
-    [SerializeField] protected bool isRangedEnemy = false; 
+    [SerializeField] protected bool isRangedEnemy = false;
     [SerializeField] private GameObject projectilePrefab_inspector;
     public float projectileSpeed { get; private set; } = 12f;
 
@@ -92,6 +101,12 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected bool IsSafeToUpdate => enemyData != null && playerTransform != null && enabled;
 
+    protected void RaiseHealthChanged()
+    {
+        if (enemyData == null) return;
+        OnHealthChanged?.Invoke(currentHealth, enemyData.maxHealth);
+    }
+
     protected virtual void Start()
     {
         InitializeComponents();
@@ -109,9 +124,11 @@ public abstract class BaseEnemy : MonoBehaviour
 
         lastPatrolChangeTime = Time.time;
         patrolDirection = Random.insideUnitCircle.normalized;
-        
+
         if (spriteRenderer != null)
             originalColor = spriteRenderer.color;
+
+        RaiseHealthChanged();
     }
 
     protected virtual void Update()
@@ -158,6 +175,7 @@ public abstract class BaseEnemy : MonoBehaviour
             nextPathUpdateTime = Time.time + pathUpdateInterval;
         }
     }
+
     private void UpdateMeleeMovement(float dist)
     {
         float approachDistance = enemyData.attackRange * 0.8f;
@@ -201,9 +219,22 @@ public abstract class BaseEnemy : MonoBehaviour
                 rb.linearVelocity = Vector2.zero;
         }
     }
-    private void TryAttack(float dist)
+
+    private void TryAttack(float distCenter)
     {
-        if (dist > enemyData.attackRange)
+        if (enemyData == null) return;
+
+        float actualDist = distCenter;
+
+        if (playerCollider != null)
+        {
+            Vector2 closestPoint = playerCollider.ClosestPoint(transform.position);
+            actualDist = Vector2.Distance(transform.position, closestPoint);
+        }
+
+        float effectiveRange = enemyData.attackRange;
+
+        if (actualDist > effectiveRange)
             return;
 
         if (Time.time - lastAttackTime < enemyData.attackCooldown)
@@ -214,7 +245,6 @@ public abstract class BaseEnemy : MonoBehaviour
 
         AttackWithWarning();
     }
-
 
     private void InitializeComponents()
     {
@@ -239,6 +269,7 @@ public abstract class BaseEnemy : MonoBehaviour
         {
             playerTransform = playerGO.transform;
             playerHealth = playerGO.GetComponent<Health>();
+            playerCollider = playerGO.GetComponent<Collider2D>();
         }
     }
 
@@ -246,7 +277,7 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         sqrDetectionRange = enemyData.detectionRange * enemyData.detectionRange;
         sqrAttackRange = enemyData.attackRange * enemyData.attackRange;
-        
+
         sqrMeleeMinDistance = Mathf.Pow(enemyData.attackRange * 0.7f, 2);
         sqrRangedMinDistance = Mathf.Pow(rangedKeepDistance * 0.8f, 2);
         sqrRangedKeepDistance = Mathf.Pow(rangedKeepDistance, 2);
@@ -313,9 +344,6 @@ public abstract class BaseEnemy : MonoBehaviour
         }
     }
 
-
-
-
     private void TryAttackIfReady(float sqrDistToPlayer)
     {
         if (enemyData == null || playerTransform == null)
@@ -340,12 +368,11 @@ public abstract class BaseEnemy : MonoBehaviour
         MoveTowardPlayer();
     }
 
-
     private bool HasLineOfSightToPlayer()
     {
         if (playerTransform == null) return false;
 
-        Vector2 dirToPlayer = ((Vector2)playerTransform.position - (Vector2)transform.position);
+        Vector2 dirToPlayer = (Vector2)playerTransform.position - (Vector2)transform.position;
         float distToPlayer = dirToPlayer.magnitude;
 
         RaycastHit2D hit = Physics2D.Raycast(
@@ -416,12 +443,12 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         if (seeker == null || playerTransform == null || pathPending) return;
         pathPending = true;
-    
+
         Vector2 offset2D = Random.insideUnitCircle * 0.5f;
-        Vector3 offset = new Vector3(offset2D.x, offset2D.y, 0f); // Vector2 → Vector3 변환
-    
+        Vector3 offset = new Vector3(offset2D.x, offset2D.y, 0f);
+
         Vector3 targetPosition = playerTransform.position + offset;
-    
+
         seeker.StartPath(transform.position, targetPosition, OnPathComplete);
     }
 
@@ -475,7 +502,7 @@ public abstract class BaseEnemy : MonoBehaviour
         finalDirection.Normalize();
 
         float speed = isChasing ? enemyData.moveSpeed : patrolSpeed;
-        
+
         if (moveDirection.sqrMagnitude > 0.01f)
         {
             rb.linearVelocity = finalDirection * speed;
@@ -492,7 +519,7 @@ public abstract class BaseEnemy : MonoBehaviour
     private Vector2 CalculateSeparationVector()
     {
         Vector2 separation = Vector2.zero;
-        
+
         Collider2D[] neighbors = Physics2D.OverlapCircleAll(transform.position, separationRadius, enemyLayer);
 
         foreach (var neighbor in neighbors)
@@ -507,7 +534,7 @@ public abstract class BaseEnemy : MonoBehaviour
                 separation += pushDir.normalized / dist;
             }
         }
-        
+
         return separation;
     }
 
@@ -529,7 +556,7 @@ public abstract class BaseEnemy : MonoBehaviour
         facingDirection = targetDirection;
 
         if (Time.time - lastFlipTime < flipDelay) return;
-        
+
         if (isShowingAttackWarning) return;
 
         bool shouldFaceRight = facingDirection.x > flipThreshold;
@@ -552,10 +579,11 @@ public abstract class BaseEnemy : MonoBehaviour
     private void BackAwayFromPlayer(float speed = -1f)
     {
         if (speed < 0) speed = enemyData.moveSpeed * 0.5f;
-        
-        Vector2 awayDirection = ((Vector2)transform.position - (Vector2)playerTransform.position).normalized;
+
+        Vector2 awayDirection = (Vector2)transform.position - (Vector2)playerTransform.position;
+        awayDirection.Normalize();
         moveDirection = awayDirection;
-        
+
         if (rb != null)
         {
             rb.linearVelocity = awayDirection * speed;
@@ -588,22 +616,20 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected virtual void ApplyAttackDamage()
     {
-        if (playerTransform == null) return;
+        if (playerHealth == null || playerCollider == null) return;
 
-        float distToPlayer = Vector2.Distance(transform.position, playerTransform.position);
-        
-        if (distToPlayer <= enemyData.attackRange * 1.2f)
+        Vector2 closestPoint = playerCollider.ClosestPoint(transform.position);
+        float dist = Vector2.Distance(transform.position, closestPoint);
+        float effectiveRange = enemyData.attackRange;
+
+        if (dist <= effectiveRange)
         {
-            if (playerHealth != null)
-            {
-                playerHealth.OnDamaged(enemyData.attackDamage);
-            }
+            playerHealth.OnDamaged(enemyData.attackDamage);
         }
     }
 
     protected virtual void PerformAttack()
     {
-        // 서브클래스에서 구현
     }
 
     protected bool TryDamagePlayer(int damage)
@@ -619,6 +645,9 @@ public abstract class BaseEnemy : MonoBehaviour
     public virtual void TakeDamage(float damage)
     {
         currentHealth -= Mathf.RoundToInt(damage);
+
+        RaiseHealthChanged();
+
         StartCoroutine(HitFlash());
 
         if (currentHealth <= 0) Die();
@@ -628,19 +657,25 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         if (spriteRenderer == null) yield break;
         Color original = spriteRenderer.color;
-        
+
         spriteRenderer.color = hitFlashColor;
-        
+
         yield return new WaitForSeconds(hitFlashDuration);
-        
+
         spriteRenderer.color = original;
     }
 
     protected virtual void Die()
     {
         DisablePathfinding();
-        rb.linearVelocity = Vector2.zero;
-        rb.bodyType = RigidbodyType2D.Static;
+        if (rb != null)
+        {
+            rb.linearVelocity = Vector2.zero;
+            rb.bodyType = RigidbodyType2D.Static;
+        }
+
+        OnDeath?.Invoke(this);
+
         enabled = false;
         Destroy(gameObject, 2f);
     }
@@ -648,10 +683,10 @@ public abstract class BaseEnemy : MonoBehaviour
     protected virtual void OnDrawGizmosSelected()
     {
         if (enemyData == null) return;
-        
+
         Gizmos.color = Color.yellow;
         Gizmos.DrawWireSphere(transform.position, enemyData.detectionRange);
-        
+
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, enemyData.attackRange);
 
