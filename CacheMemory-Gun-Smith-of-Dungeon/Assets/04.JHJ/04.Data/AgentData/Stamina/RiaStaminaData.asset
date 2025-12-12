@@ -16,6 +16,6 @@ MonoBehaviour:
   <RechargeSpeed>k__BackingField: 1
   <BackFollowStaminaBar>k__BackingField: 0.5
   <BackBarRechargeSpeed>k__BackingField: 0.2
-  <DefaultSpeed>k__BackingField: 0
+  <DefaultSpeed>k__BackingField: 20
   <RunSpeed>k__BackingField: 30
-  <MoveSpeed>k__BackingField: 0
+  <MoveSpeed>k__BackingField: 20
