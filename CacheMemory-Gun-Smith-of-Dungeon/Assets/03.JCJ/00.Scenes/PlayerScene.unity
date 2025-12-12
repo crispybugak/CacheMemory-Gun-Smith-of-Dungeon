@@ -2403,6 +2403,7 @@ GameObject:
   - component: {fileID: 4674280300020430656}
   - component: {fileID: 7022461154802808121}
   - component: {fileID: 8053750625972392837}
+  - component: {fileID: 8053750625972392838}
   m_Layer: 12
   m_Name: Agent
   m_TagString: Player
@@ -2622,6 +2623,9 @@ MonoBehaviour:
   <HealthData>k__BackingField: {fileID: 11400000, guid: 515a517f1087b3c4f8cc3567829fcbca, type: 2}
   <CurrentHealth>k__BackingField: 0
   <bonusMaxHealth>k__BackingField: 0
+  OnDead:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!95 &7022461154802808121
 Animator:
   serializedVersion: 7
@@ -2702,6 +2706,24 @@ BoxCollider2D:
   m_AutoTiling: 0
   m_Size: {x: 0.3, y: 0.5}
   m_EdgeRadius: 0
+--- !u!114 &8053750625972392838
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2257323700951523167}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 79f7e907a3fabf341b4c9ebab4c2668e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  radius: 10
+  interval: 1
+  damage: 10
+  enemyLayer:
+    serializedVersion: 2
+    m_Bits: 32768
 --- !u!114 &8438295428211106197
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,12 +1,13 @@
 using System;
-using UnityEngine;
-using Pathfinding;
 using System.Collections;
 using System.Collections.Generic;
+using Pathfinding;
+using UnityEngine;
 using Random = UnityEngine.Random;
 
 public abstract class BaseEnemy : MonoBehaviour
 {
+    public event Action<BaseEnemy> OnDeath;
     [SerializeField] protected EnemyData enemyData;
 
     public EnemyData EnemyData
@@ -19,7 +20,6 @@ public abstract class BaseEnemy : MonoBehaviour
     public int MaxHealth => enemyData != null ? enemyData.maxHealth : 1;
 
     public event Action<int, int> OnHealthChanged;
-    public event Action<BaseEnemy> OnDeath;
 
     protected Animator animator;
     protected SpriteRenderer spriteRenderer;
@@ -72,14 +72,17 @@ public abstract class BaseEnemy : MonoBehaviour
     private float nextPathUpdateTime = 0f;
 
     [Header("피격 효과")]
-    [SerializeField] private float hitFlashDuration = 0.2f;
-    [SerializeField] private Color hitFlashColor = new Color(1f, 1f, 1f, 0.6f);
+    [SerializeField] private float hitFlashDuration = 0.1f;
+    [SerializeField] private Color hitFlashColor = Color.red;
+
+    [Header("사망 연출")]
+    [SerializeField] private float deathFadeDuration = 0.6f;
 
     [Header("거리 유지 설정")]
     [SerializeField] private float rangedKeepDistance = 3.5f;
     [SerializeField] private float rangedBackAwaySpeed = 0.6f;
 
-    [Header("길막 방지 (Traffic Jam Fix) ")]
+    [Header("길막 방지 (Traffic Jam Fix)")]
     [SerializeField] private float separationRadius = 1.5f;
     [SerializeField] private float separationWeight = 4.5f;
     [SerializeField] private LayerMask enemyLayer;
@@ -90,8 +93,16 @@ public abstract class BaseEnemy : MonoBehaviour
     private Color originalColor;
     private bool isShowingAttackWarning = false;
 
-    [Header("시선 확인 ")]
+    [Header("시선 확인")]
     [SerializeField] private bool useLineOfSightCheck = true;
+
+    [Header("애니메이션 Bool 옵션")]
+    [SerializeField] private string hurtBoolName = "isHurt";
+    [SerializeField] private string deadBoolName = "isDead";
+    [SerializeField] private float hurtBoolDuration = 0.15f;
+
+    private bool hasHurtBool;
+    private bool hasDeadBool;
 
     private float sqrDetectionRange;
     private float sqrAttackRange;
@@ -112,6 +123,7 @@ public abstract class BaseEnemy : MonoBehaviour
         InitializeComponents();
         FindPlayer();
         ValidateEnemyData();
+        InitAnimatorParams();
 
         if (IsSafeToUpdate)
         {
@@ -256,10 +268,34 @@ public abstract class BaseEnemy : MonoBehaviour
 
         hashIsMoving = Animator.StringToHash("isMoving");
 
-        rb.gravityScale = 0f;
-        rb.linearDamping = 4f;
-        rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
-        rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
+        if (rb != null)
+        {
+            rb.gravityScale = 0f;
+            rb.linearDamping = 4f;
+            rb.collisionDetectionMode = CollisionDetectionMode2D.Continuous;
+            rb.sleepMode = RigidbodySleepMode2D.NeverSleep;
+        }
+    }
+
+    private void InitAnimatorParams()
+    {
+        if (animator == null) return;
+
+        if (!string.IsNullOrEmpty(hurtBoolName))
+            hasHurtBool = HasAnimatorBool(hurtBoolName);
+
+        if (!string.IsNullOrEmpty(deadBoolName))
+            hasDeadBool = HasAnimatorBool(deadBoolName);
+    }
+
+    private bool HasAnimatorBool(string name)
+    {
+        foreach (var p in animator.parameters)
+        {
+            if (p.type == AnimatorControllerParameterType.Bool && p.name == name)
+                return true;
+        }
+        return false;
     }
 
     private void FindPlayer()
@@ -526,7 +562,7 @@ public abstract class BaseEnemy : MonoBehaviour
         {
             if (neighbor.gameObject == gameObject) continue;
 
-            Vector2 pushDir = transform.position - neighbor.transform.position;
+            Vector2 pushDir = (Vector2)transform.position - (Vector2)neighbor.transform.position;
             float dist = pushDir.magnitude;
 
             if (dist > 0.01f)
@@ -556,7 +592,6 @@ public abstract class BaseEnemy : MonoBehaviour
         facingDirection = targetDirection;
 
         if (Time.time - lastFlipTime < flipDelay) return;
-
         if (isShowingAttackWarning) return;
 
         bool shouldFaceRight = facingDirection.x > flipThreshold;
@@ -642,12 +677,34 @@ public abstract class BaseEnemy : MonoBehaviour
         return false;
     }
 
+    protected void PlayHurtAnim()
+    {
+        if (animator != null && hasHurtBool)
+        {
+            animator.SetBool(hurtBoolName, true);
+            StartCoroutine(ResetHurtBool());
+        }
+    }
+
+    private IEnumerator ResetHurtBool()
+    {
+        yield return new WaitForSeconds(hurtBoolDuration);
+        if (animator != null && hasHurtBool)
+            animator.SetBool(hurtBoolName, false);
+    }
+
+    protected void PlayDeadAnim()
+    {
+        if (animator != null && hasDeadBool)
+            animator.SetBool(deadBoolName, true);
+    }
+
     public virtual void TakeDamage(float damage)
     {
         currentHealth -= Mathf.RoundToInt(damage);
 
         RaiseHealthChanged();
-
+        PlayHurtAnim();
         StartCoroutine(HitFlash());
 
         if (currentHealth <= 0) Die();
@@ -656,8 +713,8 @@ public abstract class BaseEnemy : MonoBehaviour
     private IEnumerator HitFlash()
     {
         if (spriteRenderer == null) yield break;
-        Color original = spriteRenderer.color;
 
+        Color original = spriteRenderer.color;
         spriteRenderer.color = hitFlashColor;
 
         yield return new WaitForSeconds(hitFlashDuration);
@@ -667,17 +724,49 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected virtual void Die()
     {
+        isChasing = false;
+        moveDirection = Vector2.zero;
+
         DisablePathfinding();
+
         if (rb != null)
         {
             rb.linearVelocity = Vector2.zero;
+            rb.angularVelocity = 0f;
             rb.bodyType = RigidbodyType2D.Static;
+        }
+
+        if (animator != null)
+        {
+            animator.SetBool(hashIsMoving, false); // 걷기 애니 끄기
         }
 
         OnDeath?.Invoke(this);
 
-        enabled = false;
-        Destroy(gameObject, 2f);
+        PlayDeadAnim();  // isDead 있는 애는 죽는 애니, 없는 애는 패스
+        enabled = false; // Update 멈춤
+
+        StartCoroutine(DeathFadeAndDestroy()); // 서서히 페이드아웃
+    }
+
+
+    private IEnumerator DeathFadeAndDestroy()
+    {
+        if (spriteRenderer != null)
+        {
+            Color start = spriteRenderer.color;
+            float t = 0f;
+
+            while (t < deathFadeDuration)
+            {
+                t += Time.deltaTime;
+                float a = Mathf.Lerp(1f, 0f, t / deathFadeDuration);
+                spriteRenderer.color = new Color(start.r, start.g, start.b, a);
+                yield return null;
+            }
+        }
+
+        Destroy(gameObject);
     }
 
     protected virtual void OnDrawGizmosSelected()
