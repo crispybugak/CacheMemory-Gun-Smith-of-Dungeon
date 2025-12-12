@@ -27,4 +27,4 @@ MonoBehaviour:
       effectAmount: 10
     - effectType: 2
       effectAmount: 10
-    durability: 0
+    durability: 200

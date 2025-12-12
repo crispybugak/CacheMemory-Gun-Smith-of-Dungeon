@@ -35,4 +35,4 @@ MonoBehaviour:
       effectAmount: 70
     - effectType: 0
       effectAmount: 0
-    durability: 0
+    durability: 600
