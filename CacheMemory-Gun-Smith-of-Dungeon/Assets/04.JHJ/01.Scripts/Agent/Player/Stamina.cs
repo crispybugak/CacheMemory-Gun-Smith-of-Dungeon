@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using _06.SDW._01.Scripts.Save;
+using UnityEngine;
 
 public class Stamina : MonoBehaviour
 {
@@ -25,25 +26,25 @@ public class Stamina : MonoBehaviour
     bool _isMove;
     bool _runRequested;                    // 달리기 키 입력 상태
     public bool _isRunning { get; private set; }  // 실제로 달리는 상태
+    private bool _isSpawn;
 
     private AgentMovement _agentMovement;
     private Agent _agent;
-    [SerializeField] private StaminaUI _staminaUI;
+    public StaminaUI _staminaUI;
 
     public float MaxStaminaWithPassive => _baseMaxStamina + bonusMaxStamina;
 
+    private void OnEnable()
+    {
+        CharacterSpawner.Instance.OnCharacterSpawned += ResetStamina;
+    }
+    
     private void Awake()
     {
         _agentMovement = GetComponent<AgentMovement>();
         _agent = GetComponent<Agent>();
     }
-
-    private void OnEnable()
-    {
-        // ★ SO / 패시브 기준으로 스태미나 수치 초기화
-        InitFromSO();
-    }
-
+    
     private void Start()
     {
         _agentMovement.MoveSpeed = DefaultSpeed;
@@ -66,15 +67,24 @@ public class Stamina : MonoBehaviour
             _agentMovement.MoveSpeed = RunSpeed;
             UseStamina();
         }
-        else
+        else if(_isSpawn)
         {
             _agentMovement.MoveSpeed = DefaultSpeed;
             RechargeStamina();
         }
     }
-
-    // ★ 세이브 로드 후에도 호출할 수 있는 초기화 함수
-    //    - AgentStaminaSO 값이 바뀐 뒤에 다시 최대/현재 스태미나를 맞춰줄 때 사용
+    
+    private void OnDisable()
+    {
+        CharacterSpawner.Instance.OnCharacterSpawned -= ResetStamina;
+    }
+    
+    private void ResetStamina()
+    {
+        InitFromSO();
+        _isSpawn = true;
+    }
+    
     public void InitFromSO()
     {
         lastUseStaminaTime = 0f;
@@ -118,7 +128,7 @@ public class Stamina : MonoBehaviour
             {
                 _currentStamina += RechargeSpeed * Time.deltaTime;
 
-                // 이제는 baseMax가 아니라 패시브 포함 최대치까지 회복
+                // 패시브 포함 최대치까지 회복
                 if (_backStamina < MaxStaminaWithPassive)
                     _backStamina += BackBarRechargeSpeed * Time.deltaTime;
             }
