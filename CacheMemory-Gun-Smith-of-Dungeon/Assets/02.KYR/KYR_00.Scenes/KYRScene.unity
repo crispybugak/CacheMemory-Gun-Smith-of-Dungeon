@@ -625,8 +625,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1982d369466564e98b66f8833fa55f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalCorridorPrefab: {fileID: 7394402005399137706, guid: eba0037b8f14417468c663fd1f5fc732, type: 3}
-  verticalCorridorPrefab: {fileID: 5142630406713892515, guid: 3e68c790ba9274e4e92e61a57ee2424e, type: 3}
+  horizontalCorridorPrefab: {fileID: 2824340568639790942, guid: c0c3fcab77f2b3f4695f9de849c7f94e, type: 3}
+  verticalCorridorPrefab: {fileID: 3538303557526842944, guid: affe951cd364e3843b76ac71aa4192d4, type: 3}
 --- !u!4 &1616903168
 Transform:
   m_ObjectHideFlags: 0

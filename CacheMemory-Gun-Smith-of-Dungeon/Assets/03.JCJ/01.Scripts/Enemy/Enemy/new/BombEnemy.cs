@@ -1,64 +1,74 @@
-using System.Collections;
 using UnityEngine;
+using System.Collections;
 
 public class BombEnemy : BaseEnemy
 {
-    private bool isExploding;
-    
-    protected override void PerformAttack()
+    private int hashIsExploding;
+    private bool isExploding = false;
+    [SerializeField] private float explosionWarningTime = 0.1f;
+
+    protected override void Start()
+    {
+        base.Start();
+        hashIsExploding = Animator.StringToHash("isExploding");
+    }
+
+    protected override void Attack()
     {
         if (isExploding) return;
-        Explode();
+        
+        animator?.SetBool(hashIsExploding, true);
+        StartCoroutine(ExplodeSequence());
     }
-    
-    private void Explode()
+
+    protected override void PerformAttack()
+    {
+        // Bomber는 Attack에서 처리
+    }
+
+    private IEnumerator ExplodeSequence()
     {
         isExploding = true;
+        moveDirection = Vector2.zero;
+        
+        ApplyExplosionDamage();
         if (GetAnimator() != null)
-            GetAnimator().SetBool("isExploding", true);
-        
-        StartCoroutine(ExplosionCoroutine());
-    }
-    
-    private IEnumerator ExplosionCoroutine()
-    {
+            GetAnimator().SetTrigger("isDead");
         yield return new WaitForSeconds(0.5f);
-        
+
+        Destroy(gameObject);
+    }
+
+    private void ApplyExplosionDamage()
+    {
+        if (GetPlayerTransform() == null) return;
+
         Collider2D[] hits = Physics2D.OverlapCircleAll(
-            transform.position, 
-            GetEnemyData().explosionRadius);
-        
+            transform.position,
+            GetEnemyData().explosionRadius,
+            LayerMask.GetMask("Player"));
+
         foreach (var hit in hits)
         {
             if (hit.CompareTag("Player"))
             {
-                TryDamagePlayer(GetEnemyData().attackDamage);
-                
-                if (hit.TryGetComponent<Rigidbody2D>(out var rb))
-                {
-                    Vector2 knockbackDir = ((Vector2)hit.transform.position - 
-                                            (Vector2)transform.position).normalized;
-                    rb.linearVelocity += knockbackDir * GetEnemyData().explosionForce;
-                }
+                TryDamagePlayer(GetEnemyData().specialAbilityDamage);
+                break;
             }
         }
-        
-        yield return new WaitForSeconds(0.5f);
-        Destroy(gameObject);
     }
-    
-    public void TakeDamage(float damage)
+
+    public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
-        
-        if (GetEnemyData().maxHealth - Mathf.RoundToInt(damage) <= 0)
-        {
-            Explode();
-        }
+        if (GetAnimator() != null)
+            GetAnimator().SetTrigger("isHurt");
     }
-    
+
     protected override void Die()
     {
-        // Bomb은 자폭으로만 제거됨
+        if (GetAnimator() != null)
+            GetAnimator().SetTrigger("isDead");
+        base.Die();
     }
 }

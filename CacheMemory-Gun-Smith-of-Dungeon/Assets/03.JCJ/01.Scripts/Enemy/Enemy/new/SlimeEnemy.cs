@@ -1,77 +1,103 @@
-using System.Collections;
 using UnityEngine;
 
 public class SlimeEnemy : BaseEnemy
 {
-    [SerializeField] private GameObject acidBlobPrefab;
-    
-    private float lastAbilityTime = -999f;
-    
+    private int hashIsAbility;
+    private bool isAttacking = false;
+
+    protected override void Start()
+    {
+        base.Start();
+        isRangedEnemy = true;
+        hashIsAbility = Animator.StringToHash("isAbility");
+    }
+
     protected override void Update()
     {
-        if (GetPlayerTransform() == null) return;
-        
-        float sqrDistToPlayer = ((Vector2)transform.position - 
-            (Vector2)GetPlayerTransform().position).sqrMagnitude;
-        
-        float sqrAbilityRange = GetEnemyData().specialAbilityRange * 
-            GetEnemyData().specialAbilityRange;
-        
-        if (sqrDistToPlayer < sqrAbilityRange && 
-            Time.time - lastAbilityTime > GetEnemyData().specialAbilityCooldown)
-        {
-            CastAbility();
-            return;
-        }
-        
         base.Update();
-    }
-    
-    private void CastAbility()
-    {
-        lastAbilityTime = Time.time;
-        if (GetAnimator() != null)
-            GetAnimator().SetBool("isAbility", true);
         
-        StartCoroutine(ShootCoroutine());
-    }
-    
-    private IEnumerator ShootCoroutine()
-    {
-        yield return new WaitForSeconds(0.5f);
-        
-        Vector2 shootDir = ((Vector2)GetPlayerTransform().position - 
-            (Vector2)transform.position).normalized;
-        
-        if (acidBlobPrefab != null)
+        if (!isAttacking && GetPlayerTransform() != null)
         {
-            GameObject blob = Instantiate(acidBlobPrefab, 
-                transform.position + (Vector3)shootDir * 0.5f, 
-                Quaternion.identity);
+            float distToPlayer = Vector2.Distance(transform.position, GetPlayerTransform().position);
             
-            if (blob.TryGetComponent<Projectile>(out var projectile))
+            if (distToPlayer <= GetEnemyData().attackRange)
             {
-                projectile.Launch(shootDir, GetEnemyData().specialAbilityDamage);
+                Debug.Log($"{name}: 공격 범위 내, 거리: {distToPlayer}, 공격 범위: {GetEnemyData().attackRange}");
             }
         }
-        
-        yield return new WaitForSeconds(0.5f);
-        if (GetAnimator() != null)
-            GetAnimator().SetBool("isAbility", false);
     }
-    
+
+    protected override void Attack()
+    {
+        isAttacking = true;
+        animator?.SetBool(hashIsAbility, true);
+        PerformAttack();
+    }
+
     protected override void PerformAttack()
     {
-        Collider2D[] hits = Physics2D.OverlapCircleAll(
-            transform.position, 
-            GetEnemyData().attackRange);
-        
-        foreach (var hit in hits)
+        LaunchAcidProjectile();
+    }
+
+    protected override void ApplyAttackDamage()
+    {
+        animator?.SetBool(hashIsAbility, false);
+        isAttacking = false;
+    }
+
+    private void LaunchAcidProjectile()
+    {
+        if (projectilePrefab == null)
         {
-            if (hit.CompareTag("Player"))
-            {
-                TryDamagePlayer(GetEnemyData().attackDamage);
-            }
+            Debug.LogError($"{name}: projectilePrefab이 없습니다 Inspector에서 Projectile Prefab을 할당하세요");
+            return;
         }
+
+        if (GetPlayerTransform() == null)
+        {
+            Debug.LogError($"{name}: 플레이어를 찾을 수 없습니다");
+            return;
+        }
+
+        Vector2 direction = (GetPlayerTransform().position - transform.position).normalized;
+        Vector3 spawnPosition = transform.position + (Vector3)direction * 1.2f;
+
+        Projectile projectile = null;
+
+        if (ProjectilePool.Instance != null)
+        {
+            projectile = ProjectilePool.Instance
+                .Get(projectilePrefab, spawnPosition, Quaternion.identity);
+        }
+        else
+        {
+            GameObject projectileObj = Instantiate(projectilePrefab, spawnPosition, Quaternion.identity);
+            projectile = projectileObj.GetComponent<Projectile>();
+        }
+
+        if (projectile != null)
+        {
+            projectile.Launch(direction, GetEnemyData().attackDamage, projectileSpeed);
+        }
+        else
+        {
+            Debug.LogError($"{name}: Projectile 스크립트가 없습니다");
+        }
+    }
+
+
+
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+        if (GetAnimator() != null)
+            GetAnimator().SetTrigger("isHurt");
+    }
+
+    protected override void Die()
+    {
+        if (GetAnimator() != null)
+            GetAnimator().SetTrigger("isDead");
+        base.Die();
     }
 }
