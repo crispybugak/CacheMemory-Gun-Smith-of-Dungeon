@@ -19,4 +19,8 @@ MonoBehaviour:
   requirePartType: 3
   partDegree: 0
   localPos: {x: -0.9053, y: 0.1875}
-  ingredients: []
+  ingredients:
+  - requiredIngredient: 1
+    requiredAmount: 3
+    effects: []
+    durability: 0
