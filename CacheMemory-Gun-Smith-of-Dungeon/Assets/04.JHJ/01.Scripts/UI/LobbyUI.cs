@@ -1,5 +1,4 @@
 ﻿using DG.Tweening;
-using Pathfinding.Ionic.Zip;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -96,14 +95,6 @@ public class LobbyUI : MonoBehaviour
 
         Ria.raycastTarget = true;
         Rin.raycastTarget = true;
-
-/*        Color riaColor = Ria.color; 
-        riaColor.a = 0f; 
-        Ria.color = riaColor;
-
-        Color rinColor = Rin.color; 
-        rinColor.a = 0f;
-        Rin.color = rinColor;*/
 
         _volume.enabled = true;
 
