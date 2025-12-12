@@ -21,7 +21,7 @@ MonoBehaviour:
   localPos: {x: -1.1875, y: 0.1875}
   ingredients:
   - requiredIngredient: 6
-    requiredAmount: 0
+    requiredAmount: 4
     effects:
     - effectType: 0
       effectAmount: 10
@@ -33,4 +33,4 @@ MonoBehaviour:
       effectAmount: -10
     - effectType: 4
       effectAmount: -10
-    durability: 0
+    durability: 750

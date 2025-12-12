@@ -6,12 +6,12 @@ public class Stamina : MonoBehaviour
     [field: SerializeField] public AgentStaminaSO AgentStaminaData { get; private set; }
 
     [Header("SO")]
-    public float DefaultSpeed => AgentStaminaData._defaultSpeed;
-    public float RunSpeed => AgentStaminaData._runSpeed;
-    public float RechargeSpeed => AgentStaminaData._rechargeSpeed;
-    public float BackBarRechargeSpeed => AgentStaminaData._backBarRechargeSpeed;
-    public float UseStaminaGage => AgentStaminaData._useStaminaGage;
-    public float BackFollowStaminaBar => AgentStaminaData._backFollowStaminaBar;
+    public float DefaultSpeed => AgentStaminaData.DefaultSpeed;
+    public float RunSpeed => AgentStaminaData.RunSpeed;
+    public float RechargeSpeed => AgentStaminaData.RechargeSpeed;
+    public float BackBarRechargeSpeed => AgentStaminaData.BackBarRechargeSpeed;
+    public float UseStaminaGage => AgentStaminaData.UseStaminaGage;
+    public float BackFollowStaminaBar => AgentStaminaData.BackFollowStaminaBar;
 
     [Header("Max/Current")]
     [field: SerializeField] public float _baseMaxStamina { get; private set; }
@@ -47,7 +47,7 @@ public class Stamina : MonoBehaviour
     
     private void Start()
     {
-        _agentMovement.MoveSpeed = DefaultSpeed;
+        AgentStaminaData.MoveSpeed = DefaultSpeed;
         _isMove = _agent.RidCompo.linearVelocity.sqrMagnitude > 0.1f;
     }
 
@@ -64,12 +64,12 @@ public class Stamina : MonoBehaviour
 
         if (canRun)
         {
-            _agentMovement.MoveSpeed = RunSpeed;
+            AgentStaminaData.MoveSpeed = RunSpeed;
             UseStamina();
         }
         else if(_isSpawn)
         {
-            _agentMovement.MoveSpeed = DefaultSpeed;
+            AgentStaminaData.MoveSpeed = DefaultSpeed;
             RechargeStamina();
         }
     }

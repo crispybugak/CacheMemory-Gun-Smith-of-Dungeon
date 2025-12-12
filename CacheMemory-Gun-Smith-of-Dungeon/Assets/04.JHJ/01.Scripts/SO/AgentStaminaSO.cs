@@ -5,14 +5,15 @@ using UnityEngine;
 public class AgentStaminaSO : ScriptableObject
 {
     [Header("Rates")]
-    [field: SerializeField] public float _useStaminaGage { get; private set; }
-    [field: SerializeField] public float _rechargeSpeed { get; private set; }
-    [field: SerializeField] public float _backFollowStaminaBar { get; private set; }
-    [field: SerializeField] public float _backBarRechargeSpeed { get; private set; }
+    [field: SerializeField] public float UseStaminaGage { get; private set; }
+    [field: SerializeField] public float RechargeSpeed { get; private set; }
+    [field: SerializeField] public float BackFollowStaminaBar { get; private set; }
+    [field: SerializeField] public float BackBarRechargeSpeed { get; private set; }
 
     [Header("Move")]
-    [field: SerializeField] public float _defaultSpeed { get; private set; }
-    [field: SerializeField] public float _runSpeed { get; private set; }
+    [field: SerializeField] public float DefaultSpeed { get; private set; }
+    [field: SerializeField] public float RunSpeed { get; private set; }
+    [field: SerializeField] public float MoveSpeed { get;  set; }
 
     // === JSON 저장용 구조체 ===
     [Serializable]
@@ -30,22 +31,22 @@ public class AgentStaminaSO : ScriptableObject
     {
         return new SaveData
         {
-            useStaminaGage = _useStaminaGage,
-            rechargeSpeed = _rechargeSpeed,
-            backFollowStaminaBar = _backFollowStaminaBar,
-            backBarRechargeSpeed = _backBarRechargeSpeed,
-            defaultSpeed = _defaultSpeed,
-            runSpeed = _runSpeed
+            useStaminaGage = UseStaminaGage,
+            rechargeSpeed = RechargeSpeed,
+            backFollowStaminaBar = BackFollowStaminaBar,
+            backBarRechargeSpeed = BackBarRechargeSpeed,
+            defaultSpeed = DefaultSpeed,
+            runSpeed = RunSpeed
         };
     }
 
     public void ApplySaveData(SaveData data)
     {
-        _useStaminaGage = data.useStaminaGage;
-        _rechargeSpeed = data.rechargeSpeed;
-        _backFollowStaminaBar = data.backFollowStaminaBar;
-        _backBarRechargeSpeed = data.backBarRechargeSpeed;
-        _defaultSpeed = data.defaultSpeed;
-        _runSpeed = data.runSpeed;
+        UseStaminaGage = data.useStaminaGage;
+        RechargeSpeed = data.rechargeSpeed;
+        BackFollowStaminaBar = data.backFollowStaminaBar;
+        BackBarRechargeSpeed = data.backBarRechargeSpeed;
+        DefaultSpeed = data.defaultSpeed;
+        RunSpeed = data.runSpeed;
     }
 }
