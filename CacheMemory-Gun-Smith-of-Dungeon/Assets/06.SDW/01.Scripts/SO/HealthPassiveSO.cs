@@ -6,13 +6,13 @@ namespace _06.SDW._01.Scripts.SO
     public class HealthPassiveSO : PassiveSO
     {
         [Header("체력 증가량 설정")]
-        [SerializeField] private float bonusMaxHealth = 20f; // 최대 체력 +20 같은 느낌
+        [SerializeField] private float bonusMaxHealth = 20f;
 
         public override void Apply(GameObject target)
         {
             if (target.TryGetComponent(out Health health))
             {
-                health.AddBonusMaxHealth(bonusMaxHealth);   // 예: +20
+                health.AddBonusMaxHealth(bonusMaxHealth);
             }
         }
 
@@ -20,7 +20,7 @@ namespace _06.SDW._01.Scripts.SO
         {
             if (target.TryGetComponent(out Health health))
             {
-                health.AddBonusMaxHealth(-bonusMaxHealth);  // 다시 -20
+                health.AddBonusMaxHealth(-bonusMaxHealth);
             }
         }
 

@@ -15,7 +15,6 @@ public class GameStart : MonoBehaviour
         if (Keyboard.current.anyKey.wasPressedThisFrame && fadePanel != null)
         {
             fadePanel.DOFade(1f, 3f).OnComplete(() => SceneManager.LoadScene("JHJ.LobbyScene"));
-
         }
     }
 

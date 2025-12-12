@@ -18,15 +18,14 @@ namespace KBG.Item
         [Serializable]
         public class RequireIngredient
         {
-            public IngredientType IngredientType;
+            public IngredientType ingredientType;
             public int amount;
         }
         
         
         [field:SerializeField] public Sprite icon { get; set; }
+        [field:SerializeField] public float upScaling { get; set; }
         [field:SerializeField] public string itemName { get; set; }
-        [field:SerializeField] public float mass { get; set; }
-        [field:SerializeField] public int maxStack { get; set; }
         public AlloyType type;
         public List<RequireIngredient> requireIngredients;
     }

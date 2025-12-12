@@ -13,11 +13,18 @@ MonoBehaviour:
   m_Name: MuzzleBrake
   m_EditorClassIdentifier: 
   <icon>k__BackingField: {fileID: 182325284556913792, guid: 24e0e440003d4624aa148e4a85664741, type: 3}
+  <upScaling>k__BackingField: 2
   <itemName>k__BackingField: "\uCD1D\uAD6C \uC81C\uD1F4\uAE30"
-  <mass>k__BackingField: 0
   type: 1
   requirePartType: 2
   partDegree: 0
   localPos: {x: 0, y: 0}
-  effects: []
-  ingredients: []
+  ingredients:
+  - requiredIngredient: 1
+    requiredAmount: 1
+    effects:
+    - effectType: 1
+      effectAmount: 10
+    - effectType: 3
+      effectAmount: 10
+    durability: 0

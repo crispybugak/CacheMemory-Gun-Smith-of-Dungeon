@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 using Skill;
+
 public class CharacterSkillSet : MonoBehaviour, ICharacterSet
 {
     [Header("참조")]
@@ -55,9 +56,7 @@ public class CharacterSkillSet : MonoBehaviour, ICharacterSet
         _isCastingSkill1 = false;
     }
 
-    // ICharacterSet 구현 - 패시브
     public void Passive()
     {
-        // 나중에 패시브 2개 연결하는 자리
     }
 }

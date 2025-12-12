@@ -1,5 +1,4 @@
 ﻿using DG.Tweening;
-using Pathfinding.Ionic.Zip;
 using TMPro;
 using UnityEngine;
 using UnityEngine.Rendering;
@@ -17,21 +16,19 @@ public class LobbyUI : MonoBehaviour
     public Image Ria;
     public Image Rin;
     public Button playBtn;
-    public Button playExitBtn;
 
     [Header("B. Settings Panel")]
     public Image optionPanel;
     public Button optionBtn;
-    public Button optionExitBtn;
 
     [Header("D.Game Exit Panel")]
-    public TextMeshProUGUI _text;
     public Image GameExitPanel;
     public Button GameExitBtn;
-    public Button GameExitExitBtn;
+    public Image GameExitYesBtn;
 
-    private float fadeDuration = 0.3f;
+    private float fadeDuration = 0.2f;
 
+    private bool _isPanelOpen = false;
     private void Start()
     {
         _volume.enabled = false;
@@ -69,6 +66,7 @@ public class LobbyUI : MonoBehaviour
     public void OnClicExitButton()
     {
         OpenExitPanel(GameExitPanel);
+        OpenExitPanel(GameExitYesBtn);
     }
 
     //===============OFF=============//
@@ -84,6 +82,7 @@ public class LobbyUI : MonoBehaviour
     public void OnClickExitButtonExitButton()
     {
         OnClickemptiness(GameExitPanel);
+        OnClickemptiness(GameExitYesBtn);
         Debug.Log("허공이 눌림");
     }
 
@@ -96,14 +95,6 @@ public class LobbyUI : MonoBehaviour
 
         Ria.raycastTarget = true;
         Rin.raycastTarget = true;
-
-        Color riaColor = Ria.color; 
-        riaColor.a = 0f; 
-        Ria.color = riaColor;
-
-        Color rinColor = Rin.color; 
-        rinColor.a = 0f;
-        Rin.color = rinColor;
 
         _volume.enabled = true;
 
@@ -139,6 +130,7 @@ public class LobbyUI : MonoBehaviour
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(panel.DOFade(1, 0.2f).OnComplete(() => panel.raycastTarget = true));
+        sequence.Join(panel.GetComponentInChildren<TextMeshProUGUI>().DOFade(1, 0.2f).OnComplete(() => panel.raycastTarget = true));
     }
 
     private void OnClickemptiness(Image panel)
@@ -147,6 +139,7 @@ public class LobbyUI : MonoBehaviour
 
         Sequence sequence = DOTween.Sequence();
         sequence.Append(panel.DOFade(0, 0.2f).OnComplete(() => panel.raycastTarget = false));
+        sequence.Join(panel.GetComponentInChildren<TextMeshProUGUI>().DOFade(0, 0.2f).OnComplete(() => panel.raycastTarget = false));
     }
     public void OpenOptionPanel(Image panel)
     {
@@ -155,7 +148,6 @@ public class LobbyUI : MonoBehaviour
         Sequence sequence = DOTween.Sequence();
         sequence.Append(panel.DOFade(1, 0.2f).OnComplete(() => panel.raycastTarget = true));
     }
-
     public void GameExit()
     {
         Application.Quit();
