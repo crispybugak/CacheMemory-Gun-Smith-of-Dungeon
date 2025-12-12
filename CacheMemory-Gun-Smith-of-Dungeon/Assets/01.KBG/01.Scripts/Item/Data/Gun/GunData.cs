@@ -87,6 +87,11 @@ namespace KBG.Item
             return true;
         }
 
+        public bool CheckEndModding()
+        {
+            return !partsDict.SelectMany(pair => partsDict.Select(p => p.Key != pair.)).Any();
+        }
+
         private void InitializeStatus()
         {
             GunDataApplier.Instance.InitializeRenderer();
