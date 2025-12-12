@@ -5,7 +5,6 @@ public class AgentMovement : MonoBehaviour
 {
     private Agent _agent;
     private Stamina _stamina;
-    [field: SerializeField] public AgentStaminaSO AgentStaminaData { get; private set; }
 
     public UnityEvent<float> onMove;
     public UnityEvent<Vector2> onRenderer;
@@ -43,9 +42,9 @@ public class AgentMovement : MonoBehaviour
     {
         onRenderer?.Invoke(_moveInput);
 
-        _agent.RidCompo.linearVelocity = AgentStaminaData.MoveSpeed * _moveInput;
+        _agent.RidCompo.linearVelocity = _stamina.AgentStaminaData.MoveSpeed * _moveInput;
 
-        float moveAmount = _moveInput.magnitude; 
+        float moveAmount = _moveInput.magnitude;
         onMove?.Invoke(moveAmount);
 
         _agentAnimation.Animate(_moveInput, moveAmount);
