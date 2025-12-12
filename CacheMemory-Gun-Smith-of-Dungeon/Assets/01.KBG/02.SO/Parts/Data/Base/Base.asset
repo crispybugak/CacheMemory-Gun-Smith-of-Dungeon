@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: Base
   m_EditorClassIdentifier: 
   <icon>k__BackingField: {fileID: -4527173903831441922, guid: 3855833937b970945abde48d3e50eef0, type: 3}
+  <upScaling>k__BackingField: 2
   <itemName>k__BackingField: "\uD504\uB808\uC784"
-  <mass>k__BackingField: 0
   type: 3
   requirePartType: 0
   partDegree: 0
   localPos: {x: 0, y: 0}
-  effects: []
   ingredients: []

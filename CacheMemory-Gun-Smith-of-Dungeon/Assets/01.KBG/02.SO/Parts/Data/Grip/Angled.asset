@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: Angled
   m_EditorClassIdentifier: 
   <icon>k__BackingField: {fileID: 8350437860513860625, guid: 009abb98d52eb3d47b26c39121f9fb4b, type: 3}
+  <upScaling>k__BackingField: 2
   <itemName>k__BackingField: "\uC575\uAE00\uC190\uC7A1\uC774"
-  <mass>k__BackingField: 0
   type: 7
   requirePartType: 2
   partDegree: 0
   localPos: {x: 0, y: 0}
-  effects: []
   ingredients: []

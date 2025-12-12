@@ -13,11 +13,10 @@ MonoBehaviour:
   m_Name: Compensator
   m_EditorClassIdentifier: 
   <icon>k__BackingField: {fileID: 5712794764105780365, guid: 920411fb238118743b7276b6e1220af6, type: 3}
+  <upScaling>k__BackingField: 2
   <itemName>k__BackingField: "\uBCF4\uC815\uAE30"
-  <mass>k__BackingField: 0
   type: 1
   requirePartType: 2
   partDegree: 0
   localPos: {x: 0, y: 0}
-  effects: []
   ingredients: []

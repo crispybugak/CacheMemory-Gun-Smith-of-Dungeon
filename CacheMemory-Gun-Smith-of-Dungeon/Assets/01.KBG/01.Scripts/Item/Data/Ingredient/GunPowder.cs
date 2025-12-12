@@ -2,7 +2,7 @@ using UnityEngine;
 
 namespace KBG.Item
 {
-    enum GunPowderType4
+    public enum GunPowderType
     {
         
         BlackPowder,
@@ -12,8 +12,8 @@ namespace KBG.Item
     [CreateAssetMenu(menuName = "SO/Item/GunPowder")]
     public class GunPowder : ScriptableObject, IItemData
     {
-        public Sprite icon { get; set; }
-        public string itemName { get; set; }
-        public float mass { get; set; }
+        [field:SerializeField] public Sprite icon { get; set; }
+        [field:SerializeField] public float upScaling { get; set; }
+        [field:SerializeField] public string itemName { get; set; }
     }
 }
