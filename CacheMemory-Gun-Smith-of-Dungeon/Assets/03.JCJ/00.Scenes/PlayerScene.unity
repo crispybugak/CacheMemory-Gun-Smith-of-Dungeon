@@ -130,7 +130,7 @@ GameObject:
   - component: {fileID: 121906971}
   - component: {fileID: 121906972}
   m_Layer: 0
-  m_Name: GameManager
+  m_Name: Random Enemy Spawn (Only Need Testing)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2385,7 +2385,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  <MoveSpeed>k__BackingField: 0
 --- !u!1 &2257323700951523167
 GameObject:
   m_ObjectHideFlags: 0
