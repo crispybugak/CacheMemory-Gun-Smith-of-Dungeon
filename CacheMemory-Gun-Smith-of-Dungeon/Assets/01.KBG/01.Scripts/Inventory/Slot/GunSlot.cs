@@ -29,7 +29,7 @@ namespace KBG.Inventory
         
         public override bool RequestCanChangeItem(IItem item)
         {
-            if (item is Part part)
+            if (item is Part part && (GunDataApplier.Instance.gunStatusData.GetPart(part.partData.requirePartType) || part.partData.requirePartType == PartType.None))
                 return part.partData.type == slotType;
             return false;
         }
