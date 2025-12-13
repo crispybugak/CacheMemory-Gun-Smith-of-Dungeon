@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <icon>k__BackingField: {fileID: 0}
   <upScaling>k__BackingField: 0
-  <itemName>k__BackingField: 
-  type: 0
+  <itemName>k__BackingField: Steel
+  type: 2
