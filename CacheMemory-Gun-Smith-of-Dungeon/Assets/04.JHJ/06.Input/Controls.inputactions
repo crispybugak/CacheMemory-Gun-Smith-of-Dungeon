@@ -197,8 +197,30 @@
         {
             "name": "UI",
             "id": "89f57573-1973-4f5a-bdff-89257964ed9e",
-            "actions": [],
-            "bindings": []
+            "actions": [
+                {
+                    "name": "Inventory",
+                    "type": "Button",
+                    "id": "44a5724c-50db-414c-972a-7db0f851603d",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "e3468a1b-0613-4510-8d2c-509fb710ee9b",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Inventory",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
         }
     ],
     "controlSchemes": []
