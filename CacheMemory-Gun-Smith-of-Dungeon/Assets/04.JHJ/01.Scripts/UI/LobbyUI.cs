@@ -28,22 +28,22 @@ public class LobbyUI : MonoBehaviour
 
     // ====== 배낭(로비 버튼 / 배낭 UI 루트들) ======
     [Header("C. Backpack (Open/Close)")]
-    public Button bagBtn;                 // 로비의 배낭 버튼
-    public GameObject bagCanvasRoot;      // 배낭 UI 전체 루트(내용물 영역 등)
-    public GameObject bagExtraObject;     // 배낭 열 때 같이 켤 오브젝트(있으면)
+    public Button bagBtn;
+    public GameObject bagCanvasRoot;
+    public GameObject bagExtraObject;
 
     // ====== 카테고리 바 별도 캔바스 ======
     [Header("C-0. Category Bar Root (Separate Canvas)")]
-    public GameObject categoryBarRoot;    // 카테고리 바 캔바스/루트 오브젝트
+    public GameObject categoryBarRoot;
 
     // ====== 배낭 내부 카테고리 ======
     [Header("C-1. Backpack Category Bar")]
-    public Button categoryBagBtn;         // 카테고리바의 "Bag" 버튼
-    public Button categoryCraftBtn;       // 카테고리바의 "Create" 버튼
+    public Button categoryBagBtn;
+    public Button categoryCraftBtn;
 
     [Header("C-2. Content Canvases")]
-    public GameObject bagContentCanvas;   // 배낭 내용물 캔바스/패널(항상 기본으로 켜둘 대상)
-    public GameObject craftContentCanvas; // 제작 내용물 캔바스/패널(오버레이처럼 켰다/껐다)
+    public GameObject bagContentCanvas;
+    public GameObject craftContentCanvas;
 
     private float fadeDuration = 0.2f;
 
@@ -52,6 +52,13 @@ public class LobbyUI : MonoBehaviour
     // ====== 팝업(창) 열림 상태 잠금 ======
     private enum LobbyPopup { None, Character, Option, Exit, Backpack }
     private LobbyPopup _popup = LobbyPopup.None;
+
+    // ====== 버튼 클릭 사운드 유틸 ======
+    private void PlayClickSound()
+    {
+        if (AudioManager.Instance == null) return;
+        AudioManager.Instance.PlaySound("버튼클릭", 0.5f, 0.5f);
+    }
 
     private void SetMainButtonsInteractable(bool on)
     {
@@ -63,6 +70,7 @@ public class LobbyUI : MonoBehaviour
 
     private void Start()
     {
+        AudioManager.Instance.PlaySound("로비", 0.7f, 1f);
         _volume.enabled = false;
 
         InitializePanels(Ria);
@@ -110,14 +118,12 @@ public class LobbyUI : MonoBehaviour
             SetRaycastForObject(bagExtraObject, false);
         }
 
-        // 배낭 콘텐츠는 "배낭 UI가 열릴 때" 켜줄 것이므로 여기서는 꺼둠
         if (bagContentCanvas)
         {
             bagContentCanvas.SetActive(false);
             SetRaycastForObject(bagContentCanvas, false);
         }
 
-        // 제작 콘텐츠도 꺼둠
         if (craftContentCanvas)
         {
             craftContentCanvas.SetActive(false);
@@ -164,6 +170,9 @@ public class LobbyUI : MonoBehaviour
     public void OnClickPlayButton()
     {
         if (_popup != LobbyPopup.None) return;
+
+        PlayClickSound();
+
         _popup = LobbyPopup.Character;
         SetMainButtonsInteractable(false);
 
@@ -173,6 +182,9 @@ public class LobbyUI : MonoBehaviour
     public void OnClickOptionButton()
     {
         if (_popup != LobbyPopup.None) return;
+
+        PlayClickSound();
+
         _popup = LobbyPopup.Option;
         SetMainButtonsInteractable(false);
 
@@ -182,6 +194,9 @@ public class LobbyUI : MonoBehaviour
     public void OnClicExitButton()
     {
         if (_popup != LobbyPopup.None) return;
+
+        PlayClickSound();
+
         _popup = LobbyPopup.Exit;
         SetMainButtonsInteractable(false);
 
@@ -194,11 +209,14 @@ public class LobbyUI : MonoBehaviour
     {
         if (_popup == LobbyPopup.Backpack)
         {
+            PlayClickSound();
             CloseBackpack();
             return;
         }
 
         if (_popup != LobbyPopup.None) return;
+
+        PlayClickSound();
 
         _popup = LobbyPopup.Backpack;
         SetMainButtonsInteractable(false);
@@ -209,16 +227,25 @@ public class LobbyUI : MonoBehaviour
     //===============OFF=============//
     public void OnClickPlayExitButton()
     {
+        //PlayClickSound();
         CloseCharacterSelectPanel(Ria, Rin);
     }
 
     public void OnClickOptionExitButton()
     {
+        // ===== 핵심 변경: 옵션 창이 떠있을 때만 허공 클릭이 먹음 =====
+        if (_popup != LobbyPopup.Option) return;
+
+        // 허공: 사운드 없음
         OnClickemptiness(optionPanel);
     }
 
     public void OnClickExitButtonExitButton()
     {
+        // ===== 핵심 변경: 종료 창이 떠있을 때만 허공 클릭이 먹음 =====
+        if (_popup != LobbyPopup.Exit) return;
+
+        // 허공: 사운드 없음
         OnClickemptiness(GameExitPanel);
         OnClickemptiness(GameExitYesBtn);
         Debug.Log("허공이 눌림");
@@ -227,7 +254,10 @@ public class LobbyUI : MonoBehaviour
     // 배낭 닫기용(허공 버튼에서 호출)
     public void OnClickBagExitButton()
     {
+        // ===== 핵심 변경: 배낭이 열려있을 때만 허공 클릭이 먹음 =====
         if (_popup != LobbyPopup.Backpack) return;
+
+        // 허공: 사운드 없음
         CloseBackpack();
     }
 
@@ -333,14 +363,12 @@ public class LobbyUI : MonoBehaviour
             SetRaycastForObject(bagExtraObject, true);
         }
 
-        // ====== 변경: 배낭은 기본으로 켠다(제작은 기본 OFF) ======
         SetBagBaseVisible(true);
         SetCraftVisible(false);
     }
 
     private void CloseBackpack()
     {
-        // 내부 콘텐츠 정리
         SetCraftVisible(false);
         SetBagBaseVisible(false);
 
@@ -367,22 +395,23 @@ public class LobbyUI : MonoBehaviour
     }
 
     // ====== 카테고리 버튼 이벤트 ======
-    // 요구사항:
-    // - Craft 버튼: Craft만 켠다(배낭은 끄지 않는다)
-    // - Bag 버튼: Craft만 끈다(배낭은 그대로)
     private void OnClickCategoryCraft()
     {
         if (_popup != LobbyPopup.Backpack) return;
+
+        PlayClickSound();
         SetCraftVisible(true);
     }
 
     private void OnClickCategoryBag()
     {
         if (_popup != LobbyPopup.Backpack) return;
+
+        PlayClickSound();
         SetCraftVisible(false);
     }
 
-    // ====== 변경된 표시 유틸 ======
+    // ====== 표시 유틸 ======
     private void SetBagBaseVisible(bool on)
     {
         if (!bagContentCanvas) return;

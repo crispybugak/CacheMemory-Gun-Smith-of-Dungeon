@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace KBG.Item
 {
+    [DefaultExecutionOrder(-100)]
     public class GunDataApplier : MonoSingleton<GunDataApplier>
     {
         [SerializeField] private SpriteRenderer muzzleRenderer,
