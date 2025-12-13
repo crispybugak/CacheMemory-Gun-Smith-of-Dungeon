@@ -62,6 +62,12 @@ namespace KBG.Inventory
         {
             return true;
         }
+
+        public void SetItem(IItem item)
+        {
+            this.item = item;
+            SetIcon();
+        }
         
         public virtual void SetIcon()
         {
