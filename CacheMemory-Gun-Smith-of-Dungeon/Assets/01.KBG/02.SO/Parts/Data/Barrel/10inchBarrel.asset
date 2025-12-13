@@ -23,4 +23,4 @@ MonoBehaviour:
   - requiredIngredient: 1
     requiredAmount: 3
     effects: []
-    durability: 0
+    durability: 400
