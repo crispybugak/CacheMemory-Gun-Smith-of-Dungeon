@@ -998,6 +998,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 6306098410635426684, guid: d0ffb63b4649c2740b9f358af53f5936, type: 3}
+      propertyPath: m_Volume
+      value: 0.214
+      objectReference: {fileID: 0}
+    - target: {fileID: 6306098410635426684, guid: d0ffb63b4649c2740b9f358af53f5936, type: 3}
+      propertyPath: m_Resource
+      value: 
+      objectReference: {fileID: 8300000, guid: 594aee104935fb94ca1bc7ddeef3033c, type: 3}
     - target: {fileID: 7425886856775233053, guid: d0ffb63b4649c2740b9f358af53f5936, type: 3}
       propertyPath: m_Name
       value: Sound Manager
@@ -1042,7 +1050,8 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 7741187495865952693, guid: d0ffb63b4649c2740b9f358af53f5936, type: 3}
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []
