@@ -3,77 +3,87 @@ using UnityEngine;
 
 public class CorridorGenerator : MonoBehaviour
 {
-    [SerializeField] private GameObject horizontalCorridorPrefab; 
-    [SerializeField] private GameObject verticalCorridorPrefab;  
-
-    public void GenerateCorridors(DungeonGraph graph, Vector2Int roomSize, Vector2Int roomSpacing)
+    [SerializeField] private GameObject horizontalCorridorPrefab;
+    [SerializeField] private GameObject verticalCorridorPrefab;
+    public void SetCorridorPrefabs(GameObject horizontal, GameObject vertical)
+    {
+        horizontalCorridorPrefab = horizontal;
+        verticalCorridorPrefab = vertical;
+    }
+    public void GenerateCorridors(
+        DungeonGraph graph,
+        Dictionary<Vector2Int, RoomController> placed)
     {
         if (graph == null) return;
-        
 
         foreach (var cell in graph.nodes)
         {
-            // 동쪽 이웃
             Vector2Int east = cell + Vector2Int.right;
             if (graph.nodes.Contains(east) && graph.HasEdge(cell, east))
             {
-                CreateHorizontalCorridor(cell, east, roomSize, roomSpacing);
+                CreateHorizontalCorridor(cell, east, placed);
             }
 
-            // 북쪽 이웃
             Vector2Int north = cell + Vector2Int.up;
             if (graph.nodes.Contains(north) && graph.HasEdge(cell, north))
             {
-                CreateVerticalCorridor(cell, north, roomSize, roomSpacing);
+                CreateVerticalCorridor(cell, north, placed);
             }
         }
     }
 
-    private void CreateHorizontalCorridor(Vector2Int a, Vector2Int b, Vector2Int roomSize, Vector2Int roomSpacing)
+    private void CreateHorizontalCorridor(
+        Vector2Int leftCell, Vector2Int rightCell,
+        Dictionary<Vector2Int, RoomController> placed)
     {
-        if (horizontalCorridorPrefab == null) return;
+        if (!placed.TryGetValue(leftCell, out var leftRoom))  return;
+        if (!placed.TryGetValue(rightCell, out var rightRoom)) return;
 
-        Vector3 posA = GridToWorld(a, roomSize, roomSpacing);
-        Vector3 posB = GridToWorld(b, roomSize, roomSpacing);
-        Vector3 mid = (posA + posB) * 0.5f;   
+        Vector3 leftDoor  = leftRoom.GetDoorWorldPos(RoomController.DoorDir.E);
+        Vector3 rightDoor = rightRoom.GetDoorWorldPos(RoomController.DoorDir.W);
 
-        var obj = Instantiate(horizontalCorridorPrefab, mid, Quaternion.identity, transform);
-       
-        var sr = obj.GetComponent<SpriteRenderer>();
-        if (sr != null)
+        var obj = Instantiate(horizontalCorridorPrefab, transform);
+        var stretch = obj.GetComponent<CorridorStretch>();
+        if (stretch != null)
         {
-            sr.size = new Vector2(roomSpacing.x, sr.size.y);
+            stretch.SetBetween(leftDoor, rightDoor);
         }
     }
 
-    private void CreateVerticalCorridor(Vector2Int a, Vector2Int b, Vector2Int roomSize, Vector2Int roomSpacing)
+    private void CreateVerticalCorridor(
+        Vector2Int bottomCell, Vector2Int topCell,
+        Dictionary<Vector2Int, RoomController> placed)
     {
-        if (verticalCorridorPrefab == null) return;
+        if (!placed.TryGetValue(bottomCell, out var bottomRoom)) return;
+        if (!placed.TryGetValue(topCell, out var topRoom))      return;
 
-        Vector3 posA = GridToWorld(a, roomSize, roomSpacing);
-        Vector3 posB = GridToWorld(b, roomSize, roomSpacing);
-        Vector3 mid = (posA + posB) * 0.5f;
-        var obj = Instantiate(verticalCorridorPrefab, mid, Quaternion.identity, transform);
-        var sr = obj.GetComponent<SpriteRenderer>();
-        if (sr != null)
+        Vector3 bottomDoor = bottomRoom.GetDoorWorldPos(RoomController.DoorDir.N);
+        Vector3 topDoor    = topRoom.GetDoorWorldPos(RoomController.DoorDir.S);
+
+        var obj = Instantiate(verticalCorridorPrefab, transform);
+        var stretch = obj.GetComponent<CorridorStretch>();
+        if (stretch != null)
         {
-            sr.size = new Vector2(sr.size.x, roomSpacing.y);
+            stretch.SetBetween(bottomDoor, topDoor);
         }
     }
-    public void GenerateBossCorridor(Vector2Int farRoom, Vector2Int bossPos,
-        Vector2Int roomSize, Vector2Int roomSpacing)
+
+    public void GenerateBossCorridor(
+        Vector2Int farRoom, Vector2Int bossPos,
+        Dictionary<Vector2Int, RoomController> placed)
     {
         Vector2Int delta = bossPos - farRoom;
-        
+
         if (Mathf.Abs(delta.x) == 1 && delta.y == 0)
         {
-            CreateHorizontalCorridor(farRoom, bossPos, roomSize, roomSpacing);
+            CreateHorizontalCorridor(farRoom, bossPos, placed);
         }
         else if (Mathf.Abs(delta.y) == 1 && delta.x == 0)
         {
-            CreateVerticalCorridor(farRoom, bossPos, roomSize, roomSpacing);
+            CreateVerticalCorridor(farRoom, bossPos, placed);
         }
     }
+
     
     private Vector3 GridToWorld(Vector2Int gridPos, Vector2Int roomSize, Vector2Int roomSpacing)
     {

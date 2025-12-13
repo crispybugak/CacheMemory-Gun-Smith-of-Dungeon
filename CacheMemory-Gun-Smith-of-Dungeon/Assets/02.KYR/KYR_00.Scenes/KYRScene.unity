@@ -360,7 +360,7 @@ SpriteRenderer:
   m_SortingLayerID: -2116695181
   m_SortingLayer: 3
   m_SortingOrder: 10
-  m_Sprite: {fileID: 7482667652216324306, guid: 311925a002f4447b3a28927169b83ea6, type: 3}
+  m_Sprite: {fileID: -7561759502206213965, guid: ea834b86d86712541b9d6dafcb5b472c, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -424,7 +424,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1, y: 1}
+    oldSize: {x: 0.6, y: 0.6}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -526,7 +526,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1150796101}
   - component: {fileID: 1150796100}
-  - component: {fileID: 1150796102}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -578,24 +577,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1150796102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1150796099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84bdc2e8d3e9ead47978c8bbc996a381, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showConnections: 1
-  showRoomLabels: 1
-  connectionColor: {r: 0, g: 1, b: 1, a: 1}
-  startRoomColor: {r: 0, g: 1, b: 0, a: 1}
-  bossRoomColor: {r: 1, g: 0, b: 0, a: 1}
-  lineWidth: 0.2
 --- !u!1 &1616903166
 GameObject:
   m_ObjectHideFlags: 0
@@ -625,8 +606,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ef1982d369466564e98b66f8833fa55f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalCorridorPrefab: {fileID: 7394402005399137706, guid: eba0037b8f14417468c663fd1f5fc732, type: 3}
-  verticalCorridorPrefab: {fileID: 5142630406713892515, guid: 3e68c790ba9274e4e92e61a57ee2424e, type: 3}
+  horizontalCorridorPrefab: {fileID: 2824340568639790942, guid: c0c3fcab77f2b3f4695f9de849c7f94e, type: 3}
+  verticalCorridorPrefab: {fileID: 3538303557526842944, guid: affe951cd364e3843b76ac71aa4192d4, type: 3}
 --- !u!4 &1616903168
 Transform:
   m_ObjectHideFlags: 0

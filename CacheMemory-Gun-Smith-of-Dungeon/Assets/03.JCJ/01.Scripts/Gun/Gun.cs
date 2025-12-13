@@ -1,7 +1,7 @@
-using System;
 using System.Collections;
 using KBG.Item;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 public class Gun : MonoBehaviour
@@ -10,6 +10,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private SpriteRenderer spriteRenderer;  
     [SerializeField] private ParticleSystem particleSystem;
     [SerializeField] private AgentMovementSO agentMovement;
+    [SerializeField] private MousePointer cursor;
 
     private GunDataApplier _gunManager;
     
@@ -30,22 +31,24 @@ public class Gun : MonoBehaviour
     private void Reload()
     {
         _isReloading = true;
-        // _gunManager.gunStatusData.Reload();
     }
     private IEnumerator StartFire()
     {
+        if (_isReloading) yield break;
+        cursor.AddRecoil(new Vector2(0, -100));
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(agentMovement.mouseDir);
-        float angle = Mathf.Atan2(mousePos.y - transform.position.y, mousePos.x - transform.position.x) * Mathf.Rad2Deg + 180;
+        float angle = Mathf.Atan2(mousePos.y - transform.position.y, mousePos.x - transform.position.x) *
+            Mathf.Rad2Deg + 180;
         ShotBullet(angle);
-        yield return new WaitForSeconds(_gunManager.defaultData.fireRate);
+        yield return new WaitForSeconds(1 / (_gunManager.defaultData.fireRate / 60));
         StartCoroutine(StartFire());
     }
     
     private void FixedUpdate()
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(agentMovement.mouseDir);
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(cursor.position);
         Vector2 gunPos = transform.position;
-
+        
         RotateGun(mousePos, gunPos, transform);
     }
 

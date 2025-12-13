@@ -50,12 +50,5 @@ public class SoundManager : MonoSingleton<SoundManager>
 
     public enum Sound
     {
-        BuildingDamaged,
-        BuildingDestroyed,
-        BuildingPlaced,
-        EnemyDie,
-        EnemyHit,
-        EnemyWaveStarting,
-        GameOver,
-        Musicsd
+        
     }

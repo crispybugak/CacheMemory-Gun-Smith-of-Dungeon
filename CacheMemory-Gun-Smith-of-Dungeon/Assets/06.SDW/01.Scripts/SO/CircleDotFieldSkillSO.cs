@@ -24,16 +24,12 @@ namespace _06.SDW._01.Scripts.SO
             Vector2 center = rb != null ? rb.position : owner.transform.position;
 
             GameObject fieldInstance = Instantiate(fieldPrefab, center, Quaternion.identity);
-
-            // 생성된 이펙트에게 데미지 값 넘겨주기
+            
             CircleDotFieldEffect effect = fieldInstance.GetComponent<CircleDotFieldEffect>();
             if (effect != null)
             {
                 effect.Setup(Damage); // SkillSO에 있는 Damage 사용
             }
-
-            // 이 스킬 코루틴은 "생성"까지만 하고 바로 끝내도 됨
-            yield break;
         }
     }
 }
