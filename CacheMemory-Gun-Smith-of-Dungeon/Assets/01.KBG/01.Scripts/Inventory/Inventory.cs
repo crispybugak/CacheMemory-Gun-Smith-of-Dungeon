@@ -2,6 +2,7 @@ using System;
 using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
+using KBG.Item;
 using UnityEngine.Serialization;
 using UnityEngine.UI;
 
@@ -64,6 +65,17 @@ namespace KBG.Inventory
         public Slot GetEmptyInventorySlot()
         {
             return inventorySlots.FirstOrDefault(slot => slot == null);
+        }
+
+        public bool AddItem(IItem item)
+        {
+            var emptySlot = GetEmptyInventorySlot();
+            if  (emptySlot)
+            {
+                emptySlot.SetItem(item);
+                return true;
+            }
+            return false;
         }
     }
 }

@@ -1,8 +1,16 @@
 using UnityEngine;
 
-namespace KBG.Inventory
+namespace KBG.Item
 {
-    public class Item : MonoBehaviour
+    [CreateAssetMenu(menuName = "SO/Item/Item")]
+    public class Item : IItem
     {
+        public override IItemData ItemData
+        {
+            get => itemData;
+            set => itemData = value;
+        }
+
+        [SerializeField] private IItemData itemData;
     }
 }
