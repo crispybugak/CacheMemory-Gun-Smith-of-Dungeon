@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using KBG.Item;
 using UnityEngine;
@@ -7,7 +8,6 @@ using Random = UnityEngine.Random;
 public class Gun : MonoBehaviour
 {
     [SerializeField] private Transform gunPos;
-    [SerializeField] private SpriteRenderer spriteRenderer;  
     [SerializeField] private ParticleSystem particleSystem;
     [SerializeField] private AgentMovementSO agentMovement;
     [SerializeField] private MousePointer cursor;
@@ -26,6 +26,13 @@ public class Gun : MonoBehaviour
         agentMovement.OnMousePressed += () => StartCoroutine(StartFire());
         agentMovement.OnMouseReleased += () => StopCoroutine(StartFire());
         agentMovement.OnReloadPressed +=  Reload;
+    }
+
+    private void OnDisable()
+    {
+        agentMovement.OnMousePressed -= () => StartCoroutine(StartFire());
+        agentMovement.OnMouseReleased -= () => StopCoroutine(StartFire());
+        agentMovement.OnReloadPressed -=  Reload;
     }
 
     private void Reload()
