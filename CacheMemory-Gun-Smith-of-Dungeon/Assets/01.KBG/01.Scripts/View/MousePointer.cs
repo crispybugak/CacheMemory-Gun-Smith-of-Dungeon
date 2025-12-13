@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[def]
 public class MousePointer : MonoBehaviour
 {
     [SerializeField] private AgentMovementSO agentMovement;
