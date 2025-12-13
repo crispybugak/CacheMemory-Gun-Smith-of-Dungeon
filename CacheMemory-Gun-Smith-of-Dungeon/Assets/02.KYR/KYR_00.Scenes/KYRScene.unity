@@ -526,7 +526,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1150796101}
   - component: {fileID: 1150796100}
-  - component: {fileID: 1150796102}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -578,24 +577,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1150796102
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1150796099}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 84bdc2e8d3e9ead47978c8bbc996a381, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  showConnections: 1
-  showRoomLabels: 1
-  connectionColor: {r: 0, g: 1, b: 1, a: 1}
-  startRoomColor: {r: 0, g: 1, b: 0, a: 1}
-  bossRoomColor: {r: 1, g: 0, b: 0, a: 1}
-  lineWidth: 0.2
 --- !u!1 &1616903166
 GameObject:
   m_ObjectHideFlags: 0

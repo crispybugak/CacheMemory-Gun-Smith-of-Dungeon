@@ -9550,6 +9550,7 @@ GameObject:
   - component: {fileID: 2710958906567954802}
   - component: {fileID: 6652258714070278408}
   - component: {fileID: 4697493790100717951}
+  - component: {fileID: 8185826786052472084}
   m_Layer: 0
   m_Name: Square
   m_TagString: Untagged
@@ -9639,7 +9640,7 @@ BoxCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.0155798495, y: 0.019421995}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -9649,8 +9650,23 @@ BoxCollider2D:
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  m_Size: {x: 0.93, y: 0.93}
+  m_Size: {x: 1.0001342, y: 0.96884406}
   m_EdgeRadius: 0
+--- !u!114 &8185826786052472084
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8286409849875682828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afe8c22e485e10444925ca4b34d9e8e4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  roomController: {fileID: 6652258714070278408}
+  enterTrigger: {fileID: 4697493790100717951}
+  bossPrefab: {fileID: 0}
 --- !u!1 &8331766842874259135
 GameObject:
   m_ObjectHideFlags: 0
