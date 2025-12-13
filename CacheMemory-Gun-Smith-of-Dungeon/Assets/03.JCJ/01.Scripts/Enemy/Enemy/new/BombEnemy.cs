@@ -11,6 +11,7 @@ public class BombEnemy : BaseEnemy
     {
         base.Start();
         hashIsExploding = Animator.StringToHash("isExploding");
+        attackSoundName = "bomber-chick"; 
     }
 
     protected override void Attack()
@@ -30,12 +31,19 @@ public class BombEnemy : BaseEnemy
     {
         isExploding = true;
         moveDirection = Vector2.zero;
-        
+    
+        yield return new WaitForSeconds(0.8f);
+    
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySound("bomber-bomb");
+        }
+    
         ApplyExplosionDamage();
         if (GetAnimator() != null)
             GetAnimator().SetTrigger("isDead");
+    
         yield return new WaitForSeconds(0.5f);
-
         Destroy(gameObject);
     }
 

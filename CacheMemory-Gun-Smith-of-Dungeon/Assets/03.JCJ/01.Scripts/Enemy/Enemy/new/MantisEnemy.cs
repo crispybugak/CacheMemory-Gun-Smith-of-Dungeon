@@ -8,6 +8,7 @@ public class MentisEnemy : BaseEnemy
     {
         base.Start();
         hashIsAttacking = Animator.StringToHash("isAttacking");
+        attackSoundName = "mentis-attack-sound";
     }
 
     protected override void Attack()

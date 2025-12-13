@@ -11,6 +11,7 @@ public class BoarEnemy : BaseEnemy
     {
         base.Start();
         hashSleepTransition = Animator.StringToHash("sleepTransition");
+        attackSoundName = "boar-attack-sound";
     }
 
     protected override void Attack()

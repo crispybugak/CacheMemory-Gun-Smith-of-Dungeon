@@ -8,6 +8,7 @@ public class SkeletonWarriorEnemy : BaseEnemy
     {
         base.Start();
         hashIsAttacking = Animator.StringToHash("isAttacking");
+        attackSoundName = "skeleton-attack-sound";
     }
 
     protected override void Attack()

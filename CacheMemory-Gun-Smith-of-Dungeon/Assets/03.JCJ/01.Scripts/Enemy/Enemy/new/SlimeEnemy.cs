@@ -10,6 +10,7 @@ public class SlimeEnemy : BaseEnemy
         base.Start();
         isRangedEnemy = true;
         hashIsAbility = Animator.StringToHash("isAbility");
+        attackSoundName = "slime-lunch-sound"; 
     }
 
     protected override void Update()
@@ -19,7 +20,7 @@ public class SlimeEnemy : BaseEnemy
         if (!isAttacking && GetPlayerTransform() != null)
         {
             float distToPlayer = Vector2.Distance(transform.position, GetPlayerTransform().position);
-            
+             
             if (distToPlayer <= GetEnemyData().attackRange)
             {
                 Debug.Log($"{name}: 공격 범위 내, 거리: {distToPlayer}, 공격 범위: {GetEnemyData().attackRange}");

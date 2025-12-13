@@ -8,13 +8,13 @@ public class SceneMoveManager : MonoBehaviour
     {
         PlayerPrefs.SetString("SelectedCharacter", "Rin");
         PlayerPrefs.Save();
-        SceneManager.LoadScene("SDWGameScene");
+        SceneManager.LoadScene("GameScene");
     }
 
     public void SelectRia()
     {
         PlayerPrefs.SetString("SelectedCharacter", "Ria");
         PlayerPrefs.Save();
-        SceneManager.LoadScene("SDWGameScene");
+        SceneManager.LoadScene("GameScene");
     }
 }

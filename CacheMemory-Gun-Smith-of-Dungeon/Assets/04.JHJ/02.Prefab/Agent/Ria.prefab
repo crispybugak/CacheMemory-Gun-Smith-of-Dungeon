@@ -21,7 +21,7 @@ GameObject:
   - component: {fileID: 5039252199775382975}
   m_Layer: 10
   m_Name: Ria
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -110,7 +110,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  <MoveSpeed>k__BackingField: 0
 --- !u!114 &4761298797955577491
 MonoBehaviour:
   m_ObjectHideFlags: 0

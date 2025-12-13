@@ -15,26 +15,43 @@ public class NecromancerBoss : BaseEnemy
         isRangedEnemy = true;
         hashIsAttacking = Animator.StringToHash("isAttacking");
         hashSpawnTrigger = Animator.StringToHash("spawnTrigger");
+        attackSoundName = "necromencer-charge";
+        deathSoundName = "necromancer-dead"; 
     }
 
     protected override void Attack()
     {
         animator?.SetBool(hashIsAttacking, true);
+        PlayAttackSound();  // ← 추가!
         PerformAttack();
     }
 
     protected override void PerformAttack()
     {
-        LaunchProjectile();
+        StartCoroutine(LaunchProjectileSequence());
 
         if (minionSpawned < GetEnemyData().maxMinions && 
             Time.time - lastSpecialTime >= GetEnemyData().specialAbilityCooldown)
         {
             animator?.SetTrigger(hashSpawnTrigger);
+            PlaySummonSound();  // ← 추가!
             lastSpecialTime = Time.time;
             minionSpawned++;
             StartCoroutine(SpawnMinionAfterAnimation(0.5f));
         }
+    }
+
+    private IEnumerator LaunchProjectileSequence()
+    {
+        yield return new WaitForSeconds(2.5f);
+    
+        // 발사할 때만 사운드!
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySound("necromencer-charge");
+        }
+    
+        LaunchProjectile();
     }
 
     protected override void ApplyAttackDamage()
@@ -79,7 +96,13 @@ public class NecromancerBoss : BaseEnemy
         }
     }
 
-
+    private void PlaySummonSound()
+    {
+        if (AudioManager.Instance != null)
+        {
+            AudioManager.Instance.PlaySound("necromencer-spawn");
+        }
+    }
 
     private IEnumerator SpawnMinionAfterAnimation(float delay)
     {
@@ -98,14 +121,10 @@ public class NecromancerBoss : BaseEnemy
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
-        if (GetAnimator() != null)
-            GetAnimator().SetTrigger("isHurt");
     }
 
     protected override void Die()
     {
-        if (GetAnimator() != null)
-            GetAnimator().SetTrigger("isDead");
         base.Die();
     }
 
