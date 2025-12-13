@@ -1,0 +1,473 @@
+fileFormatVersion: 2
+guid: 87671fe781e055841a0a7b9ba5ca13fc
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 2065159071797269923
+    second: SkillEffect-Sheet_0
+  - first:
+      213: -8767629964698437539
+    second: SkillEffect-Sheet_1
+  - first:
+      213: -2122594106816341166
+    second: SkillEffect-Sheet_2
+  - first:
+      213: 3525322849095567829
+    second: SkillEffect-Sheet_3
+  - first:
+      213: -7562372112341177111
+    second: SkillEffect-Sheet_4
+  - first:
+      213: -3215605697747167540
+    second: SkillEffect-Sheet_5
+  - first:
+      213: 1753378946724708905
+    second: SkillEffect-Sheet_6
+  - first:
+      213: -351473888745285984
+    second: SkillEffect-Sheet_7
+  - first:
+      213: -788307336999697111
+    second: SkillEffect-Sheet_8
+  - first:
+      213: -449454312078152386
+    second: SkillEffect-Sheet_9
+  - first:
+      213: -4988331128707904065
+    second: SkillEffect-Sheet_10
+  - first:
+      213: -8994357518340877867
+    second: SkillEffect-Sheet_11
+  - first:
+      213: -8934064122873129820
+    second: SkillEffect-Sheet_12
+  - first:
+      213: 6879999564099018443
+    second: SkillEffect-Sheet_13
+  - first:
+      213: -3097151873180806972
+    second: SkillEffect-Sheet_14
+  - first:
+      213: -8525041835575095921
+    second: SkillEffect-Sheet_15
+  - first:
+      213: 6210196001904718514
+    second: SkillEffect-Sheet_16
+  - first:
+      213: -9100824550162849087
+    second: SkillEffect-Sheet_17
+  - first:
+      213: -3379660803403031282
+    second: SkillEffect-Sheet_18
+  - first:
+      213: -2426513214275975315
+    second: SkillEffect-Sheet_19
+  - first:
+      213: -384463843060561408
+    second: SkillEffect-Sheet_20
+  - first:
+      213: -1805495122839823478
+    second: SkillEffect-Sheet_21
+  - first:
+      213: -5371465795335028788
+    second: SkillEffect-Sheet_22
+  - first:
+      213: 6241598967379015945
+    second: SkillEffect-Sheet_23
+  - first:
+      213: -1702818403878641759
+    second: SkillEffect-Sheet_24
+  - first:
+      213: 8116662601817451935
+    second: SkillEffect-Sheet_25
+  - first:
+      213: -1121631078131387613
+    second: SkillEffect-Sheet_26
+  - first:
+      213: -4365250653218982091
+    second: SkillEffect-Sheet_27
+  - first:
+      213: -7298452539510860285
+    second: SkillEffect-Sheet_28
+  - first:
+      213: 5828978829411981258
+    second: SkillEffect-Sheet_29
+  - first:
+      213: 524408463223965345
+    second: SkillEffect-Sheet_30
+  - first:
+      213: -2506494575538402119
+    second: SkillEffect-Sheet_31
+  - first:
+      213: -5829078708164476521
+    second: SkillEffect-Sheet_32
+  - first:
+      213: -2457332416151470690
+    second: SkillEffect-Sheet_33
+  - first:
+      213: -2950508492796127278
+    second: SkillEffect-Sheet_34
+  - first:
+      213: 4585659810033503447
+    second: SkillEffect-Sheet_35
+  - first:
+      213: 4088984397945442518
+    second: SkillEffect-Sheet_36
+  - first:
+      213: 3161964996853782427
+    second: SkillEffect-Sheet_37
+  - first:
+      213: 5206283475530628172
+    second: SkillEffect-Sheet_38
+  - first:
+      213: -4820919670963502863
+    second: SkillEffect-Sheet_39
+  - first:
+      213: -8585117078321514857
+    second: SkillEffect-Sheet_40
+  - first:
+      213: 9147188108897547864
+    second: SkillEffect-Sheet_41
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: SkillEffect-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 192
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 3a5d62feb3be8ac10800000000000000
+      internalID: 2065159071797269923
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillEffect-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 192
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: d583410000f135680800000000000000
+      internalID: -8767629964698437539
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillEffect-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 192
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 25bdfd4e7e70b82e0800000000000000
+      internalID: -2122594106816341166
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillEffect-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 192
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 5d9c8ea04767ce030800000000000000
+      internalID: 3525322849095567829
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillEffect-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9ec659881ae0d0790800000000000000
+      internalID: -7562372112341177111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillEffect-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: cc6de08a7afdf53d0800000000000000
+      internalID: -3215605697747167540
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillEffect-Sheet_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 96
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 922cc2cbcd0455810800000000000000
+      internalID: 1753378946724708905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillEffect-Sheet_7
+      rect:
+        serializedVersion: 2
+        x: 288
+        y: 96
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 0a613814c505f1bf0800000000000000
+      internalID: -351473888745285984
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillEffect-Sheet_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: 9258c4457ae5f05f0800000000000000
+      internalID: -788307336999697111
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: SkillEffect-Sheet_9
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: -1
+      bones: []
+      spriteID: e3d60d93fa733c9f0800000000000000
+      internalID: -449454312078152386
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 1195aeb62b5225a458aa6f11f7df30c1
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      SkillEffect-Sheet_0: 2065159071797269923
+      SkillEffect-Sheet_1: -8767629964698437539
+      SkillEffect-Sheet_2: -2122594106816341166
+      SkillEffect-Sheet_3: 3525322849095567829
+      SkillEffect-Sheet_4: -7562372112341177111
+      SkillEffect-Sheet_5: -3215605697747167540
+      SkillEffect-Sheet_6: 1753378946724708905
+      SkillEffect-Sheet_7: -351473888745285984
+      SkillEffect-Sheet_8: -788307336999697111
+      SkillEffect-Sheet_9: -449454312078152386
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
