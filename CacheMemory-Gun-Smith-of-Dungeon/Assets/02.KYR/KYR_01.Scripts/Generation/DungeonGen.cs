@@ -27,9 +27,11 @@ public class DungeonGen : MonoBehaviour
    private Vector2Int? firstConnectedRoom = null;
    private Vector2Int farRoom;
    private int currentSeed;
-
+   
+   [SerializeField] private bool autoGenerate = false;
    private void Start()
    {
+      if (!autoGenerate) return;
       if (PlayerPrefs.HasKey("DungeonSeed"))
       {
          currentSeed = PlayerPrefs.GetInt("DungeonSeed");
@@ -44,6 +46,11 @@ public class DungeonGen : MonoBehaviour
       }
       
       Generate();
+   }
+   
+   public void GeneratePublic()
+   {
+      Generate(); 
    }
    
    private void Generate()
@@ -469,6 +476,22 @@ public class DungeonGen : MonoBehaviour
       public bool E;
       public bool S;
       public bool W;
+   }
+   
+   public void ApplyTheme(DungeonThemeSO t)
+   {
+      startRoomPrefab  = t.startRoomPrefab;
+      bossRoomPrefab   = t.bossRoomPrefab;
+      eventRoomPrefab  = t.eventRoomPrefabs;
+      monsterRoomPrefab = t.monsterRoomPrefabs;
+
+      if (corridorGenerator != null)
+      {
+         corridorGenerator.SetCorridorPrefabs(
+            t.horizontalCorridorPrefab,
+            t.verticalCorridorPrefab
+         );
+      }
    }
    
    [ContextMenu("Clear Saved Seed")]
