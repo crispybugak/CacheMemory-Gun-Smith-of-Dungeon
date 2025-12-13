@@ -19,6 +19,7 @@ GameObject:
   - component: {fileID: 7488197734037008423}
   - component: {fileID: 4819251962993818640}
   - component: {fileID: 5039252199775382975}
+  - component: {fileID: 8709099801831422646}
   m_Layer: 10
   m_Name: Ria
   m_TagString: Untagged
@@ -110,7 +111,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-  <MoveSpeed>k__BackingField: 0
 --- !u!114 &4761298797955577491
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -227,7 +227,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   agent: {fileID: 8974527604838590291}
-  skillData: {fileID: 11400000, guid: 6c2876acd8b1b604eba62fb6a6608af5, type: 2}
+  skillData: {fileID: 11400000, guid: 402cf855c6f243d4d885d01facf0cef1, type: 2}
 --- !u!114 &4819251962993818640
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -241,7 +241,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   passives:
-  - {fileID: 11400000, guid: 4147654a58807d343ba383f402062a02, type: 2}
+  - {fileID: 11400000, guid: 1009e2eb2fd6db9499c5c8722c624c2a, type: 2}
 --- !u!114 &5039252199775382975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -255,6 +255,18 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _zoom: {fileID: 0}
+--- !u!114 &8709099801831422646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3753103667826068608}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e3918e9ba034aec8c5486c6c24310fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &9006714738556784102
 GameObject:
   m_ObjectHideFlags: 0

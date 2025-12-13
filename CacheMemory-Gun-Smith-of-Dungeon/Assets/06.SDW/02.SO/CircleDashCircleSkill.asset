@@ -16,10 +16,11 @@ MonoBehaviour:
   coolTime: 0
   skillIcon: {fileID: 0}
   animationName: 
+  attackEffectPrefab: {fileID: 3404008320031178102, guid: 488da4c8de98c9e40a28a8d6dd069e40, type: 3}
   firstRadius: 1.5
   secondRadius: 1.5
   targetLayer:
     serializedVersion: 2
-    m_Bits: 0
+    m_Bits: 32768
   dashDistance: 3
   dashDuration: 0.2

@@ -9,9 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b65688dc21e49d14faa0e9604f956427, type: 3}
-  m_Name: Item
+  m_Script: {fileID: 11500000, guid: 23c5b270edf68494fb04ade8193cd323, type: 3}
+  m_Name: Polyamid
   m_EditorClassIdentifier: 
-  partData: {fileID: 11400000, guid: 507b686621d80e64d9d0c6a86dd02383, type: 2}
-  durability: 0
-  madeBy: 0
+  <icon>k__BackingField: {fileID: 6006945509410346830, guid: 0e7d279de5ac47641b221bac92d7596c, type: 3}
+  <upScaling>k__BackingField: 1
+  <itemName>k__BackingField: 
+  type: 0
