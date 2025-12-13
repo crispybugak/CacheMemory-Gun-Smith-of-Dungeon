@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b65688dc21e49d14faa0e9604f956427, type: 3}
   m_Name: Item 1
   m_EditorClassIdentifier: 
-  partData: {fileID: 11400000, guid: 507b686621d80e64d9d0c6a86dd02383, type: 2}
+  partData: {fileID: 11400000, guid: 23b8db1e523b15b41a759c77e36bc64a, type: 2}
   durability: 0
   madeBy: 0
