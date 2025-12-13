@@ -5,7 +5,11 @@ public class CorridorGenerator : MonoBehaviour
 {
     [SerializeField] private GameObject horizontalCorridorPrefab;
     [SerializeField] private GameObject verticalCorridorPrefab;
-
+    public void SetCorridorPrefabs(GameObject horizontal, GameObject vertical)
+    {
+        horizontalCorridorPrefab = horizontal;
+        verticalCorridorPrefab = vertical;
+    }
     public void GenerateCorridors(
         DungeonGraph graph,
         Dictionary<Vector2Int, RoomController> placed)
