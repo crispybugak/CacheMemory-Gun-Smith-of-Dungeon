@@ -89,7 +89,7 @@ namespace KBG.Item
 
         public bool CheckEndModding()
         {
-            return partsDict.All(p => GetPart(p.Value.partData.requirePartType)) && GetPart(PartType.Base);
+            return partsDict.Where(p => p.Value).All(p => GetPart(p.Value.partData.requirePartType)) && GetPart(PartType.Base);
         }
 
         private void InitializeStatus()

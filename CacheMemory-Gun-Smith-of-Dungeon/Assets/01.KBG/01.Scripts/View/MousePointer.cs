@@ -38,12 +38,12 @@ public class MousePointer : MonoBehaviour
 
     private void FixedUpdate()
     {
-        time += Time.deltaTime * restorationTime;
-        Vector2 currentDistance;
-        if (time >= 1)
-            currentDistance = Vector2.Lerp(_previousPosition, _distance, time);
-        
-        position = agentMovement.mouseDir + currentDistance;
+        // time += Time.deltaTime * restorationTime;
+        // Vector2 currentDistance;
+        // if (time >= 1)
+        //     currentDistance = Vector2.Lerp(_previousPosition, _distance, time);
+        //
+        // position = agentMovement.mouseDir + currentDistance;
     }
 
     private void LateUpdate()
