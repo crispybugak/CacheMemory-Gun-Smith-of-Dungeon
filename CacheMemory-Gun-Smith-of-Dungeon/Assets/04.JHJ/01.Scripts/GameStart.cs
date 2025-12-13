@@ -20,9 +20,10 @@ public class GameStart : MonoBehaviour
         }
     }
 
-
+    
     private void Start()
     {
+        Debug.Log("ddd");
         AudioManager.Instance.PlaySound("타이틀", 0.6f, 1);
         Sequence sequence = DOTween.Sequence();
         if(gameLogoTop != null && gameLogoBottom != null)
