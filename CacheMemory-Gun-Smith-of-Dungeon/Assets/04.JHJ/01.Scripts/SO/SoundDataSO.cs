@@ -23,11 +23,11 @@ public class SoundDataSO : ScriptableObject
                     float volume = audioSetting.volume;
                     float pitch = audioSetting.pitch;
                     bool startSound = audioSetting.startSound;
-                    SoundType type = SoundType.Master;
+                    SoundType type = audioSetting.soundType;
 
                     AudioSetting modifiedSetting = new AudioSetting(clip, key, loop, volume, pitch, startSound, type);
                     modifiedSettings[index] = modifiedSetting;
-                }
+                } 
             }
 
             audioSettings = modifiedSettings;
