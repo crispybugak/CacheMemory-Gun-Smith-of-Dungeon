@@ -97,14 +97,9 @@ public abstract class BaseEnemy : MonoBehaviour
     [SerializeField] private bool useLineOfSightCheck = true;
 
     [Header("애니메이션 Bool 옵션")]
-    [SerializeField] private string hurtBoolName = "isHurt";
-    [SerializeField] private string deadBoolName = "isDead";
+    protected string hurtBoolName = "isHurt";
+    protected string deadBoolName = "isDead"; 
     [SerializeField] private float hurtBoolDuration = 0.15f;
-    
-    [Header("사운드")]
-    [SerializeField] protected string attackSoundName = "";
-    [SerializeField] protected string hitSoundName = "";
-    [SerializeField] protected string deathSoundName = "";
 
     private bool hasHurtBool;
     private bool hasDeadBool;
@@ -192,29 +187,7 @@ public abstract class BaseEnemy : MonoBehaviour
             nextPathUpdateTime = Time.time + pathUpdateInterval;
         }
     }
-    protected void PlayAttackSound()
-    {
-        if (!string.IsNullOrEmpty(attackSoundName) && AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlaySound(attackSoundName);
-        }
-    }
-
-    protected void PlayHitSound()
-    {
-        if (!string.IsNullOrEmpty(hitSoundName) && AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlaySound(hitSoundName);
-        }
-    }
-
-    protected void PlayDeathSound()
-    {
-        if (!string.IsNullOrEmpty(deathSoundName) && AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlaySound(deathSoundName);
-        }
-    }
+    
     private void UpdateMeleeMovement(float dist)
     {
         float approachDistance = enemyData.attackRange * 0.8f;
@@ -317,6 +290,8 @@ public abstract class BaseEnemy : MonoBehaviour
 
     private bool HasAnimatorBool(string name)
     {
+        if (animator == null) return false;
+    
         foreach (var p in animator.parameters)
         {
             if (p.type == AnimatorControllerParameterType.Bool && p.name == name)
@@ -713,6 +688,7 @@ public abstract class BaseEnemy : MonoBehaviour
         }
     }
 
+
     private IEnumerator ResetHurtBool()
     {
         yield return new WaitForSeconds(hurtBoolDuration);
@@ -723,7 +699,9 @@ public abstract class BaseEnemy : MonoBehaviour
     protected void PlayDeadAnim()
     {
         if (animator != null && hasDeadBool)
+        {
             animator.SetBool(deadBoolName, true);
+        }
     }
 
     public virtual void TakeDamage(float damage)
@@ -732,7 +710,6 @@ public abstract class BaseEnemy : MonoBehaviour
 
         RaiseHealthChanged();
         PlayHurtAnim();
-        PlayHitSound(); 
         StartCoroutine(HitFlash());
 
         if (currentHealth <= 0) Die();
@@ -772,7 +749,6 @@ public abstract class BaseEnemy : MonoBehaviour
         OnDeath?.Invoke(this);
 
         PlayDeadAnim();  // isDead 있는 애는 죽는 애니, 없는 애는 패스
-        PlayDeathSound();  
         enabled = false; // Update 멈춤
 
         StartCoroutine(DeathFadeAndDestroy()); // 서서히 페이드아웃

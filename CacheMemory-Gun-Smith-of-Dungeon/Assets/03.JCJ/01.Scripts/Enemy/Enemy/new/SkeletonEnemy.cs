@@ -8,7 +8,6 @@ public class SkeletonWarriorEnemy : BaseEnemy
     {
         base.Start();
         hashIsAttacking = Animator.StringToHash("isAttacking");
-        attackSoundName = "skeleton-attack-sound";
     }
 
     protected override void Attack()
@@ -29,15 +28,11 @@ public class SkeletonWarriorEnemy : BaseEnemy
 
     public override void TakeDamage(float damage)
     {
-        base.TakeDamage(damage);
-        if (GetAnimator() != null)
-            GetAnimator().SetTrigger("isHurt");
+        base.TakeDamage(damage);  // BaseEnemy에서 PlayHurtAnim() 자동 호출
     }
 
     protected override void Die()
     {
-        if (GetAnimator() != null)
-            GetAnimator().SetTrigger("isDead");
-        base.Die();
+        base.Die();  // BaseEnemy에서 PlayDeadAnim() 자동 호출
     }
 }
