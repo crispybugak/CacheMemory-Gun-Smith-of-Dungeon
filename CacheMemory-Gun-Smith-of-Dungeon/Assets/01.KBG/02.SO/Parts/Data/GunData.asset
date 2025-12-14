@@ -19,3 +19,4 @@ MonoBehaviour:
   range: 0
   handleSpeed: 0
   capacity: 0
+  <Chamber>k__BackingField: {fileID: 11400000, guid: 2f242fcb64984f94489d6c0aa62c5263, type: 2}

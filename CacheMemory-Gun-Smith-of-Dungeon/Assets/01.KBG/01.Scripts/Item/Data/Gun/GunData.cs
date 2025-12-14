@@ -21,7 +21,7 @@ namespace KBG.Item
             handleSpeed;
         public float capacity;
         
-        public BulletItem Chamber { get; private set; }
+        [field:SerializeField] public BulletItem Chamber { get; private set; }
         private Stack<BulletItem> _magazine = new Stack<BulletItem>();
 
         public void Initialize()

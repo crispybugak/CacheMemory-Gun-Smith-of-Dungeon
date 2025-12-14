@@ -19,7 +19,7 @@ namespace _06.SDW._01.Scripts.Item
         // 테스트용 가상 인벤토리
         private List<IItem> myInventory = new List<IItem>();
 
-        private void Start()
+        /*private void Start()
         {
             if (Items != null && Items.Length > 0)
             {
@@ -55,6 +55,6 @@ namespace _06.SDW._01.Scripts.Item
                 Debug.Log($"[Test] 제작 완료! 남은 인벤토리 수: {myInventory.Count}");
                 Debug.Log($"[Test] 생성된 파츠: {result.ItemData.itemName}, 타입: {((PartData)result.ItemData).type}");
             }
-        }
+        }*/
     }
 }
