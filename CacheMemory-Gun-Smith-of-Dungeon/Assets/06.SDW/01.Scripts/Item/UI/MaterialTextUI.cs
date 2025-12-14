@@ -37,9 +37,7 @@ public class MaterialTextUI : MonoBehaviour
             int need = Mathf.Max(1, req.requiredAmount);
 
             string name = getName != null ? getName(req.requiredIngredient) : req.requiredIngredient.ToString();
-
-            sb.Append("재료 ");
-            sb.Append(i + 1);
+            
             sb.Append(' ');
             sb.Append(name);
             sb.Append(' ');
