@@ -11,6 +11,6 @@ namespace KBG.Item
             set => itemData = value;
         }
 
-        [SerializeField] private IItemData itemData;
+       [SerializeField] IItemData itemData;
     }
 }

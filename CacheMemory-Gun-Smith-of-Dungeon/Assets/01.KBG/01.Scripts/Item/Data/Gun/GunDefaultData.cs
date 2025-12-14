@@ -13,6 +13,10 @@ namespace KBG.Item
         public float minRebound;
         public float maxRebound;
         
+        [Header("Range")]
+        public float minRange;
+        public float maxRange;
+        
         [Header("MoveSpeed")]
         public float maxMoveSpeed;
         public float minMoveSpeed;

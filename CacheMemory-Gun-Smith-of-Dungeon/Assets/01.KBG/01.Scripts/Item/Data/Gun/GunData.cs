@@ -27,7 +27,6 @@ namespace KBG.Item
         public void Initialize()
         {
             partsDict.Clear();
-            Debug.Log("Init");
             
             foreach (var part in Enum.GetValues(typeof(PartType)).Cast<PartType>())
                 partsDict.Add(part, null);
@@ -69,7 +68,9 @@ namespace KBG.Item
         public BulletItem ShootBullet()
         {
             var temp = Chamber;
+            Chamber = null;
             ReloadChamber();
+            Debug.Log(_magazine.Count + (Chamber ? 1  : 0));
             return temp;
         }
 
@@ -82,8 +83,10 @@ namespace KBG.Item
 
         public bool Reload(BulletItem bullet)
         {
-            if (!(_magazine.Count < capacity)) return false;
+            if (_magazine.Count >= capacity) return false;
             _magazine.Push(Chamber);
+            Chamber = bullet;
+            Debug.Log(_magazine.Count + (Chamber ? 1  : 0));
             return true;
         }
 

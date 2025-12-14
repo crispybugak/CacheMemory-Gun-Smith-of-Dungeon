@@ -15,12 +15,11 @@ namespace KBG.Item
             set { bulletData = value as BulletData; }
         }
         [field: SerializeField] public float Damage { get; private set; }
-        [Header("Ingredient")] public IngredientType usedIngredientType;
-        public float usedAmount;
+        public float usedGunpowderAmount;
 
         public void Initialize()
         {
-            Damage = bulletData.powderStatuses.Find(powder => powder.ingredientType == usedIngredientType).extraDamageRate *  usedAmount * bulletData.damageRatePerPowder;
+            Damage = bulletData.defaultDamage + (usedGunpowderAmount * bulletData.damageRatePerPowder);
         }
     }
 }

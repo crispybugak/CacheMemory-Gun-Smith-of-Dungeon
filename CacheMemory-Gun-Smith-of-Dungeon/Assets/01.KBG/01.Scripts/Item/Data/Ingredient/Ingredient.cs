@@ -19,7 +19,7 @@ namespace KBG.Item
         [field:SerializeField] public Sprite icon { get; set; }
         [field:SerializeField] public float upScaling { get; set; }
         [field:SerializeField] public string itemName { get; set; }
-        public IngredientType type;
         
+        public IngredientType type;
     }
 }
