@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -33,20 +34,24 @@ namespace KBG.Item
     {
 
         [Serializable]
-        public struct PartEffect
+        public class PartEffect
         {
             public PartEffectType effectType;
             public float effectAmount;
         }
     
         [Serializable]
-        public struct RequireIngredient
+        public class RequireIngredient : IEnumerable
         {
             public IngredientType requiredIngredient;
             public int requiredAmount;
         
             public List<PartEffect> effects;
             public float durability;
+            public IEnumerator GetEnumerator()
+            {
+                return effects.GetEnumerator();
+            }
         }
         
         
