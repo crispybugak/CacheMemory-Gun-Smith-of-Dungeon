@@ -14,5 +14,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <icon>k__BackingField: {fileID: 7599401663068907718, guid: 2be5e71e235c2ad4c902e42d45dd4c7c, type: 3}
   <upScaling>k__BackingField: 1
-  <itemName>k__BackingField: 
-  type: 0
+  <itemName>k__BackingField: "\uD654\uC57D"
+  type: 4

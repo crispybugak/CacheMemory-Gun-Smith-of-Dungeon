@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 5608887467425803168}
   - component: {fileID: 8424686143728004293}
   - component: {fileID: 4683442853952164241}
+  - component: {fileID: 1813774885461986197}
   m_Layer: 15
   m_Name: SlimeEnemy
   m_TagString: Enemy
@@ -252,12 +253,20 @@ MonoBehaviour:
     m_Bits: 32768
   attackAnimationDuration: 0.6
   useLineOfSightCheck: 1
-  hurtBoolName: isHurt
-  deadBoolName: isDead
   hurtBoolDuration: 0.15
-  attackSoundName: 
-  hitSoundName: 
-  deathSoundName: 
+--- !u!114 &1813774885461986197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044206925059017212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69eae90244ad1514993b8c497935316f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSo: {fileID: 11400000, guid: 95cf6d290c09ed94f9819fb745c47d72, type: 2}
 --- !u!1 &2995380448859899124
 GameObject:
   m_ObjectHideFlags: 0

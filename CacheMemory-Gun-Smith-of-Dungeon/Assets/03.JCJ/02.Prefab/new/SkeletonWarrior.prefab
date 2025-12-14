@@ -106,6 +106,7 @@ GameObject:
   - component: {fileID: 6249339360031456114}
   - component: {fileID: 8710842948711545035}
   - component: {fileID: 6739765325006289828}
+  - component: {fileID: 6171762489984111333}
   m_Layer: 15
   m_Name: SkeletonWarrior
   m_TagString: Enemy
@@ -343,12 +344,20 @@ MonoBehaviour:
     m_Bits: 32768
   attackAnimationDuration: 0.6
   useLineOfSightCheck: 1
-  hurtBoolName: isHurt
-  deadBoolName: isDead
   hurtBoolDuration: 0.15
-  attackSoundName: 
-  hitSoundName: 
-  deathSoundName: 
+--- !u!114 &6171762489984111333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6389411021323192786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69eae90244ad1514993b8c497935316f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSo: {fileID: 11400000, guid: 95cf6d290c09ed94f9819fb745c47d72, type: 2}
 --- !u!1 &6495274670131262146
 GameObject:
   m_ObjectHideFlags: 0

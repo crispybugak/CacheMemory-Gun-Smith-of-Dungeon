@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 8385654004185257650}
   - component: {fileID: 3468795393923472312}
   - component: {fileID: 5290951875205479727}
+  - component: {fileID: -7260325115081679740}
   m_Layer: 15
   m_Name: Bomber_
   m_TagString: Enemy
@@ -242,13 +243,21 @@ MonoBehaviour:
     m_Bits: 32768
   attackAnimationDuration: 0.6
   useLineOfSightCheck: 1
-  hurtBoolName: isHurt
-  deadBoolName: isDead
   hurtBoolDuration: 0.15
-  attackSoundName: 
-  hitSoundName: 
-  deathSoundName: 
   explosionWarningTime: 0.1
+--- !u!114 &-7260325115081679740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5405132748367135438}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69eae90244ad1514993b8c497935316f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSo: {fileID: 11400000, guid: 95cf6d290c09ed94f9819fb745c47d72, type: 2}
 --- !u!1 &6311585427233460702
 GameObject:
   m_ObjectHideFlags: 0
