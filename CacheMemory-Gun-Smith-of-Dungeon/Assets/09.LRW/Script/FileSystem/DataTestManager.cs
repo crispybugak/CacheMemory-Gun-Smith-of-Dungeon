@@ -34,7 +34,6 @@ namespace _1.Script.Lrw.FileSystem
             FileManager.SetFile(fileName,data);
             
         }
-      
 
         
     }

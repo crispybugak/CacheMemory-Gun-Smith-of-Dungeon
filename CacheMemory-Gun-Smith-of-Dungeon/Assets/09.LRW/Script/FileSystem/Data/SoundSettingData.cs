@@ -3,16 +3,16 @@
 namespace _1.Script.Lrw.FileSystem.Data
 {
     [Serializable]
-    public struct SoundSettingData
+    public class SoundSettingData
     {
         public SoundSettingData(float a,float b,float c)
         {
-            MasterVolume = a;
-            BGMVolume = b;
-            SFXVolume = c;
+            masterVolume = a;
+            bgmVolume = b;
+            sfxVolume = c;
         }
-        public float MasterVolume;
-        public float BGMVolume;
-        public float SFXVolume;
+        public float masterVolume = 1f;
+        public float bgmVolume = 1f;
+        public float sfxVolume = 1f;
     }
 }
