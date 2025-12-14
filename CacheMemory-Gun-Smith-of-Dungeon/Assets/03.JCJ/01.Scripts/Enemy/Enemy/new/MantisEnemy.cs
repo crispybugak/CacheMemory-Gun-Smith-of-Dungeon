@@ -8,7 +8,6 @@ public class MentisEnemy : BaseEnemy
     {
         base.Start();
         hashIsAttacking = Animator.StringToHash("isAttacking");
-        attackSoundName = "mentis-attack-sound";
     }
 
     protected override void Attack()
@@ -30,14 +29,10 @@ public class MentisEnemy : BaseEnemy
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
-        if (GetAnimator() != null)
-            GetAnimator().SetTrigger("isHurt");
     }
 
     protected override void Die()
     {
-        if (GetAnimator() != null)
-            GetAnimator().SetTrigger("isDead");
         base.Die();
     }
 }
