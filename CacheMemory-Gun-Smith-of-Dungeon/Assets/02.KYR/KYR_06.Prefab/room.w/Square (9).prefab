@@ -4582,7 +4582,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   room: {fileID: 6403350600574385393}
   pds: {fileID: 8693636559997311035}
-  monsterList: {fileID: 0}
+  monsterList: {fileID: 11400000, guid: 608710bbb019ccb4bbbfbd7b21ebaa85, type: 2}
   minTotalCount: 20
   maxTotalCount: 23
   obstacleMask:

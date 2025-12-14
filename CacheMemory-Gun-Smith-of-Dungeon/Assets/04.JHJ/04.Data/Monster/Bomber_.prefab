@@ -79,9 +79,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: -2116695181
+  m_SortingLayer: 3
+  m_SortingOrder: 50
   m_Sprite: {fileID: 8876313645419021180, guid: 89e91b47884881d4abda0276c0578698, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -232,6 +232,7 @@ MonoBehaviour:
   pathUpdateInterval: 0.15
   hitFlashDuration: 0.2
   hitFlashColor: {r: 1, g: 1, b: 1, a: 0.6}
+  deathFadeDuration: 0.6
   rangedKeepDistance: 3.5
   rangedBackAwaySpeed: 0.6
   separationRadius: 0.8
@@ -241,6 +242,12 @@ MonoBehaviour:
     m_Bits: 32768
   attackAnimationDuration: 0.6
   useLineOfSightCheck: 1
+  hurtBoolName: isHurt
+  deadBoolName: isDead
+  hurtBoolDuration: 0.15
+  attackSoundName: 
+  hitSoundName: 
+  deathSoundName: 
   explosionWarningTime: 0.1
 --- !u!1 &6311585427233460702
 GameObject:
