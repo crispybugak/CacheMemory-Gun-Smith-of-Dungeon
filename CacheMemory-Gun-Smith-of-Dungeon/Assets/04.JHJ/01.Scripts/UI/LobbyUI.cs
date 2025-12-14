@@ -45,6 +45,10 @@ public class LobbyUI : MonoBehaviour
     public GameObject bagContentCanvas;
     public GameObject craftContentCanvas;
 
+    // ====== NEW: C-3 인벤토리 캔바스(UI) ======
+    [Header("C-3. Inventory Canvas")]
+    public GameObject inventoryCanvasRoot;
+
     private float fadeDuration = 0.2f;
 
     private bool _isPanelOpen = false;
@@ -128,6 +132,12 @@ public class LobbyUI : MonoBehaviour
         {
             craftContentCanvas.SetActive(false);
             SetRaycastForObject(craftContentCanvas, false);
+        }
+
+        if (inventoryCanvasRoot)
+        {
+            inventoryCanvasRoot.SetActive(false);
+            SetRaycastForObject(inventoryCanvasRoot, false);
         }
     }
 
@@ -363,14 +373,14 @@ public class LobbyUI : MonoBehaviour
             SetRaycastForObject(bagExtraObject, true);
         }
 
-        SetBagBaseVisible(true);
-        SetCraftVisible(false);
+        // 기본은 가방 화면
+        ShowBagView();
     }
 
     private void CloseBackpack()
     {
-        SetCraftVisible(false);
-        SetBagBaseVisible(false);
+        // 전부 끄기
+        HideAllContentViews();
 
         if (categoryBarRoot)
         {
@@ -395,23 +405,52 @@ public class LobbyUI : MonoBehaviour
     }
 
     // ====== 카테고리 버튼 이벤트 ======
+    // 제작 버튼: C-2(기존 컨텐츠) 전부 끄고, C-3(InventoryCanvas)만 켜기
     private void OnClickCategoryCraft()
     {
         if (_popup != LobbyPopup.Backpack) return;
 
         PlayClickSound();
-        SetCraftVisible(true);
+        ShowInventoryView();
     }
 
+    // 가방 버튼: C-3 끄고, C-2의 bagContentCanvas만 켜기
     private void OnClickCategoryBag()
     {
         if (_popup != LobbyPopup.Backpack) return;
 
         PlayClickSound();
-        SetCraftVisible(false);
+        ShowBagView();
     }
 
-    // ====== 표시 유틸 ======
+    // ====== 표시 유틸 (뷰 전환) ======
+    private void HideAllContentViews()
+    {
+        // C-2 OFF
+        SetBagBaseVisible(false);
+        SetCraftVisible(false);
+
+        // C-3 OFF
+        SetInventoryVisible(false);
+    }
+
+    private void ShowBagView()
+    {
+        // 제작/인벤토리 쪽 모두 끄고 가방만 켬
+        SetInventoryVisible(false);
+        SetCraftVisible(false);
+        SetBagBaseVisible(true);
+    }
+
+    private void ShowInventoryView()
+    {
+        // 요구사항: 제작 누르면 C-2에 할당된 UI들 끄고(C-2 전체 OFF), C-3 인벤토리 캔바스 ON
+        SetBagBaseVisible(false);
+        SetCraftVisible(false);
+        SetInventoryVisible(true);
+    }
+
+    // ====== 기존 C-2 ======
     private void SetBagBaseVisible(bool on)
     {
         if (!bagContentCanvas) return;
@@ -441,6 +480,23 @@ public class LobbyUI : MonoBehaviour
         {
             SetRaycastForObject(craftContentCanvas, false);
             craftContentCanvas.SetActive(false);
+        }
+    }
+
+    // ====== NEW C-3 ======
+    private void SetInventoryVisible(bool on)
+    {
+        if (!inventoryCanvasRoot) return;
+
+        if (on)
+        {
+            inventoryCanvasRoot.SetActive(true);
+            SetRaycastForObject(inventoryCanvasRoot, true);
+        }
+        else
+        {
+            SetRaycastForObject(inventoryCanvasRoot, false);
+            inventoryCanvasRoot.SetActive(false);
         }
     }
 
