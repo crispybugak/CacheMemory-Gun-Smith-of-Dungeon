@@ -64,7 +64,7 @@ namespace KBG.Inventory
 
         public Slot GetEmptyInventorySlot()
         {
-            return inventorySlots.FirstOrDefault(slot => slot == null);
+            return inventorySlots.FirstOrDefault(slot => slot.item == null);
         }
 
         public bool AddItem(IItem item)
@@ -76,6 +76,23 @@ namespace KBG.Inventory
                 return true;
             }
             return false;
+        }
+
+        public bool RemoveItem(IItem item)
+        {
+            var slot = inventorySlots.FirstOrDefault(slot => slot.item == item);
+            if (slot)
+            {
+                slot.item = null;
+                return true;
+            }
+            return false;
+        }
+
+        public IItem GetItem(Type t)
+        {
+            var item = inventorySlots.FirstOrDefault(i => i.GetType() == t);
+            return item?.item;
         }
     }
 }

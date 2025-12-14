@@ -3,7 +3,9 @@ using UnityEngine;
 public class Bullet : MonoBehaviour
 {
     private Rigidbody2D rb;
-    private float speed = 10f;
+    public float speed = 10f;
+    private Vector2 startPos;
+    public float distance = 10f;
 
     private void Awake()
     {
@@ -13,30 +15,17 @@ public class Bullet : MonoBehaviour
     private void FixedUpdate()
     {
         rb.linearVelocity = transform.right * speed;
+        if (Vector2.Distance(startPos, transform.position) > distance)
+            Destroy(gameObject);
     }
 
     public void ResetBullet()
     {
         rb.linearVelocity = Vector2.zero;
     }
-    
-    private void OnEnable()
-    {
-        Invoke("Deactivate", 2f);
-    }
-
-    private void OnDisable()
-    {
-        CancelInvoke();
-    }
-
-    private void Deactivate()
-    {
-        gameObject.SetActive(false);
-    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        gameObject.SetActive(false);
+        Destroy(gameObject);
     }
 }
