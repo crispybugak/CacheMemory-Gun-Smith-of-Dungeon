@@ -44,13 +44,13 @@ namespace _01.KBG._01.Scripts.View
             if (!isrecoiling)
             {
                 Vector2 dir = (-recoveryPos).normalized;
-                if (dir.magnitude * recoverySpeed * Time.fixedDeltaTime > recoveryPos.magnitude)
+                if (recoverySpeed * 1 >= recoveryPos.magnitude)
                 {
                     recoveryPos = Vector2.zero;
                 }
                 else
                 {
-                    recoveryPos += dir * recoverySpeed;
+                    recoveryPos += dir * (recoverySpeed * 1);
                 }
                 
                 moveStartPos = recoveryPos;
