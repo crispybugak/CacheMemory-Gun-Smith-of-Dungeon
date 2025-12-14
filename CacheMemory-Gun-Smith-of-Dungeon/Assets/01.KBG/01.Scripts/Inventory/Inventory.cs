@@ -64,7 +64,7 @@ namespace KBG.Inventory
 
         public Slot GetEmptyInventorySlot()
         {
-            return inventorySlots.FirstOrDefault(slot => slot.item == null);
+            return inventorySlots.FirstOrDefault(slot => slot != null && slot.item == null);
         }
 
         public bool AddItem(IItem item)
