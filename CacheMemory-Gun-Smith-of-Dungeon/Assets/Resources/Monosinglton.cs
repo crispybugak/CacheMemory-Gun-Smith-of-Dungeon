@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
+public class  MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
 {
     private static T _instance;
 
@@ -26,7 +26,7 @@ public class MonoSingleton<T> : MonoBehaviour where T : MonoBehaviour
         if (managers.Length > 1)
             Destroy(gameObject);
     }
-    protected void OnDestroy()
+    protected virtual void OnDestroy()
     {
         if (_instance == this)
             _instance = null;
