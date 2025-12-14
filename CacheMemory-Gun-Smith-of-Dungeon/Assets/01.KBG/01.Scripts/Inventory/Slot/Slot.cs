@@ -1,4 +1,5 @@
 using System;
+using _06.SDW._01.Scripts.Item;
 using KBG.Item;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -63,11 +64,20 @@ namespace KBG.Inventory
             return true;
         }
 
-        public void SetItem(IItem item)
+        public void SetItem(IItem newItem)
         {
-            this.item = item;
+            IItem oldItem = item;
+            item = newItem;
+
+            Debug.Log($"[Slot] SetItem: {(newItem == null ? "NULL" : newItem.ItemData?.GetType().Name)}");
+
+            if (MaterialInventory.Instance != null)
+                MaterialInventory.Instance.NotifySlotItemChanged(oldItem, newItem);
+
             SetIcon();
         }
+
+
         
         public virtual void SetIcon()
         {

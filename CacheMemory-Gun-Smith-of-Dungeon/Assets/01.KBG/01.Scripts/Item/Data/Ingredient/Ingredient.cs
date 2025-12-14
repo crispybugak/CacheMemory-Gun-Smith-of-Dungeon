@@ -14,7 +14,7 @@ namespace KBG.Item
     
     
     [CreateAssetMenu(menuName = "SO/Item/Ingredient")]
-    public class Ingredient : ScriptableObject, IItemData
+    public class Ingredient : ItemDataBase
     {
         [field:SerializeField] public Sprite icon { get; set; }
         [field:SerializeField] public float upScaling { get; set; }

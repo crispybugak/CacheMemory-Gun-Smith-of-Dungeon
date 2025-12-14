@@ -43,13 +43,29 @@ public class Gun : MonoBehaviour
     private IEnumerator Reload()
     {
         _isReloading = true;
+
         yield return new WaitForSeconds(_gunManager.defaultData.reloadTime);
         Debug.Log("reload");
-        BulletItem bullet = Inventory.Instance.GetItem(typeof(BulletItem)) as BulletItem;
+
+        // 1) BulletItem(IItem) 직접 찾기
+        if (!Inventory.Instance.TryGetFirstItem<BulletItem>(out var bullet))
+        {
+            Debug.Log("no bullet");
+            _isReloading = false;
+            yield break;
+        }
+
+        // 2) 필요하면 초기화(usedGunpowderAmount 기반)
+        bullet.Initialize();
+
+        // 3) 장전
         for (int i = 0; i < reloadAmountPerBullet; i++)
             _gunManager.gunStatusData.Reload(bullet);
-        if(Inventory.Instance.RemoveItem(bullet))
+
+        // 4) 총알 1개 소비(슬롯 1칸 비움)
+        if (Inventory.Instance.TryRemoveFirstItem<BulletItem>())
             Debug.Log("remove bullet");
+
         _isReloading = false;
     }
 

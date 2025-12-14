@@ -29,7 +29,7 @@ namespace KBG.Item
     }
     
     [CreateAssetMenu(menuName = "SO/Item/Part")]
-    public class PartData : ScriptableObject, IItemData
+    public class PartData : ItemDataBase
     {
 
         [Serializable]
