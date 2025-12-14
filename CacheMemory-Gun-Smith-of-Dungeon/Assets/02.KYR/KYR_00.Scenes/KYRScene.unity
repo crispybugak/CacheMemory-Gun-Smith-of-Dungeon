@@ -526,6 +526,8 @@ GameObject:
   m_Component:
   - component: {fileID: 1150796101}
   - component: {fileID: 1150796100}
+  - component: {fileID: 1150796103}
+  - component: {fileID: 1150796102}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -561,7 +563,8 @@ MonoBehaviour:
   maxRooms: 13
   maxEventRooms: 2
   randomStart: 1
-  corridorGenerator: {fileID: 1616903167}
+  corridorGenerator: {fileID: 1150796103}
+  autoGenerate: 0
 --- !u!4 &1150796101
 Transform:
   m_ObjectHideFlags: 0
@@ -577,30 +580,27 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &1616903166
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1616903168}
-  - component: {fileID: 1616903167}
-  m_Layer: 0
-  m_Name: Corridor
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1616903167
+--- !u!114 &1150796102
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1616903166}
+  m_GameObject: {fileID: 1150796099}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adae076144a28034bb227b5b91f3f300, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dungeonGen: {fileID: 1150796100}
+  themeList: {fileID: 11400000, guid: 2ba053f116c718e47a57ec3a6406e444, type: 2}
+--- !u!114 &1150796103
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1150796099}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ef1982d369466564e98b66f8833fa55f, type: 3}
@@ -608,16 +608,45 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   horizontalCorridorPrefab: {fileID: 2824340568639790942, guid: c0c3fcab77f2b3f4695f9de849c7f94e, type: 3}
   verticalCorridorPrefab: {fileID: 3538303557526842944, guid: affe951cd364e3843b76ac71aa4192d4, type: 3}
---- !u!4 &1616903168
+--- !u!1 &1226296846
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1226296848}
+  - component: {fileID: 1226296847}
+  m_Layer: 0
+  m_Name: DungeonProgress
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1226296847
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226296846}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3f7f97d2a8d8dd49ac83bdb32678821, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &1226296848
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1616903166}
+  m_GameObject: {fileID: 1226296846}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 14.247708, y: 25.559546, z: 23710.455}
+  m_LocalPosition: {x: 13.014047, y: 56.429516, z: -1.5987843}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -630,5 +659,5 @@ SceneRoots:
   - {fileID: 519420032}
   - {fileID: 619394802}
   - {fileID: 1150796101}
-  - {fileID: 1616903168}
+  - {fileID: 1226296848}
   - {fileID: 544017552}

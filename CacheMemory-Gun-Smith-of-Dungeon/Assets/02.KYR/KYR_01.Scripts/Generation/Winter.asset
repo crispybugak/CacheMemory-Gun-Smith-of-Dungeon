@@ -20,5 +20,9 @@ MonoBehaviour:
   - {fileID: 3245718599316629969, guid: 344b391a77209494fb1c6d20ec256399, type: 3}
   - {fileID: 6739564960200233114, guid: dfc8a1a2c45f68841825db693b1e61b1, type: 3}
   - {fileID: 4725323978475011910, guid: de297166de83acd418058d6f03614ca7, type: 3}
-  horizontalCorridorPrefab: {fileID: 8950586820587122975, guid: c0c3fcab77f2b3f4695f9de849c7f94e, type: 3}
-  verticalCorridorPrefab: {fileID: 1095121126629223108, guid: affe951cd364e3843b76ac71aa4192d4, type: 3}
+  - {fileID: 4725323978475011910, guid: 1e4d0b1ee04cc254889b8d017a827e05, type: 3}
+  - {fileID: 6739564960200233114, guid: 30470fe6a7ae8e844a9873eef0e42870, type: 3}
+  - {fileID: 4725323978475011910, guid: a40f2f506d279db409678fc7a2ee8e9f, type: 3}
+  - {fileID: 6739564960200233114, guid: 66d38a28301683644bd00c7ffec09cce, type: 3}
+  horizontalCorridorPrefab: {fileID: 2824340568639790942, guid: c0c3fcab77f2b3f4695f9de849c7f94e, type: 3}
+  verticalCorridorPrefab: {fileID: 3538303557526842944, guid: affe951cd364e3843b76ac71aa4192d4, type: 3}

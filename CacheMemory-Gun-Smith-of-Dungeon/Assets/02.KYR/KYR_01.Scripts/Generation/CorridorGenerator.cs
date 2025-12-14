@@ -68,21 +68,21 @@ public class CorridorGenerator : MonoBehaviour
         }
     }
 
-    public void GenerateBossCorridor(
-        Vector2Int farRoom, Vector2Int bossPos,
-        Dictionary<Vector2Int, RoomController> placed)
-    {
-        Vector2Int delta = bossPos - farRoom;
-
-        if (Mathf.Abs(delta.x) == 1 && delta.y == 0)
-        {
-            CreateHorizontalCorridor(farRoom, bossPos, placed);
-        }
-        else if (Mathf.Abs(delta.y) == 1 && delta.x == 0)
-        {
-            CreateVerticalCorridor(farRoom, bossPos, placed);
-        }
-    }
+ // public void GenerateBossCorridor(
+ //    Vector2Int farRoom, Vector2Int bossPos,
+ //     Dictionary<Vector2Int, RoomController> placed)
+ //  {
+ //      Vector2Int delta = bossPos - farRoom;
+ //
+ //      if (Mathf.Abs(delta.x) == 1 && delta.y == 0)
+ //      {
+ //          CreateHorizontalCorridor(farRoom, bossPos, placed);
+ //      }
+ //      else if (Mathf.Abs(delta.y) == 1 && delta.x == 0)
+ //       {
+ //          CreateVerticalCorridor(farRoom, bossPos, placed);
+ //       }
+ //  }
 
     
     private Vector3 GridToWorld(Vector2Int gridPos, Vector2Int roomSize, Vector2Int roomSpacing)

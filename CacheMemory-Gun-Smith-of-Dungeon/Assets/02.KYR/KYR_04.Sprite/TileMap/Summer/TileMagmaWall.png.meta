@@ -1,0 +1,749 @@
+fileFormatVersion: 2
+guid: fd13c1ab62bfd8447b291bde69f1db10
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 5660008151829253551
+    second: TileMagmaWall_0
+  - first:
+      213: 6653919885199528531
+    second: TileMagmaWall_1
+  - first:
+      213: -5102652475981284059
+    second: TileMagmaWall_2
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: TileMagmaWall_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 16, y: 16}
+        - {x: -11, y: 16}
+        - {x: -11, y: -16}
+        - {x: 16, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: fad09931d636c8e40800000000000000
+      internalID: 5660008151829253551
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_5
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 224
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 11, y: 16}
+        - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: 11, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 07260b84d969eb348a84c05215b8a85b
+      internalID: -439053508
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_6
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 160
+        width: 32
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 4, y: 48}
+        - {x: -16, y: 48}
+        - {x: -16, y: -48}
+        - {x: 4, y: -48}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1cc130f1f6e502940ae61f55660960d5
+      internalID: 1078072116
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_7
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 160
+        width: 32
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 26a8fea794366e44783a1e58fe38e5ed
+      internalID: -2142785729
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 16, y: 16}
+        - {x: -4, y: 16}
+        - {x: -4, y: -16}
+        - {x: 16, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: a64acba0b05e74d458e43b01a888b7c4
+      internalID: 1448101274
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_9
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 192
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 16, y: 32}
+        - {x: -16, y: 32}
+        - {x: -16, y: 11}
+        - {x: 16, y: 11}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5c89ca099963a3a4382a0a78255b7717
+      internalID: 1147405997
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_10
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 192
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 16, y: 32}
+        - {x: -16, y: 32}
+        - {x: -16, y: 11}
+        - {x: 16, y: 11}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9e1c7f1f08a3e9446bad83266f37b201
+      internalID: 329548237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_11
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 192
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 16, y: 32}
+        - {x: -16, y: 32}
+        - {x: -16, y: 11}
+        - {x: 16, y: 11}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7011bd18115150344b00cbf4da1b0ca2
+      internalID: -1218406957
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_12
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 192
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 16, y: 32}
+        - {x: -16, y: 32}
+        - {x: -16, y: 11}
+        - {x: 16, y: 11}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3487be54b2c2aca49bd347a6843a5376
+      internalID: 691632745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_13
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 4, y: 16}
+        - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: 4, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: b896634b01d5c3f49869923a7e12db56
+      internalID: -1497716555
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_16
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 16, y: 16}
+        - {x: -4, y: 16}
+        - {x: -4, y: -16}
+        - {x: 16, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: c53d2bfd9c7c0e0418674fbe204dfc77
+      internalID: -2050873950
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_17
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 160
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 4, y: 16}
+        - {x: -16, y: 16}
+        - {x: -16, y: -16}
+        - {x: 4, y: -16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9bfbfb87108616940af666c546cfc390
+      internalID: -1313433152
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 96
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 16, y: 32}
+        - {x: -4, y: 32}
+        - {x: -4, y: 12}
+        - {x: 16, y: 12}
+      tessellationDetail: 0
+      bones: []
+      spriteID: e9dc2c01ebaf28648b6b571470558a2f
+      internalID: -506846361
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_21
+      rect:
+        serializedVersion: 2
+        x: 32
+        y: 96
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 16, y: 0}
+        - {x: -16, y: 0}
+        - {x: -16, y: -27}
+        - {x: 16, y: -27}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0e69c085ea542804c8a7d0abd2365e11
+      internalID: 1237017503
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_22
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 96
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 16, y: 0}
+        - {x: -16, y: 0}
+        - {x: -16, y: -27}
+        - {x: 16, y: -27}
+      tessellationDetail: 0
+      bones: []
+      spriteID: e92f59e167d75b64495a15712839ee3d
+      internalID: 744219222
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_23
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 96
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 16, y: 0}
+        - {x: -16, y: 0}
+        - {x: -16, y: -27}
+        - {x: 16, y: -27}
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5828e8a8728dfb4cb895f7398d7853f
+      internalID: 1823671185
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_24
+      rect:
+        serializedVersion: 2
+        x: 128
+        y: 96
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 16, y: 0}
+        - {x: -16, y: 0}
+        - {x: -16, y: -27}
+        - {x: 16, y: -27}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 20532502d0492b54daeb7f8bd66bf3a9
+      internalID: -890055645
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_25
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 96
+        width: 32
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 4, y: 32}
+        - {x: -16, y: 32}
+        - {x: -16, y: 12}
+        - {x: 4, y: 12}
+      tessellationDetail: 0
+      bones: []
+      spriteID: d1533eb972e2d9141874f2bdfd7709b3
+      internalID: -2034201788
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_26
+      rect:
+        serializedVersion: 2
+        x: 192
+        y: 64
+        width: 32
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 16, y: 48}
+        - {x: -4, y: 48}
+        - {x: -3, y: -48}
+        - {x: 16, y: -48}
+      tessellationDetail: 0
+      bones: []
+      spriteID: c2575497f76db2248b975ef0bbed5cd3
+      internalID: -516923160
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_27
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 64
+        width: 32
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9038916f1d63c4848a695566540a0322
+      internalID: 878181129
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_36
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: 48, y: -1}
+        - {x: -48, y: 0}
+        - {x: -48, y: -4}
+        - {x: 48, y: -4}
+      tessellationDetail: 0
+      bones: []
+      spriteID: c5500fc8262405b4290a4b1211f57e0d
+      internalID: 124507781
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: TileMagmaWall_39
+      rect:
+        serializedVersion: 2
+        x: 96
+        y: 0
+        width: 96
+        height: 96
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -20, y: -1}
+        - {x: -48, y: -1}
+        - {x: -48, y: -4}
+        - {x: -20, y: -4}
+      - - {x: 20, y: -4}
+        - {x: 48, y: -4}
+        - {x: 48, y: -1}
+        - {x: 20, y: -1}
+      tessellationDetail: 0
+      bones: []
+      spriteID: f88b0d924efa16043853c668f349fd40
+      internalID: -323130457
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 0887196a5ffbf894192a5dfce538c8e1
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      TileMagmaWall_0: 5660008151829253551
+      TileMagmaWall_1: 6653919885199528531
+      TileMagmaWall_10: 329548237
+      TileMagmaWall_11: -1218406957
+      TileMagmaWall_12: 691632745
+      TileMagmaWall_13: -1497716555
+      TileMagmaWall_14: -40638915
+      TileMagmaWall_15: -1088202542
+      TileMagmaWall_16: -2050873950
+      TileMagmaWall_17: -1313433152
+      TileMagmaWall_18: 1861724998
+      TileMagmaWall_19: -474119707
+      TileMagmaWall_2: -5102652475981284059
+      TileMagmaWall_20: -506846361
+      TileMagmaWall_21: 1237017503
+      TileMagmaWall_22: 744219222
+      TileMagmaWall_23: 1823671185
+      TileMagmaWall_24: -890055645
+      TileMagmaWall_25: -2034201788
+      TileMagmaWall_26: -516923160
+      TileMagmaWall_27: 878181129
+      TileMagmaWall_28: 2054383538
+      TileMagmaWall_29: -1518068883
+      TileMagmaWall_3: -1117589873
+      TileMagmaWall_30: 1969002642
+      TileMagmaWall_31: 2098110581
+      TileMagmaWall_32: 1731117221
+      TileMagmaWall_33: -1615368798
+      TileMagmaWall_34: -1529037490
+      TileMagmaWall_35: 2094198361
+      TileMagmaWall_36: 124507781
+      TileMagmaWall_37: 18337310
+      TileMagmaWall_38: -1866220494
+      TileMagmaWall_39: -323130457
+      TileMagmaWall_4: -110840716
+      TileMagmaWall_40: 158428008
+      TileMagmaWall_41: 1925637575
+      TileMagmaWall_42: -1353235999
+      TileMagmaWall_43: 682350445
+      TileMagmaWall_44: -2010808517
+      TileMagmaWall_45: -1810701971
+      TileMagmaWall_46: -1545883981
+      TileMagmaWall_47: -605261643
+      TileMagmaWall_48: -127296203
+      TileMagmaWall_49: 1054717323
+      TileMagmaWall_5: -439053508
+      TileMagmaWall_50: -1025298506
+      TileMagmaWall_51: 202581794
+      TileMagmaWall_52: -480349100
+      TileMagmaWall_53: -911633609
+      TileMagmaWall_54: -682251977
+      TileMagmaWall_6: 1078072116
+      TileMagmaWall_7: -2142785729
+      TileMagmaWall_8: 1448101274
+      TileMagmaWall_9: 1147405997
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

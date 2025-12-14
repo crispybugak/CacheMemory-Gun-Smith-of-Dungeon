@@ -53,8 +53,17 @@ public class DungeonGen : MonoBehaviour
       Generate(); 
    }
    
-   private void Generate()
+   public void Generate(int seed = -1)
    {
+      if (seed == -1)
+      {
+         currentSeed = (int)DateTime.Now.Ticks;
+      }
+      else
+      {
+         currentSeed = seed;
+      }
+
       ran = new System.Random(currentSeed);
 
       foreach (Transform c in transform)
@@ -90,6 +99,8 @@ public class DungeonGen : MonoBehaviour
 
       Vector2Int bossPos = farRoom + bossDirection;
       Vector3 bossWorldPos = GridToWorld(bossPos);
+      graph.nodes.Add(bossPos);
+      graph.AddEdge(farRoom, bossPos);
       
       var bossObj = Instantiate(bossRoomPrefab, bossWorldPos, Quaternion.identity, transform);
       var bossController = bossObj.GetComponent<RoomController>();
@@ -112,7 +123,6 @@ public class DungeonGen : MonoBehaviour
       if (corridorGenerator != null)
       {
          corridorGenerator.GenerateCorridors(graph, placed);
-         corridorGenerator.GenerateBossCorridor(farRoom, bossPos, placed);
       }
 
    }
@@ -385,78 +395,58 @@ public class DungeonGen : MonoBehaviour
       return candidatea[randomindex];
    }
 
-   private void AlignRoomsByAnchors()
+  void AlignRoomsByAnchors()
 {
-    if (graph == null) return;
-    if (placed.Count == 0) return;
+    if (graph == null || placed.Count == 0) return;
 
-    // 기준 방 하나 잡기 (시작방이나 farRoom 같은 거)
-    Vector2Int root = graph.startPos;
+    Queue<Vector2Int> queue = new Queue<Vector2Int>();
+    HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
 
-    var visited = new HashSet<Vector2Int>();
-    var queue   = new Queue<Vector2Int>();
+    Vector2Int start = graph.startPos;
+    if (!placed.ContainsKey(start)) return; 
 
-    visited.Add(root);
-    queue.Enqueue(root);
+    queue.Enqueue(start);
+    visited.Add(start);
 
     while (queue.Count > 0)
     {
-        var cell = queue.Dequeue();
+        Vector2Int cell = queue.Dequeue();
         if (!placed.TryGetValue(cell, out var room)) continue;
 
-        // 네 방향 이웃 확인
-        foreach (var dir in new[] { Vector2Int.up, Vector2Int.right, Vector2Int.down, Vector2Int.left })
+        foreach (Vector2Int neighbor in graph.GetNeighbors(cell)) 
         {
-            var neighbor = cell + dir;
-
-            if (!graph.nodes.Contains(neighbor)) continue;
-            if (!graph.HasEdge(cell, neighbor)) continue;
-            if (visited.Contains(neighbor))     continue;
+            if (visited.Contains(neighbor)) continue;
             if (!placed.TryGetValue(neighbor, out var neighborRoom)) continue;
 
-            // 방향에 따라 어떤 앵커를 맞출지 결정
-            if (dir == Vector2Int.right)
+            Vector2Int dir = neighbor - cell; 
+            Vector3 currentPos = neighborRoom.transform.position;
+            
+            // 수평 연결 (동/서): Y축 오프셋만 조정
+            if (dir.y == 0 && Mathf.Abs(dir.x) == 1) 
             {
-                // cell(E) ---- neighbor(W)
-                Vector3 a = room.GetDoorWorldPos(RoomController.DoorDir.E);
-                Vector3 b = neighborRoom.GetDoorWorldPos(RoomController.DoorDir.W);
+                RoomController.DoorDir doorCell = (dir == Vector2Int.right) ? RoomController.DoorDir.E : RoomController.DoorDir.W;
+                RoomController.DoorDir doorNeighbor = (dir == Vector2Int.right) ? RoomController.DoorDir.W : RoomController.DoorDir.E;
 
-                float dy = a.y - b.y;   // y 차이만 맞춰주기
-                var pos = neighborRoom.transform.position;
-                pos.y += dy;
-                neighborRoom.transform.position = pos;
+                Vector3 a = room.GetDoorAnchorWorldPos(doorCell);
+                Vector3 b = neighborRoom.GetDoorAnchorWorldPos(doorNeighbor);
+                
+                float dy = a.y - b.y; 
+                currentPos.y += dy;
             }
-            else if (dir == Vector2Int.left)
+            // 수직 연결 (남/북): X축 오프셋만 조정
+            else if (dir.x == 0 && Mathf.Abs(dir.y) == 1) 
             {
-                Vector3 a = room.GetDoorWorldPos(RoomController.DoorDir.W);
-                Vector3 b = neighborRoom.GetDoorWorldPos(RoomController.DoorDir.E);
+                RoomController.DoorDir doorCell = (dir == Vector2Int.up) ? RoomController.DoorDir.N : RoomController.DoorDir.S;
+                RoomController.DoorDir doorNeighbor = (dir == Vector2Int.up) ? RoomController.DoorDir.S : RoomController.DoorDir.N;
 
-                float dy = a.y - b.y;
-                var pos = neighborRoom.transform.position;
-                pos.y += dy;
-                neighborRoom.transform.position = pos;
-            }
-            else if (dir == Vector2Int.up)
-            {
-                // cell(N) ---- neighbor(S)
-                Vector3 a = room.GetDoorWorldPos(RoomController.DoorDir.N);
-                Vector3 b = neighborRoom.GetDoorWorldPos(RoomController.DoorDir.S);
-
-                float dx = a.x - b.x;   // x 차이만 맞춰주기
-                var pos = neighborRoom.transform.position;
-                pos.x += dx;
-                neighborRoom.transform.position = pos;
-            }
-            else if (dir == Vector2Int.down)
-            {
-                Vector3 a = room.GetDoorWorldPos(RoomController.DoorDir.S);
-                Vector3 b = neighborRoom.GetDoorWorldPos(RoomController.DoorDir.N);
+                Vector3 a = room.GetDoorAnchorWorldPos(doorCell);
+                Vector3 b = neighborRoom.GetDoorAnchorWorldPos(doorNeighbor);
 
                 float dx = a.x - b.x;
-                var pos = neighborRoom.transform.position;
-                pos.x += dx;
-                neighborRoom.transform.position = pos;
+                currentPos.x += dx;
             }
+
+            neighborRoom.transform.position = currentPos;
 
             visited.Add(neighbor);
             queue.Enqueue(neighbor);

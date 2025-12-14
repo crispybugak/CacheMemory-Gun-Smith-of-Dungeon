@@ -125,5 +125,23 @@ public class RoomController : MonoBehaviour
 
         return anchor.position;
     }
+    public Vector3 GetDoorAnchorWorldPos(DoorDir dir)
+    {
+        Transform anchor = null;
+        switch (dir)
+        {
+            case DoorDir.N: anchor = doorAnchorN; break;
+            case DoorDir.E: anchor = doorAnchorE; break;
+            case DoorDir.S: anchor = doorAnchorS; break;
+            case DoorDir.W: anchor = doorAnchorW; break;
+        }
+
+        if (anchor == null)
+        {
+            return GetDoorWorldPos(dir); 
+        }
+    
+        return anchor.position;
+    }
     
 }
