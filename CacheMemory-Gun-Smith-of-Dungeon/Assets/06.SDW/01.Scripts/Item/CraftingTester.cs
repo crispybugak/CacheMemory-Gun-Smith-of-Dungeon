@@ -1,4 +1,4 @@
-﻿/*using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using _06.SDW._01.Scripts.Manager;
 using KBG.Item;
 using UnityEngine;
@@ -57,4 +57,4 @@ namespace _06.SDW._01.Scripts.Item
             }
         }*/
     }
-}*/
+}
