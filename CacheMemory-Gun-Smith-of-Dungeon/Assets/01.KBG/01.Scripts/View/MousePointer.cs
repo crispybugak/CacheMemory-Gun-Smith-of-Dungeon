@@ -20,7 +20,7 @@ namespace _01.KBG._01.Scripts.View
         private RectTransform rectTransform;
         
         private Vector2 mousePos => agentMovement.mouseDir;
-        [SerializeField] private Vector2 recoveryPos;
+        private Vector2 recoveryPos;
         private Vector2 currentPos => mousePos + recoveryPos;
 
         private void Awake()
