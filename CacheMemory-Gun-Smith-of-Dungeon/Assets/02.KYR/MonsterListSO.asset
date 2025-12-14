@@ -1,0 +1,35 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 208b49cf64efe634c99d54590c611b7d, type: 3}
+  m_Name: MonsterListSO
+  m_EditorClassIdentifier: 
+  entries:
+  - prefab: {fileID: 2903998092642579631, guid: 7ece2b056ca6eab4dab4391f599bacef, type: 3}
+    weight: 1
+  - prefab: {fileID: 2903998092642579631, guid: 7ece2b056ca6eab4dab4391f599bacef, type: 3}
+    weight: 1
+  - prefab: {fileID: 2903998092642579631, guid: 7ece2b056ca6eab4dab4391f599bacef, type: 3}
+    weight: 1
+  - prefab: {fileID: 2903998092642579631, guid: 7ece2b056ca6eab4dab4391f599bacef, type: 3}
+    weight: 1
+  - prefab: {fileID: 2903998092642579631, guid: 7ece2b056ca6eab4dab4391f599bacef, type: 3}
+    weight: 1
+  - prefab: {fileID: 2903998092642579631, guid: 7ece2b056ca6eab4dab4391f599bacef, type: 3}
+    weight: 1
+  - prefab: {fileID: 2903998092642579631, guid: 7ece2b056ca6eab4dab4391f599bacef, type: 3}
+    weight: 1
+  - prefab: {fileID: 2903998092642579631, guid: 7ece2b056ca6eab4dab4391f599bacef, type: 3}
+    weight: 1
+  - prefab: {fileID: 2903998092642579631, guid: 7ece2b056ca6eab4dab4391f599bacef, type: 3}
+    weight: 1
+  - prefab: {fileID: 2903998092642579631, guid: 7ece2b056ca6eab4dab4391f599bacef, type: 3}
+    weight: 1

@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 8277132986567981516}
   - component: {fileID: 5435680676022898741}
   - component: {fileID: 1038782775492450163}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: coriYY
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -287,7 +287,7 @@ GameObject:
   - component: {fileID: 2460845644704692801}
   - component: {fileID: 6056374352955469105}
   - component: {fileID: 339431649708640379}
-  m_Layer: 0
+  m_Layer: 12
   m_Name: coriY
   m_TagString: Untagged
   m_Icon: {fileID: 0}
