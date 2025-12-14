@@ -24,7 +24,27 @@ MonoBehaviour:
     requiredAmount: 1
     effects:
     - effectType: 1
+      effectAmount: 30
+    - effectType: 3
+      effectAmount: 10
+    - effectType: 2
+      effectAmount: 10
+    durability: 250
+  - requiredIngredient: 1
+    requiredAmount: 1
+    effects:
+    - effectType: 1
       effectAmount: 20
+    - effectType: 3
+      effectAmount: 20
+    - effectType: 2
+      effectAmount: -10
+    durability: 250
+  - requiredIngredient: 3
+    requiredAmount: 2
+    effects:
+    - effectType: 1
+      effectAmount: 30
     - effectType: 3
       effectAmount: 10
     - effectType: 2

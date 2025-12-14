@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69223f771f1988041be709b7423d4814, type: 3}
+  m_Name: Summer
+  m_EditorClassIdentifier: 
+  startRoomPrefab: {fileID: 2001465319477592527, guid: d791d18cccee3e745b20728ce6cbece4, type: 3}
+  bossRoomPrefab: {fileID: 8286409849875682828, guid: 4162bf9596b4bbe4b9990a81a9e8c3ec, type: 3}
+  eventRoomPrefabs:
+  - {fileID: 332381807155455280, guid: 63f4d2eeb5d8ed74fae1d2de930dc211, type: 3}
+  monsterRoomPrefabs:
+  - {fileID: 3245718599316629969, guid: 9a811649a3f547841b300fcc42ce74c9, type: 3}
+  - {fileID: 6739564960200233114, guid: c3739133439a4514b93927bcb85f1279, type: 3}
+  - {fileID: 4725323978475011910, guid: f3211aa1fade380419c5e2c4555ba724, type: 3}
+  - {fileID: 6739564960200233114, guid: 851c2036dbc7c734b913b400e96818a4, type: 3}
+  - {fileID: 4725323978475011910, guid: 20e69a8c127d17746963249bd4e99409, type: 3}
+  - {fileID: 3245718599316629969, guid: e20c182f676ee284bb74cc63ca7e7e1c, type: 3}
+  horizontalCorridorPrefab: {fileID: 2824340568639790942, guid: df1ef8242acbbb648a4f318f8861fd49, type: 3}
+  verticalCorridorPrefab: {fileID: 3538303557526842944, guid: 9c816982d9d0a8e4db7c4dcdf3cdfa43, type: 3}
