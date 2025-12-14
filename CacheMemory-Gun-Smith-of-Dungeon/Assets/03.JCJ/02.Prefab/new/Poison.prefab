@@ -272,8 +272,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -2116695181
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 1150626330401856288, guid: fcc711be799ad664ea6b5b8759c9d2c2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -435,6 +435,7 @@ MonoBehaviour:
   pathUpdateInterval: 0.15
   hitFlashDuration: 0.2
   hitFlashColor: {r: 1, g: 1, b: 1, a: 0.6}
+  deathFadeDuration: 0.6
   rangedKeepDistance: 1
   rangedBackAwaySpeed: 0.6
   separationRadius: 0.77
@@ -444,3 +445,9 @@ MonoBehaviour:
     m_Bits: 32768
   attackAnimationDuration: 0.6
   useLineOfSightCheck: 1
+  hurtBoolName: isHurt
+  deadBoolName: isDead
+  hurtBoolDuration: 0.15
+  attackSoundName: 
+  hitSoundName: 
+  deathSoundName: 

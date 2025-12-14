@@ -41,17 +41,15 @@ public class LobbyUI : MonoBehaviour
     public Button categoryBagBtn;
     public Button categoryCraftBtn;
 
-    [Header("C-2. Content Canvases")]
+    // ====== C-2: 이제 배낭 콘텐츠만 유지 ======
+    [Header("C-2. Bag Content Canvas")]
     public GameObject bagContentCanvas;
-    public GameObject craftContentCanvas;
 
-    // ====== NEW: C-3 인벤토리 캔바스(UI) ======
-    [Header("C-3. Inventory Canvas")]
-    public GameObject inventoryCanvasRoot;
+    // ====== C-3: 제작(Create Content) 캔바스로 사용 ======
+    [Header("C-3. Create Content Canvas (Craft)")]
+    public GameObject createContentCanvas; // 기존 inventoryCanvasRoot 역할
 
     private float fadeDuration = 0.2f;
-
-    private bool _isPanelOpen = false;
 
     // ====== 팝업(창) 열림 상태 잠금 ======
     private enum LobbyPopup { None, Character, Option, Exit, Backpack }
@@ -128,16 +126,10 @@ public class LobbyUI : MonoBehaviour
             SetRaycastForObject(bagContentCanvas, false);
         }
 
-        if (craftContentCanvas)
+        if (createContentCanvas)
         {
-            craftContentCanvas.SetActive(false);
-            SetRaycastForObject(craftContentCanvas, false);
-        }
-
-        if (inventoryCanvasRoot)
-        {
-            inventoryCanvasRoot.SetActive(false);
-            SetRaycastForObject(inventoryCanvasRoot, false);
+            createContentCanvas.SetActive(false);
+            SetRaycastForObject(createContentCanvas, false);
         }
     }
 
@@ -237,25 +229,19 @@ public class LobbyUI : MonoBehaviour
     //===============OFF=============//
     public void OnClickPlayExitButton()
     {
-        //PlayClickSound();
         CloseCharacterSelectPanel(Ria, Rin);
     }
 
     public void OnClickOptionExitButton()
     {
-        // ===== 핵심 변경: 옵션 창이 떠있을 때만 허공 클릭이 먹음 =====
         if (_popup != LobbyPopup.Option) return;
-
-        // 허공: 사운드 없음
         OnClickemptiness(optionPanel);
     }
 
     public void OnClickExitButtonExitButton()
     {
-        // ===== 핵심 변경: 종료 창이 떠있을 때만 허공 클릭이 먹음 =====
         if (_popup != LobbyPopup.Exit) return;
 
-        // 허공: 사운드 없음
         OnClickemptiness(GameExitPanel);
         OnClickemptiness(GameExitYesBtn);
         Debug.Log("허공이 눌림");
@@ -264,46 +250,43 @@ public class LobbyUI : MonoBehaviour
     // 배낭 닫기용(허공 버튼에서 호출)
     public void OnClickBagExitButton()
     {
-        // ===== 핵심 변경: 배낭이 열려있을 때만 허공 클릭이 먹음 =====
         if (_popup != LobbyPopup.Backpack) return;
-
-        // 허공: 사운드 없음
         CloseBackpack();
     }
 
-    private void OpenCharacterSelectPanel(Image Ria, Image Rin)
+    private void OpenCharacterSelectPanel(Image ria, Image rin)
     {
-        if (Ria == null || Rin == null) return;
+        if (ria == null || rin == null) return;
 
-        Ria.gameObject.SetActive(true);
-        Rin.gameObject.SetActive(true);
+        ria.gameObject.SetActive(true);
+        rin.gameObject.SetActive(true);
 
-        Ria.raycastTarget = true;
-        Rin.raycastTarget = true;
+        ria.raycastTarget = true;
+        rin.raycastTarget = true;
 
         _volume.enabled = true;
 
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(Ria.DOFade(1, fadeDuration));
-        sequence.Join(Rin.DOFade(1, fadeDuration));
+        sequence.Append(ria.DOFade(1, fadeDuration));
+        sequence.Join(rin.DOFade(1, fadeDuration));
     }
 
-    private void CloseCharacterSelectPanel(Image Ria, Image Rin)
+    private void CloseCharacterSelectPanel(Image ria, Image rin)
     {
-        if (Ria == null || Rin == null) return;
+        if (ria == null || rin == null) return;
 
         _volume.enabled = false;
-        Ria.raycastTarget = false;
-        Rin.raycastTarget = false;
+        ria.raycastTarget = false;
+        rin.raycastTarget = false;
 
         Sequence sequence = DOTween.Sequence();
-        sequence.Append(Ria.DOFade(0, fadeDuration));
-        sequence.Join(Rin.DOFade(0, fadeDuration));
+        sequence.Append(ria.DOFade(0, fadeDuration));
+        sequence.Join(rin.DOFade(0, fadeDuration));
 
         sequence.OnComplete(() =>
         {
-            Ria.gameObject.SetActive(false);
-            Rin.gameObject.SetActive(false);
+            ria.gameObject.SetActive(false);
+            rin.gameObject.SetActive(false);
 
             _popup = LobbyPopup.None;
             SetMainButtonsInteractable(true);
@@ -373,13 +356,12 @@ public class LobbyUI : MonoBehaviour
             SetRaycastForObject(bagExtraObject, true);
         }
 
-        // 기본은 가방 화면
+        // 기본은 "배낭(C-2)" 화면
         ShowBagView();
     }
 
     private void CloseBackpack()
     {
-        // 전부 끄기
         HideAllContentViews();
 
         if (categoryBarRoot)
@@ -405,16 +387,7 @@ public class LobbyUI : MonoBehaviour
     }
 
     // ====== 카테고리 버튼 이벤트 ======
-    // 제작 버튼: C-2(기존 컨텐츠) 전부 끄고, C-3(InventoryCanvas)만 켜기
-    private void OnClickCategoryCraft()
-    {
-        if (_popup != LobbyPopup.Backpack) return;
-
-        PlayClickSound();
-        ShowInventoryView();
-    }
-
-    // 가방 버튼: C-3 끄고, C-2의 bagContentCanvas만 켜기
+    // 배낭 버튼: C-2 ON, C-3 OFF
     private void OnClickCategoryBag()
     {
         if (_popup != LobbyPopup.Backpack) return;
@@ -423,34 +396,37 @@ public class LobbyUI : MonoBehaviour
         ShowBagView();
     }
 
+    // 제작 버튼: C-3 ON, C-2 OFF
+    private void OnClickCategoryCraft()
+    {
+        if (_popup != LobbyPopup.Backpack) return;
+
+        PlayClickSound();
+        ShowCreateContentView();
+    }
+
     // ====== 표시 유틸 (뷰 전환) ======
     private void HideAllContentViews()
     {
-        // C-2 OFF
         SetBagBaseVisible(false);
-        SetCraftVisible(false);
-
-        // C-3 OFF
-        SetInventoryVisible(false);
+        SetCreateContentVisible(false);
     }
 
     private void ShowBagView()
     {
-        // 제작/인벤토리 쪽 모두 끄고 가방만 켬
-        SetInventoryVisible(false);
-        SetCraftVisible(false);
+        // 요구사항: 배낭 버튼 누르면 C-2(배낭) 켜고, C-3 꺼짐
+        SetCreateContentVisible(false);
         SetBagBaseVisible(true);
     }
 
-    private void ShowInventoryView()
+    private void ShowCreateContentView()
     {
-        // 요구사항: 제작 누르면 C-2에 할당된 UI들 끄고(C-2 전체 OFF), C-3 인벤토리 캔바스 ON
+        // 요구사항: 제작 버튼 누르면 C-3 켜고, C-2 꺼짐
         SetBagBaseVisible(false);
-        SetCraftVisible(false);
-        SetInventoryVisible(true);
+        SetCreateContentVisible(true);
     }
 
-    // ====== 기존 C-2 ======
+    // ====== C-2 (Bag) ======
     private void SetBagBaseVisible(bool on)
     {
         if (!bagContentCanvas) return;
@@ -467,36 +443,20 @@ public class LobbyUI : MonoBehaviour
         }
     }
 
-    private void SetCraftVisible(bool on)
+    // ====== C-3 (Create Content) ======
+    private void SetCreateContentVisible(bool on)
     {
-        if (!craftContentCanvas) return;
+        if (!createContentCanvas) return;
 
         if (on)
         {
-            craftContentCanvas.SetActive(true);
-            SetRaycastForObject(craftContentCanvas, true);
+            createContentCanvas.SetActive(true);
+            SetRaycastForObject(createContentCanvas, true);
         }
         else
         {
-            SetRaycastForObject(craftContentCanvas, false);
-            craftContentCanvas.SetActive(false);
-        }
-    }
-
-    // ====== NEW C-3 ======
-    private void SetInventoryVisible(bool on)
-    {
-        if (!inventoryCanvasRoot) return;
-
-        if (on)
-        {
-            inventoryCanvasRoot.SetActive(true);
-            SetRaycastForObject(inventoryCanvasRoot, true);
-        }
-        else
-        {
-            SetRaycastForObject(inventoryCanvasRoot, false);
-            inventoryCanvasRoot.SetActive(false);
+            SetRaycastForObject(createContentCanvas, false);
+            createContentCanvas.SetActive(false);
         }
     }
 
