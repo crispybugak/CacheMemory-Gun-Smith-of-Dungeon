@@ -47,7 +47,7 @@ namespace KBG.Item
             public int requiredAmount;
         
             public List<PartEffect> effects;
-            public float durability;
+            public uint durability;
             public IEnumerator GetEnumerator()
             {
                 return effects.GetEnumerator();

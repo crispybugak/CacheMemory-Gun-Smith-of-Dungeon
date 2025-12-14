@@ -4,10 +4,11 @@ using KBG.Item;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using Part = KBG.Item.Part;
 
 namespace KBG.Inventory
 {
-    public abstract class Slot : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler
+    public abstract class Slot : MonoBehaviour, IDragHandler, IPointerDownHandler, IPointerUpHandler, IPointerExitHandler, IPointerMoveHandler
     {
         public IItem item;
         public Sprite defaultSprite;
@@ -18,6 +19,8 @@ namespace KBG.Inventory
         
         protected Image _image;
 
+        private bool onMouse;
+        
         private void OnEnable()
         {
             _image = transform.GetChild(0).GetComponent<Image>();
@@ -33,6 +36,7 @@ namespace KBG.Inventory
                 isDragging = true;
             }
             _startPos = transform.position;
+            Tooltip.Instance.gameObject.SetActive(false);
         }
         
         public void OnDrag(PointerEventData eventData)
@@ -57,6 +61,7 @@ namespace KBG.Inventory
                 }
             }
             isDragging = false;
+            OnPointerMove(eventData);
         }
 
         public virtual bool RequestCanChangeItem(IItem item)
@@ -88,6 +93,19 @@ namespace KBG.Inventory
             rect.anchorMin = new Vector2(0.5f, 0.5f);
             rect.localPosition = Vector3.zero;
             rect.localScale = Vector3.one * (item ? item.ItemData.upScaling : 1);
+        }
+        public virtual void OnPointerExit(PointerEventData eventData)
+        {
+            Tooltip.Instance.gameObject.SetActive(false);
+        }
+
+        public void OnPointerMove(PointerEventData eventData)
+        {
+            if (item is Part part && !isDragging)
+            {
+                var tooltip = Tooltip.Instance;
+                tooltip.OpenTooltip(part, eventData.position);
+            }
         }
     }
 }

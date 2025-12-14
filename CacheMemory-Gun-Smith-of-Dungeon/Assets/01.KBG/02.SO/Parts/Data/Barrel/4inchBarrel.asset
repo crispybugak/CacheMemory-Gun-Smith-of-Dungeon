@@ -33,8 +33,8 @@ MonoBehaviour:
       effectAmount: -10
     - effectType: 2
       effectAmount: -10
-    durability: 350
-  - requiredIngredient: 1
+    durability: 0
+  - requiredIngredient: 2
     requiredAmount: 2
     effects:
     - effectType: 1
@@ -47,7 +47,7 @@ MonoBehaviour:
       effectAmount: -10
     - effectType: 2
       effectAmount: -10
-    durability: 350
+    durability: 0
   - requiredIngredient: 3
     requiredAmount: 3
     effects:
@@ -61,4 +61,4 @@ MonoBehaviour:
       effectAmount: 10
     - effectType: 2
       effectAmount: -10
-    durability: 350
+    durability: 0
