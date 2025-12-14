@@ -1,0 +1,286 @@
+fileFormatVersion: 2
+guid: 5d797b1e50db92b45a522fe61cb9da2b
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 3994977998007097668
+    second: TileFallWall 1_0
+  - first:
+      213: 6827528117796951175
+    second: TileFallWall 1_1
+  - first:
+      213: -631529316296157633
+    second: TileFallWall 1_2
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 16
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: Corrider_8
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -4, y: -16}
+        - {x: 16, y: -16}
+        - {x: 16, y: 16}
+        - {x: -4, y: 16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 96f5c307eeafdfa4abac097a5389e5f5
+      internalID: -1815155276
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corrider_11
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 192
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -32, y: 12}
+        - {x: 32, y: 11}
+        - {x: 32, y: 32}
+        - {x: -32, y: 32}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 2e50a7a5c69d51443b2b578965bf340f
+      internalID: 2060803359
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corrider_13
+      rect:
+        serializedVersion: 2
+        x: 160
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -16, y: -16}
+        - {x: 4, y: -16}
+        - {x: 4, y: 16}
+        - {x: -16, y: 16}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 543e1ba7a3a3d0a438a347f54e472123
+      internalID: 187670312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: Corrider_22
+      rect:
+        serializedVersion: 2
+        x: 64
+        y: 96
+        width: 64
+        height: 64
+      alignment: 0
+      pivot: {x: 0.5, y: 0.5}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape:
+      - - {x: -32, y: -27}
+        - {x: 32, y: -27}
+        - {x: 32, y: 0}
+        - {x: -32, y: 0}
+      tessellationDetail: 0
+      bones: []
+      spriteID: 43ab7a9d5dc7b8c40af32da6981f91bf
+      internalID: -190864144
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 844095601efe74c459936e002f63e91e
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      Corrider_0: -1690415092
+      Corrider_1: 689575335
+      Corrider_10: 1387807958
+      Corrider_11: 2060803359
+      Corrider_12: -1194359524
+      Corrider_13: 187670312
+      Corrider_14: 652693902
+      Corrider_15: -968569088
+      Corrider_16: -449259800
+      Corrider_17: 1571311280
+      Corrider_18: -1716956075
+      Corrider_19: -1259425426
+      Corrider_2: -1810007454
+      Corrider_20: 155409709
+      Corrider_21: -1956942214
+      Corrider_22: -190864144
+      Corrider_23: 973010572
+      Corrider_24: 1695490310
+      Corrider_25: 1887805937
+      Corrider_26: 239826866
+      Corrider_27: 1667691909
+      Corrider_28: 1177609839
+      Corrider_29: -2146932198
+      Corrider_3: 1926451161
+      Corrider_30: 2147001876
+      Corrider_31: -580301881
+      Corrider_32: -846363443
+      Corrider_33: -1955441878
+      Corrider_34: 1661560289
+      Corrider_35: 1295207168
+      Corrider_36: -1156453874
+      Corrider_37: 705776414
+      Corrider_38: -807503526
+      Corrider_39: 489302173
+      Corrider_4: 2021454712
+      Corrider_40: 685872989
+      Corrider_41: 165748483
+      Corrider_42: 577006569
+      Corrider_43: -796107366
+      Corrider_44: -1871206734
+      Corrider_45: -1533686076
+      Corrider_46: 1963345576
+      Corrider_47: -1430870780
+      Corrider_48: -2003244198
+      Corrider_49: -561535656
+      Corrider_5: -468324668
+      Corrider_50: 1779356494
+      Corrider_51: -1300437553
+      Corrider_52: -1017312556
+      Corrider_53: -76253233
+      Corrider_54: -2058435158
+      Corrider_55: -637198088
+      Corrider_6: -917110764
+      Corrider_7: -1910883593
+      Corrider_8: -1815155276
+      Corrider_9: 1518323444
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
