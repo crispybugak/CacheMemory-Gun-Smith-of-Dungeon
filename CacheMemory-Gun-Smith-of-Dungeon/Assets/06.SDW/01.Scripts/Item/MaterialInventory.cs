@@ -56,28 +56,10 @@ namespace _06.SDW._01.Scripts.Item
         {
             if (_suppressHookDepth > 0) return;
 
-            if (oldItem != null) ApplyDelta(oldItem, -1);
-            if (newItem != null) ApplyDelta(newItem, +1);
-
-            OnChanged?.Invoke();
+            // 변경이 일어났으면 안전하게 전체 재집계
+            RebuildFromSlots();
         }
 
-        private void ApplyDelta(IItem item, int delta)
-        {
-            if (item == null || item.ItemData == null) return;
-
-            // 총알 등 다른 ItemData는 무시하고, Ingredient만 집계
-            if (item.ItemData is Ingredient ing)
-            {
-                var key = ing.type;
-                _counts.TryGetValue(key, out var cur);
-                _counts[key] = Mathf.Max(0, cur + delta);
-            }
-        }
-
-        // =========================
-        // Safety: rebuild
-        // =========================
         [ContextMenu("재료/슬롯 기준으로 재집계(Rebuild)")]
         public void RebuildFromSlots()
         {
@@ -94,15 +76,17 @@ namespace _06.SDW._01.Scripts.Item
             {
                 var slot = inv.inventorySlots[i];
                 if (slot == null || slot.item == null) continue;
-                ApplyDelta(slot.item, +1);
+
+                if (slot.item.ItemData is Ingredient ing)
+                {
+                    _counts.TryGetValue(ing.type, out int cur);
+                    _counts[ing.type] = cur + 1;
+                }
             }
 
             OnChanged?.Invoke();
         }
 
-        // =========================
-        // Consume: 실제 슬롯에서 제거
-        // =========================
         public bool TryConsumeFromSlots(IngredientType type, int amount)
         {
             int need = Mathf.Max(0, amount);
@@ -123,7 +107,7 @@ namespace _06.SDW._01.Scripts.Item
 
                     if (slot.item.ItemData is Ingredient ing && ing.type == type)
                     {
-                        slot.SetItem(null); // 실제로 슬롯에서 제거
+                        slot.SetItem(null); // 슬롯에서 제거 → 아이템 사라짐
                         need--;
                     }
                 }
@@ -133,7 +117,7 @@ namespace _06.SDW._01.Scripts.Item
                 _suppressHookDepth--;
             }
 
-            // suppress 동안 이벤트 막았으니, 안전하게 재집계
+            // suppress 동안 이벤트 막았으니, 마지막에 한 번만 재집계
             RebuildFromSlots();
             return true;
         }
