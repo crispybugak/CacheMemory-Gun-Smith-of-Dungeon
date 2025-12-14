@@ -16,7 +16,9 @@ MonoBehaviour:
   maxSpread: 107
   minRebound: 1.26
   maxRebound: 0.44
+  minRange: 0
+  maxRange: 0
   maxMoveSpeed: 0.76
   minMoveSpeed: 0.58
   fireRate: 1.1
-  reloadTime: 5
+  reloadTime: 1

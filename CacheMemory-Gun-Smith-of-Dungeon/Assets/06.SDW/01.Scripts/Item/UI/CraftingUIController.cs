@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using _06.SDW._01.Scripts.Item;
 using _06.SDW._01.Scripts.SO;
 using UnityEngine;
 using UnityEngine.UI;
@@ -27,6 +28,10 @@ public class CraftingUIController : MonoBehaviour
     [Header("Craft Button (ONLY Button Input)")]
     [SerializeField] private Button craftButton;
     [SerializeField] private TMP_Text craftButtonLabel;
+    
+    [SerializeField] private MaterialInventory materialInventory;
+    private MaterialInventory MatInv => materialInventory != null ? materialInventory : MaterialInventory.Instance;
+
 
     private readonly List<CraftListItemUI> _leftItems = new List<CraftListItemUI>();
 
@@ -131,8 +136,18 @@ public class CraftingUIController : MonoBehaviour
             return;
         }
 
-        // TODO: 재료 차감 / 결과 지급 로직은 네 인벤 구조에 맞게 유지
+        // 1) 재료 소모(슬롯에서 실제로 제거)
+        if (!TryConsumeIngredients(_selectedRecipe))
+        {
+            RefreshRightPanel(_selectedRecipe);
+            return;
+        }
+
+        // 2) UI 갱신
+        RefreshRightPanel(_selectedRecipe);
     }
+
+
 
     // ============================
     // 프로젝트에 맞게 채워야 하는 부분
@@ -140,9 +155,28 @@ public class CraftingUIController : MonoBehaviour
 
     private int GetOwnedIngredientCount(IngredientType type)
     {
-        // TODO: IngredientType 소지량 조회 로직으로 교체
-        return 0;
+        if (MatInv == null) return 0;
+        return MatInv.GetCount(type);
     }
+
+    private bool TryConsumeIngredients(CraftingRecipeSO recipe)
+    {
+        if (recipe == null || recipe.Ingredients == null) return false;
+        if (MatInv == null) return false;
+
+        // ※ 주의: MatInv가 슬롯에서 실제로 빼는 TryConsumeFromSlots를 제공해야 함
+        for (int i = 0; i < recipe.Ingredients.Count; i++)
+        {
+            var req = recipe.Ingredients[i];
+            int need = Mathf.Max(1, req.requiredAmount);
+
+            if (!MatInv.TryConsumeFromSlots(req.requiredIngredient, need))
+                return false;
+        }
+
+        return true;
+    }
+
 
     private string GetIngredientName(IngredientType type)
     {

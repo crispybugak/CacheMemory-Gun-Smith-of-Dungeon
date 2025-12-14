@@ -12,9 +12,9 @@ public class AgentStaminaSO : ScriptableObject
 
     [Header("Move")]
     [field: SerializeField] public float DefaultSpeed { get; private set; }
-    [field: SerializeField] public float RunSpeed { get; private set; }
+    [field: SerializeField] public float DefaultRunSpeed { get; private set; }
+    [field: SerializeField] public float RunSpeed { get; set; }
     [field: SerializeField] public float MoveSpeed { get;  set; }
-    [field: SerializeField] public float DefaultRunSpeed { get; set; }
 
     // === JSON 저장용 구조체 ===
     [Serializable]
