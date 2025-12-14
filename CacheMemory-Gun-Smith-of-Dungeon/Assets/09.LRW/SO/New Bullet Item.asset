@@ -9,14 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29d36121678cd494888a2f1760c1a7e2, type: 3}
-  m_Name: GunDefaultData
+  m_Script: {fileID: 11500000, guid: 01e58cc2238848547b4fe8c84e201cba, type: 3}
+  m_Name: New Bullet Item
   m_EditorClassIdentifier: 
-  minSpread: 65
-  maxSpread: 107
-  minRebound: 1.26
-  maxRebound: 0.44
-  maxMoveSpeed: 0.76
-  minMoveSpeed: 0.58
-  fireRate: 1.1
-  reloadTime: 5
+  bulletData: {fileID: 11400000, guid: ef85e1cb7f997c443bff482f37982476, type: 2}
+  <Damage>k__BackingField: 5.72
+  usedIngredientType: 0
+  usedAmount: 0

@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using KBG.Item;
 using UnityEngine;
@@ -7,7 +8,6 @@ using Random = UnityEngine.Random;
 public class Gun : MonoBehaviour
 {
     [SerializeField] private Transform gunPos;
-    [SerializeField] private SpriteRenderer spriteRenderer;  
     [SerializeField] private ParticleSystem particleSystem;
     [SerializeField] private AgentMovementSO agentMovement;
     [SerializeField] private MousePointer cursor;
@@ -23,18 +23,53 @@ public class Gun : MonoBehaviour
 
     private void OnEnable()
     {
-        agentMovement.OnMousePressed += () => StartCoroutine(StartFire());
-        agentMovement.OnMouseReleased += () => StopCoroutine(StartFire());
+        agentMovement.OnMousePressed += Fire;
+        agentMovement.OnMouseReleased += FireStop;
         agentMovement.OnReloadPressed +=  Reload;
+    }
+
+    private void OnDisable()
+    {
+        agentMovement.OnMousePressed -= Fire;
+        agentMovement.OnMouseReleased -= FireStop;
+        agentMovement.OnReloadPressed -=  Reload;
     }
 
     private void Reload()
     {
         _isReloading = true;
     }
+
+    private float currentAttackDeleyTime = 0;
+    private bool isAttacking = false;
+    private void Update()
+    {
+        if (Time.time - currentAttackDeleyTime > 1 && !_isReloading && isAttacking)
+        {
+            currentAttackDeleyTime = Time.time;
+            cursor.AddRecoil(new Vector2(0, -100));
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(agentMovement.mouseDir);
+            float angle = Mathf.Atan2(mousePos.y - transform.position.y, mousePos.x - transform.position.x) *
+                Mathf.Rad2Deg + 180;
+            ShotBullet(angle);
+            
+        }
+    }
+
+    private void Fire()
+    {
+        isAttacking = true;
+    }
+
+    private void FireStop()
+    {
+        isAttacking = false;
+    }
+
     private IEnumerator StartFire()
     {
         if (_isReloading) yield break;
+        Debug.Log("Fire");
         cursor.AddRecoil(new Vector2(0, -100));
         Vector2 mousePos = Camera.main.ScreenToWorldPoint(agentMovement.mouseDir);
         float angle = Mathf.Atan2(mousePos.y - transform.position.y, mousePos.x - transform.position.x) *
