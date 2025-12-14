@@ -1,5 +1,7 @@
+using System;
 using UnityEngine;
 using System.Collections;
+using Random = UnityEngine.Random;
 
 public class NecromancerBoss : BaseEnemy
 {
@@ -8,6 +10,7 @@ public class NecromancerBoss : BaseEnemy
     private int minionSpawned = 0;
 
     [SerializeField] private GameObject minionPrefab;
+    public static event Action OnBossDeath;
 
     protected override void Start()
     {
@@ -22,7 +25,7 @@ public class NecromancerBoss : BaseEnemy
     protected override void Attack()
     {
         animator?.SetBool(hashIsAttacking, true);
-        PlayAttackSound();  // ← 추가!
+        PlayAttackSound();
         PerformAttack();
     }
 
@@ -45,7 +48,6 @@ public class NecromancerBoss : BaseEnemy
     {
         yield return new WaitForSeconds(2.5f);
     
-        // 발사할 때만 사운드!
         if (AudioManager.Instance != null)
         {
             AudioManager.Instance.PlaySound("necromencer-charge");
@@ -125,6 +127,7 @@ public class NecromancerBoss : BaseEnemy
 
     protected override void Die()
     {
+        OnBossDeath?.Invoke();
         base.Die();
     }
 

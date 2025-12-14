@@ -12,7 +12,10 @@ public class GameUI : MonoBehaviour
 
     [Header("Item")]
     public int item;
-
+    private void Start()
+    {
+        NecromancerBoss.OnBossDeath += GameEnd;
+    }
     public void GameEnd()
     {
         Sequence sequence = DOTween.Sequence();
@@ -28,5 +31,9 @@ public class GameUI : MonoBehaviour
     public void GetItem()
     {
 
+    }
+    private void OnDestroy()
+    {
+        NecromancerBoss.OnBossDeath -= GameEnd;
     }
 }
