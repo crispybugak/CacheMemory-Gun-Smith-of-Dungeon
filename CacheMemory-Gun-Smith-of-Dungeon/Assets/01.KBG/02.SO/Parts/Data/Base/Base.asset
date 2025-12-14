@@ -36,3 +36,19 @@ MonoBehaviour:
     - effectType: 0
       effectAmount: 0
     durability: 600
+  - requiredIngredient: 2
+    requiredAmount: 5
+    effects:
+    - effectType: 0
+      effectAmount: 100
+    - effectType: 3
+      effectAmount: 70
+    - effectType: 1
+      effectAmount: 50
+    - effectType: 4
+      effectAmount: 60
+    - effectType: 2
+      effectAmount: 70
+    - effectType: 0
+      effectAmount: 0
+    durability: 600

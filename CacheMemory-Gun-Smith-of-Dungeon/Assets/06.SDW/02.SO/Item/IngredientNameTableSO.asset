@@ -12,4 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e14c17128394955add3ff4f4567fb66, type: 3}
   m_Name: IngredientNameTableSO
   m_EditorClassIdentifier: 
-  entries: []
+  entries:
+  - type: 1
+    displayName: "\uD3F4\uB9AC\uC544\uBBF8\uB4DC"
+  - type: 2
+    displayName: "\uAC15\uCCA0"
+  - type: 3
+    displayName: "\uC2A4\uD14C\uC778\uB808\uC2A4"
+  - type: 4
+    displayName: "\uD654\uC57D"
