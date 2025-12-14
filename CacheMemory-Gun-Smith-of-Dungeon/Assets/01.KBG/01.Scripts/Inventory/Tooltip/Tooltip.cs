@@ -24,6 +24,7 @@ namespace KBG.Inventory
     
     public class Tooltip : MonoSingleton<Tooltip>
     {
+        [SerializeField] private RectTransform canvas;
         [SerializeField] private TextMeshProUGUI nameText;
         
         [Header("Status Text")]
@@ -34,14 +35,24 @@ namespace KBG.Inventory
         [SerializeField] private GameObject infoTextParent;
         [SerializeField] private List<TooltipTxt> infoTexts;
 
+        public RectTransform RectTransform{get; private set;}
+
         protected override void Awake()
         {
             base.Awake();
             OnValidate();
+            RectTransform = GetComponent<RectTransform>();
         }
 
-        public void OpenTooltip(Part part)
+        public void OpenTooltip(Part part, Vector2 position)
         {
+            
+            RectTransform.anchoredPosition = position;
+            
+            gameObject.SetActive(true);
+            
+            if (part == null) return;
+            
             var ingredient = part.partData.ingredients.First(i => i.requiredIngredient == part.madeBy);
             
             nameText.text = part.partData.itemName;
@@ -97,7 +108,7 @@ namespace KBG.Inventory
                 }
 
                 infoTexts.First(t => t.key == "Ingredient").amountText.text = text;
-                // infoTexts.First(t => t.key == "Durability").amountText.text = part.durability+"/"+part.partData.ingredients();
+                infoTexts.First(t => t.key == "Durability").amountText.text = part.durability+"/"+ingredient.durability;;
             }
         }
 
