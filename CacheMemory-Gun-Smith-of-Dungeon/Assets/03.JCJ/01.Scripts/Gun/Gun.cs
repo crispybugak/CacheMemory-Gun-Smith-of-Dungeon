@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using _01.KBG._01.Scripts.View;
 using KBG.Inventory;
 using KBG.Item;
 using UnityEngine;
