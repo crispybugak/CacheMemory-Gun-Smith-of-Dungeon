@@ -1,5 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using _1.Script.Lrw.FileSystem;
+using _1.Script.Lrw.FileSystem.Data;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Audio;
 
@@ -31,7 +34,7 @@ public struct AudioSetting
     [Range(-3f, 3f)] public float pitch;
     public bool startSound;
 }
-
+[DefaultExecutionOrder(-1)]
 public class AudioManager : MonoSingleton<AudioManager>
 {
     private Dictionary<string, (AudioClip clip, AudioSource source)> _audios =
@@ -58,12 +61,20 @@ public class AudioManager : MonoSingleton<AudioManager>
                 AddAudio(setting);
         }
 
-        _volume.Add(SoundType.Master, 1f);
-        _volume.Add(SoundType.BGM, 1f);
-        _volume.Add(SoundType.SFX, 1f);
+        _volume.Add(SoundType.Master, 1);
+        _volume.Add(SoundType.BGM, 1);
+        _volume.Add(SoundType.SFX, 1);
 
         Debug.Assert(_audioDataSO != null, "<color=red>AudioDataSO is null</color>");
         Debug.Assert(_audioSettings != null && _audioSettings?.Count != 0, "<color=red>AudioSettings is null</color>");
+    }
+    
+
+    public void SetVolume(SoundSettingData soundSettingData)
+    {
+        MasterVolume = soundSettingData.masterVolume;
+        BGMVolume = soundSettingData.bgmVolume;
+        SFXVolume = soundSettingData.sfxVolume;
     }
 
     private void Start()
@@ -79,6 +90,12 @@ public class AudioManager : MonoSingleton<AudioManager>
 
         ApplyVolumeToAllSources();
     }
+
+    protected override void OnDestroy()
+    {
+        base.OnDestroy();
+    }
+    
 
     private void AddAudio(AudioSetting setting)
     {
