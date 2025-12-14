@@ -1,6 +1,4 @@
 using UnityEngine;
-using System;
-using UnityEngine;
 
 public class MonsterRoomBattle : MonoBehaviour
 {
