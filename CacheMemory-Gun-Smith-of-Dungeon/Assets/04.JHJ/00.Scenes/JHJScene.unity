@@ -950,7 +950,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1514767539}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 247549470}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!222 &1514767541
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -1886,7 +1898,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &3158870017492170142
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2087,7 +2099,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _staminaBar: {fileID: 696590713142731994}
   _backStaminaBar: {fileID: 8557531794424959780}
-  _stamina: {fileID: 1938432819236804822}
+  stamina: {fileID: 0}
 --- !u!224 &3437466366117576047
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2400,7 +2412,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <Health>k__BackingField: {fileID: 2180280011451797545}
-  <HealthDataSO>k__BackingField: {fileID: 11400000, guid: 515a517f1087b3c4f8cc3567829fcbca, type: 2}
   _healthBar: {fileID: 4251748848282567035}
   _hitEffect: {fileID: 0}
 --- !u!1 &6275092318304481058
@@ -2904,6 +2915,7 @@ MonoBehaviour:
   lootPanel: {fileID: 757463568}
   exitToLobbyBtn: {fileID: 1514767539}
   exitToLobbyBtnText: {fileID: 15858185}
+  item: 0
 --- !u!114 &8085039409835401250
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3285,8 +3297,8 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 9215689249147330918}
         m_TargetAssemblyTypeName: AgentMovement, Assembly-CSharp
-        m_MethodName: set_MoveSpeed
-        m_Mode: 0
+        m_MethodName: OnMoveInput
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -3297,20 +3309,7 @@ MonoBehaviour:
         m_CallState: 2
   onRenderer:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7725804088567810269}
-        m_TargetAssemblyTypeName: AgentAnimation, Assembly-CSharp
-        m_MethodName: 
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-  <MoveSpeed>k__BackingField: 0
+      m_Calls: []
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
