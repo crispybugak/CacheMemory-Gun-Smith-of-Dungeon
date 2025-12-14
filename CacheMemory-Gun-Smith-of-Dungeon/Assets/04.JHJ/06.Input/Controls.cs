@@ -285,18 +285,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             ""id"": ""89f57573-1973-4f5a-bdff-89257964ed9e"",
             ""actions"": [
                 {
-                    ""name"": ""Option"",
+                    ""name"": ""Inventory"",
                     ""type"": ""Button"",
-                    ""id"": ""907d49cf-5c90-4d0e-9d23-5dcd40377879"",
-                    ""expectedControlType"": """",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""CharacterSelect"",
-                    ""type"": ""Button"",
-                    ""id"": ""a2d20bd3-c739-4811-a220-b0ce4ddf0ce1"",
+                    ""id"": ""44a5724c-50db-414c-972a-7db0f851603d"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -306,23 +297,12 @@ public partial class @Controls: IInputActionCollection2, IDisposable
             ""bindings"": [
                 {
                     ""name"": """",
-                    ""id"": ""1495828c-12ca-4466-bc45-8270fd05daf2"",
-                    ""path"": ""<Keyboard>/escape"",
+                    ""id"": ""e3468a1b-0613-4510-8d2c-509fb710ee9b"",
+                    ""path"": ""<Keyboard>/tab"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
-                    ""action"": ""Option"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""97db760d-660b-4839-a922-ce54f1c41f8d"",
-                    ""path"": ""<Keyboard>/c"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""CharacterSelect"",
+                    ""action"": ""Inventory"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -342,8 +322,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         m_Agent_Reload = m_Agent.FindAction("Reload", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
-        m_UI_Option = m_UI.FindAction("Option", throwIfNotFound: true);
-        m_UI_CharacterSelect = m_UI.FindAction("CharacterSelect", throwIfNotFound: true);
+        m_UI_Inventory = m_UI.FindAction("Inventory", throwIfNotFound: true);
     }
 
     ~@Controls()
@@ -587,8 +566,7 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     // UI
     private readonly InputActionMap m_UI;
     private List<IUIActions> m_UIActionsCallbackInterfaces = new List<IUIActions>();
-    private readonly InputAction m_UI_Option;
-    private readonly InputAction m_UI_CharacterSelect;
+    private readonly InputAction m_UI_Inventory;
     /// <summary>
     /// Provides access to input actions defined in input action map "UI".
     /// </summary>
@@ -601,13 +579,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// </summary>
         public UIActions(@Controls wrapper) { m_Wrapper = wrapper; }
         /// <summary>
-        /// Provides access to the underlying input action "UI/Option".
+        /// Provides access to the underlying input action "UI/Inventory".
         /// </summary>
-        public InputAction @Option => m_Wrapper.m_UI_Option;
-        /// <summary>
-        /// Provides access to the underlying input action "UI/CharacterSelect".
-        /// </summary>
-        public InputAction @CharacterSelect => m_Wrapper.m_UI_CharacterSelect;
+        public InputAction @Inventory => m_Wrapper.m_UI_Inventory;
         /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
@@ -634,12 +608,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         {
             if (instance == null || m_Wrapper.m_UIActionsCallbackInterfaces.Contains(instance)) return;
             m_Wrapper.m_UIActionsCallbackInterfaces.Add(instance);
-            @Option.started += instance.OnOption;
-            @Option.performed += instance.OnOption;
-            @Option.canceled += instance.OnOption;
-            @CharacterSelect.started += instance.OnCharacterSelect;
-            @CharacterSelect.performed += instance.OnCharacterSelect;
-            @CharacterSelect.canceled += instance.OnCharacterSelect;
+            @Inventory.started += instance.OnInventory;
+            @Inventory.performed += instance.OnInventory;
+            @Inventory.canceled += instance.OnInventory;
         }
 
         /// <summary>
@@ -651,12 +622,9 @@ public partial class @Controls: IInputActionCollection2, IDisposable
         /// <seealso cref="UIActions" />
         private void UnregisterCallbacks(IUIActions instance)
         {
-            @Option.started -= instance.OnOption;
-            @Option.performed -= instance.OnOption;
-            @Option.canceled -= instance.OnOption;
-            @CharacterSelect.started -= instance.OnCharacterSelect;
-            @CharacterSelect.performed -= instance.OnCharacterSelect;
-            @CharacterSelect.canceled -= instance.OnCharacterSelect;
+            @Inventory.started -= instance.OnInventory;
+            @Inventory.performed -= instance.OnInventory;
+            @Inventory.canceled -= instance.OnInventory;
         }
 
         /// <summary>
@@ -755,18 +723,11 @@ public partial class @Controls: IInputActionCollection2, IDisposable
     public interface IUIActions
     {
         /// <summary>
-        /// Method invoked when associated input action "Option" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// Method invoked when associated input action "Inventory" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
         /// </summary>
         /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnOption(InputAction.CallbackContext context);
-        /// <summary>
-        /// Method invoked when associated input action "CharacterSelect" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
-        /// </summary>
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
-        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
-        void OnCharacterSelect(InputAction.CallbackContext context);
+        void OnInventory(InputAction.CallbackContext context);
     }
 }

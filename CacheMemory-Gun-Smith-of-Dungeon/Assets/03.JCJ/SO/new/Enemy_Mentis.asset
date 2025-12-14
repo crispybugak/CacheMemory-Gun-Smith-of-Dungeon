@@ -14,12 +14,17 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   moveSpeed: 2.8
   maxHealth: 15
-  detectionRange: 8
-  attackRange: 2
+  detectionRange: 6
+  attackRange: 1.54
   attackCooldown: 1
   attackDamage: 4
   pathUpdateInterval: 0.3
   stoppingDistance: 0.3
   specialAbilityCooldown: 3
-  specialAbilityRange: 4
+  specialAbilityRange: 0
   specialAbilityDamage: 6
+  sleepDuration: 2.5
+  explosionRadius: 2
+  explosionForce: 10
+  maxMinions: 3
+  spawnCooldown: 4

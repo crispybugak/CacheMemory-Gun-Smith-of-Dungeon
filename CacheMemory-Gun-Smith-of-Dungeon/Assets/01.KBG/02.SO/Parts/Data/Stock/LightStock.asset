@@ -13,11 +13,18 @@ MonoBehaviour:
   m_Name: LightStock
   m_EditorClassIdentifier: 
   <icon>k__BackingField: {fileID: -5933121699828094735, guid: 86106ee6c38e54d47ac9ff597d21a5d9, type: 3}
+  <upScaling>k__BackingField: 2
   <itemName>k__BackingField: "\uACBD\uB7C9\uAC1C\uBA38\uB9AC\uD310"
-  <mass>k__BackingField: 0
   type: 4
   requirePartType: 3
   partDegree: 0
   localPos: {x: 0, y: 0}
-  effects: []
-  ingredients: []
+  ingredients:
+  - requiredIngredient: 1
+    requiredAmount: 2
+    effects:
+    - effectType: 1
+      effectAmount: 10
+    - effectType: 2
+      effectAmount: 10
+    durability: 0

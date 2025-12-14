@@ -27,9 +27,11 @@ public class DungeonGen : MonoBehaviour
    private Vector2Int? firstConnectedRoom = null;
    private Vector2Int farRoom;
    private int currentSeed;
-
+   
+   [SerializeField] private bool autoGenerate = false;
    private void Start()
    {
+      if (!autoGenerate) return;
       if (PlayerPrefs.HasKey("DungeonSeed"))
       {
          currentSeed = PlayerPrefs.GetInt("DungeonSeed");
@@ -46,34 +48,48 @@ public class DungeonGen : MonoBehaviour
       Generate();
    }
    
-   private void Generate()
+   public void GeneratePublic()
    {
+      Generate(); 
+   }
+   
+   public void Generate(int seed = -1)
+   {
+      if (seed == -1)
+      {
+         currentSeed = (int)DateTime.Now.Ticks;
+      }
+      else
+      {
+         currentSeed = seed;
+      }
+
       ran = new System.Random(currentSeed);
-      
+
       foreach (Transform c in transform)
          DestroyImmediate(c.gameObject);
-      
-      graph = BuildDungeonGraph(); 
+
+      graph = BuildDungeonGraph();
       eventCount = 0;
 
       farRoom = FindFarRoom();
       Vector2Int bossDirection = FindEmptyDirection(farRoom);
       Dictionary<Vector2Int, GameObject> roomPrefabs = DetermineRoomTypes();
 
-      placed.Clear();      
-      
+      placed.Clear();
+
       foreach (var cell in graph.nodes)
       {
-         Vector3 worldPos = GridToWorld(cell);
+         Vector3 worldPos = GridToWorld(cell);   // 일단 그리드 기준으로 배치
          GameObject prefab = roomPrefabs.ContainsKey(cell) ? roomPrefabs[cell] : monsterRoomPrefab[0];
-         
-         var roomobj =Instantiate(prefab, worldPos, Quaternion.identity, transform);
-         
+
+         var roomobj = Instantiate(prefab, worldPos, Quaternion.identity, transform);
+
          var roomController = roomobj.GetComponent<RoomController>();
          if (roomController != null)
          {
-            placed[cell] = roomController; 
-            
+            placed[cell] = roomController;
+
             RoomLinks links = CalcLinKs(cell, farRoom, bossDirection);
             roomController.Init(links);
          }
@@ -83,6 +99,8 @@ public class DungeonGen : MonoBehaviour
 
       Vector2Int bossPos = farRoom + bossDirection;
       Vector3 bossWorldPos = GridToWorld(bossPos);
+      graph.nodes.Add(bossPos);
+      graph.AddEdge(farRoom, bossPos);
       
       var bossObj = Instantiate(bossRoomPrefab, bossWorldPos, Quaternion.identity, transform);
       var bossController = bossObj.GetComponent<RoomController>();
@@ -95,15 +113,18 @@ public class DungeonGen : MonoBehaviour
          else if (bossDirection == Vector2Int.left) bossLinks.E = true;
          
          bossController.Init(bossLinks);
+         placed[bossPos] = bossController;
       }
       
+      AlignRoomsByAnchors();
+
       Debug.Log($"최종 생성된 방 개수: {graph.nodes.Count}개");
-      
+
       if (corridorGenerator != null)
       {
-         corridorGenerator.GenerateCorridors(graph, roomSize, roomSpacing);
-         corridorGenerator.GenerateBossCorridor(farRoom, bossPos, roomSize, roomSpacing);
+         corridorGenerator.GenerateCorridors(graph, placed);
       }
+
    }
    
    Vector2Int FindFarRoom()
@@ -374,6 +395,64 @@ public class DungeonGen : MonoBehaviour
       return candidatea[randomindex];
    }
 
+  void AlignRoomsByAnchors()
+{
+    if (graph == null || placed.Count == 0) return;
+
+    Queue<Vector2Int> queue = new Queue<Vector2Int>();
+    HashSet<Vector2Int> visited = new HashSet<Vector2Int>();
+
+    Vector2Int start = graph.startPos;
+    if (!placed.ContainsKey(start)) return; 
+
+    queue.Enqueue(start);
+    visited.Add(start);
+
+    while (queue.Count > 0)
+    {
+        Vector2Int cell = queue.Dequeue();
+        if (!placed.TryGetValue(cell, out var room)) continue;
+
+        foreach (Vector2Int neighbor in graph.GetNeighbors(cell)) 
+        {
+            if (visited.Contains(neighbor)) continue;
+            if (!placed.TryGetValue(neighbor, out var neighborRoom)) continue;
+
+            Vector2Int dir = neighbor - cell; 
+            Vector3 currentPos = neighborRoom.transform.position;
+            
+            // 수평 연결 (동/서): Y축 오프셋만 조정
+            if (dir.y == 0 && Mathf.Abs(dir.x) == 1) 
+            {
+                RoomController.DoorDir doorCell = (dir == Vector2Int.right) ? RoomController.DoorDir.E : RoomController.DoorDir.W;
+                RoomController.DoorDir doorNeighbor = (dir == Vector2Int.right) ? RoomController.DoorDir.W : RoomController.DoorDir.E;
+
+                Vector3 a = room.GetDoorAnchorWorldPos(doorCell);
+                Vector3 b = neighborRoom.GetDoorAnchorWorldPos(doorNeighbor);
+                
+                float dy = a.y - b.y; 
+                currentPos.y += dy;
+            }
+            // 수직 연결 (남/북): X축 오프셋만 조정
+            else if (dir.x == 0 && Mathf.Abs(dir.y) == 1) 
+            {
+                RoomController.DoorDir doorCell = (dir == Vector2Int.up) ? RoomController.DoorDir.N : RoomController.DoorDir.S;
+                RoomController.DoorDir doorNeighbor = (dir == Vector2Int.up) ? RoomController.DoorDir.S : RoomController.DoorDir.N;
+
+                Vector3 a = room.GetDoorAnchorWorldPos(doorCell);
+                Vector3 b = neighborRoom.GetDoorAnchorWorldPos(doorNeighbor);
+
+                float dx = a.x - b.x;
+                currentPos.x += dx;
+            }
+
+            neighborRoom.transform.position = currentPos;
+
+            visited.Add(neighbor);
+            queue.Enqueue(neighbor);
+        }
+    }
+}
    Vector3 GridToWorld(Vector2Int gridPos)
    {
       float xPos = gridPos.x * (roomSize.x + roomSpacing.x);
@@ -387,6 +466,22 @@ public class DungeonGen : MonoBehaviour
       public bool E;
       public bool S;
       public bool W;
+   }
+   
+   public void ApplyTheme(DungeonThemeSO t)
+   {
+      startRoomPrefab  = t.startRoomPrefab;
+      bossRoomPrefab   = t.bossRoomPrefab;
+      eventRoomPrefab  = t.eventRoomPrefabs;
+      monsterRoomPrefab = t.monsterRoomPrefabs;
+
+      if (corridorGenerator != null)
+      {
+         corridorGenerator.SetCorridorPrefabs(
+            t.horizontalCorridorPrefab,
+            t.verticalCorridorPrefab
+         );
+      }
    }
    
    [ContextMenu("Clear Saved Seed")]

@@ -1,15 +1,53 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 [CreateAssetMenu(fileName = "AgentStaminaSO", menuName = "Scriptable Objects/AgentStaminaSO")]
 public class AgentStaminaSO : ScriptableObject
 {
     [Header("Rates")]
-    [field: SerializeField] public float _useStaminaGage { get; private set; }
-    [field: SerializeField] public float _rechargeSpeed { get; private set; }
-    [field: SerializeField] public float _backFollowStaminaBar { get; private set; }
-    [field: SerializeField] public float _backBarRechargeSpeed { get; private set; }
+    [field: SerializeField] public float UseStaminaGage { get; private set; }
+    [field: SerializeField] public float RechargeSpeed { get; private set; }
+    [field: SerializeField] public float BackFollowStaminaBar { get; private set; }
+    [field: SerializeField] public float BackBarRechargeSpeed { get; private set; }
 
     [Header("Move")]
-    [field: SerializeField] public float _defaultSpeed { get; private set; }
-    [field: SerializeField] public float _runSpeed { get; private set; }
+    [field: SerializeField] public float DefaultSpeed { get; private set; }
+    [field: SerializeField] public float RunSpeed { get; private set; }
+    [field: SerializeField] public float MoveSpeed { get;  set; }
+    [field: SerializeField] public float DefaultRunSpeed { get; set; }
+
+    // === JSON 저장용 구조체 ===
+    [Serializable]
+    public struct SaveData
+    {
+        public float useStaminaGage;
+        public float rechargeSpeed;
+        public float backFollowStaminaBar;
+        public float backBarRechargeSpeed;
+        public float defaultSpeed;
+        public float runSpeed;
+    }
+
+    public SaveData ToSaveData()
+    {
+        return new SaveData
+        {
+            useStaminaGage = UseStaminaGage,
+            rechargeSpeed = RechargeSpeed,
+            backFollowStaminaBar = BackFollowStaminaBar,
+            backBarRechargeSpeed = BackBarRechargeSpeed,
+            defaultSpeed = DefaultSpeed,
+            runSpeed = RunSpeed
+        };
+    }
+
+    public void ApplySaveData(SaveData data)
+    {
+        UseStaminaGage = data.useStaminaGage;
+        RechargeSpeed = data.rechargeSpeed;
+        BackFollowStaminaBar = data.backFollowStaminaBar;
+        BackBarRechargeSpeed = data.backBarRechargeSpeed;
+        DefaultSpeed = data.defaultSpeed;
+        RunSpeed = data.runSpeed;
+    }
 }

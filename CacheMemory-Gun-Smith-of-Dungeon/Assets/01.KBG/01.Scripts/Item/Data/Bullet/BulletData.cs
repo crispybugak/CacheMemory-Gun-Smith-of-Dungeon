@@ -16,15 +16,14 @@ namespace KBG.Item
         }
         
         [field: SerializeField] public Sprite icon { get; set; }
+        [field:SerializeField] public float upScaling { get; set; }
         [field: SerializeField] public string itemName { get; set; }
-        [field: SerializeField] public float mass { get; set; }
         
         [field: SerializeField] public GameObject BulletPrefab{ get; private set; }
         [field: SerializeField] public GameObject CasingPrefab{ get; private set; }
         [Header("Damage")]
         public float defaultDamage;
         public float damageRatePerPowder;
-        public List<PowderStatus> powderStatuses;
         [Header("Strain")]
         public float defaultStrain;
         public float strainRatePerPowder;

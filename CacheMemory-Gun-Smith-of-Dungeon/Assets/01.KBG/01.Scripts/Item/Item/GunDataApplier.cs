@@ -4,6 +4,7 @@ using UnityEngine;
 
 namespace KBG.Item
 {
+    [DefaultExecutionOrder(-100)]
     public class GunDataApplier : MonoSingleton<GunDataApplier>
     {
         [SerializeField] private SpriteRenderer muzzleRenderer,
@@ -18,7 +19,14 @@ namespace KBG.Item
         [Header("Data")]
         [field: SerializeField] public GunDefaultData defaultData {get; private set;}
         [field: SerializeField] public GunData gunStatusData{get; private set;}
-        
+
+        protected override void Awake()
+        {
+            base.Awake();
+            
+            gunStatusData.Initialize();
+        }
+
         public void InitializeRenderer()
         {
             var part = gunStatusData.GetPart(PartType.Muzzle);
@@ -44,7 +52,7 @@ namespace KBG.Item
             if (part)
             {
                 magazineRenderer.transform.localRotation = Quaternion.Euler(0, 0, part.partData.partDegree);
-                muzzleRenderer.transform.localPosition = part.partData.localPos;
+                magazineRenderer.transform.localPosition = part.partData.localPos;
                 magazineRenderer.sprite = part.partData.icon;
             }
             else

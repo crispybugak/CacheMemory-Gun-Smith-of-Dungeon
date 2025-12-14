@@ -50,7 +50,7 @@ public class AgentMovementSO : ScriptableObject, Controls.IAgentActions
 
     public void OnMousePosition(InputAction.CallbackContext context)
     {
-        mouseDir = Camera.main.ScreenToWorldPoint(context.ReadValue<Vector2>());
+        mouseDir = context.ReadValue<Vector2>();
     }
 
     public void OnUseSkill(InputAction.CallbackContext context)

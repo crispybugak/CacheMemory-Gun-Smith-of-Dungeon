@@ -13,11 +13,20 @@ MonoBehaviour:
   m_Name: NormalStock
   m_EditorClassIdentifier: 
   <icon>k__BackingField: {fileID: 2445549212707147729, guid: 54942142293ae6a46a72b3a0f60d9dbe, type: 3}
+  <upScaling>k__BackingField: 2
   <itemName>k__BackingField: "\uAE30\uBCF8 \uAC1C\uBA38\uB9AC\uD310"
-  <mass>k__BackingField: 0
   type: 4
   requirePartType: 3
   partDegree: 0
   localPos: {x: 0, y: 0}
-  effects: []
-  ingredients: []
+  ingredients:
+  - requiredIngredient: 1
+    requiredAmount: 3
+    effects:
+    - effectType: 1
+      effectAmount: 20
+    - effectType: 2
+      effectAmount: 20
+    - effectType: 4
+      effectAmount: -20
+    durability: 0

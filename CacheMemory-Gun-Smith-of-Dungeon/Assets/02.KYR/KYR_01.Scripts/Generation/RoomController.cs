@@ -7,6 +7,13 @@ public class RoomController : MonoBehaviour
     [SerializeField]private GameObject doorN, doorE, doorS, doorW;
     [SerializeField]private GameObject cdoorN, cdoorE, cdoorS, cdoorW;
     
+    //방 기준 점
+    [SerializeField] private Transform doorAnchorN;
+    [SerializeField] private Transform doorAnchorE;
+    [SerializeField] private Transform doorAnchorS;
+    [SerializeField] private Transform doorAnchorW;
+
+    
     private bool _linkN, _linkE, _linkS, _linkW;
 
     public void Init(DungeonGen.RoomLinks links)
@@ -94,6 +101,47 @@ public class RoomController : MonoBehaviour
     {
         if(openDoor) openDoor.SetActive(open);
         if(closeDoor) closeDoor.SetActive(!open);
+    }
+    public Vector3 GetDoorWorldPos(DoorDir dir)
+    {
+        GameObject doorParent = null;
+        switch (dir)
+        {
+            case DoorDir.N: doorParent = doorN; break;
+            case DoorDir.E: doorParent = doorE; break;
+            case DoorDir.S: doorParent = doorS; break;
+            case DoorDir.W: doorParent = doorW; break;
+        }
+
+        if (doorParent == null)
+            return transform.position;  
+        
+        Transform anchor;
+
+        if (doorParent.transform.childCount > 0)
+            anchor = doorParent.transform.GetChild(0); // 첫번째 자식
+        else
+            anchor = doorParent.transform;             // 자식 없으면 부모
+
+        return anchor.position;
+    }
+    public Vector3 GetDoorAnchorWorldPos(DoorDir dir)
+    {
+        Transform anchor = null;
+        switch (dir)
+        {
+            case DoorDir.N: anchor = doorAnchorN; break;
+            case DoorDir.E: anchor = doorAnchorE; break;
+            case DoorDir.S: anchor = doorAnchorS; break;
+            case DoorDir.W: anchor = doorAnchorW; break;
+        }
+
+        if (anchor == null)
+        {
+            return GetDoorWorldPos(dir); 
+        }
+    
+        return anchor.position;
     }
     
 }

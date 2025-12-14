@@ -1,24 +1,43 @@
 using UnityEngine;
 
-public class MantisEnemy : BaseEnemy
+public class MentisEnemy : BaseEnemy
 {
-    [SerializeField] private GameObject acidBlobPrefab;
-    
+    private int hashIsAttacking;
+
+    protected override void Start()
+    {
+        base.Start();
+        hashIsAttacking = Animator.StringToHash("isAttacking");
+        attackSoundName = "mentis-attack-sound";
+    }
+
+    protected override void Attack()
+    {
+        animator?.SetBool(hashIsAttacking, true);
+        PerformAttack();
+    }
+
     protected override void PerformAttack()
     {
-        Vector2 shootDir = ((Vector2)GetPlayerTransform().position - 
-                            (Vector2)transform.position).normalized;
-        
-        if (acidBlobPrefab != null)
-        {
-            GameObject blob = Instantiate(acidBlobPrefab, 
-                transform.position + (Vector3)shootDir * 0.5f, 
-                Quaternion.identity);
-            
-            if (blob.TryGetComponent<Projectile>(out var projectile))
-            {
-                projectile.Launch(shootDir, GetEnemyData().attackDamage);
-            }
-        }
+    }
+
+    protected override void ApplyAttackDamage()
+    {
+        base.ApplyAttackDamage();
+        animator?.SetBool(hashIsAttacking, false);
+    }
+
+    public override void TakeDamage(float damage)
+    {
+        base.TakeDamage(damage);
+        if (GetAnimator() != null)
+            GetAnimator().SetTrigger("isHurt");
+    }
+
+    protected override void Die()
+    {
+        if (GetAnimator() != null)
+            GetAnimator().SetTrigger("isDead");
+        base.Die();
     }
 }

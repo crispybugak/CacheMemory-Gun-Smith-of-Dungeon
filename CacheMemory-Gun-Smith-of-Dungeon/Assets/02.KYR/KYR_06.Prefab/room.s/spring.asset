@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69223f771f1988041be709b7423d4814, type: 3}
+  m_Name: spring
+  m_EditorClassIdentifier: 
+  startRoomPrefab: {fileID: 2001465319477592527, guid: 3f38950c0b6173f4dbfae3919ac748ae, type: 3}
+  bossRoomPrefab: {fileID: 8286409849875682828, guid: 6041b749c30bf114f9a8a77f5776ab12, type: 3}
+  eventRoomPrefabs:
+  - {fileID: 332381807155455280, guid: 75a918d4633a1194aa1aaaff45fe8290, type: 3}
+  monsterRoomPrefabs:
+  - {fileID: 3245718599316629969, guid: 21ff422030f73e64bab5e269c76dbe2d, type: 3}
+  - {fileID: 4725323978475011910, guid: cccd2cd26511b544a93269e04a94bf46, type: 3}
+  - {fileID: 6739564960200233114, guid: 4d73bf50f23cd0846bb895861b5a5c61, type: 3}
+  horizontalCorridorPrefab: {fileID: 2824340568639790942, guid: 4bfc6767ecd35794792ecf33e2064453, type: 3}
+  verticalCorridorPrefab: {fileID: 3538303557526842944, guid: 60c226533cb0e34498cd27ca953e8ca3, type: 3}

@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
 using System.Linq;
 using UnityEngine;
 
@@ -22,12 +21,11 @@ namespace KBG.Item
             handleSpeed;
         public float capacity;
         
-        public BulletItem Chamber { get; private set; }
+        [field:SerializeField] public BulletItem Chamber { get; private set; }
         private Stack<BulletItem> _magazine = new Stack<BulletItem>();
 
         public void Initialize()
         {
-            
             partsDict.Clear();
             
             foreach (var part in Enum.GetValues(typeof(PartType)).Cast<PartType>())
@@ -35,13 +33,21 @@ namespace KBG.Item
             InitializeStatus();
         }
 
-        public Part ChangePart([NotNull] Part part)
+        public Part ChangePart(Part part)
         {
-            if (!partsDict[part.partData.requirePartType])
-                return part;
             Part temp = null;
 
-            (partsDict[part.partData.type], temp) = (part, partsDict[part.partData.type]);
+            if (part)
+                (partsDict[part.partData.type], temp) = (part, partsDict[part.partData.type]);
+
+            InitializeStatus();
+            return temp;
+        }
+        public Part ChangePart(Part part, PartType type)
+        {
+            Part temp = null;
+
+            (partsDict[type], temp) = (part, partsDict[type]);
 
             InitializeStatus();
             return temp;
@@ -50,7 +56,6 @@ namespace KBG.Item
         public Part RemovePart(PartType partType)
         {
             Part temp = partsDict[partType];
-            if (!temp) return null;
             InitializeStatus();
             return temp;
         }
@@ -63,7 +68,9 @@ namespace KBG.Item
         public BulletItem ShootBullet()
         {
             var temp = Chamber;
+            Chamber = null;
             ReloadChamber();
+            Debug.Log(_magazine.Count + (Chamber ? 1  : 0));
             return temp;
         }
 
@@ -76,13 +83,22 @@ namespace KBG.Item
 
         public bool Reload(BulletItem bullet)
         {
-            if (!(_magazine.Count < capacity)) return false;
+            if (_magazine.Count >= capacity) return false;
             _magazine.Push(Chamber);
+            Chamber = bullet;
+            Debug.Log(_magazine.Count + (Chamber ? 1  : 0));
             return true;
+        }
+
+        public bool CheckEndModding()
+        {
+            return partsDict.Where(p => p.Value).All(p => GetPart(p.Value.partData.requirePartType)) && GetPart(PartType.Base);
         }
 
         private void InitializeStatus()
         {
+            GunDataApplier.Instance.InitializeRenderer();
+            
             damage = 0;
             recoilControl = 0;
             accuracy = 0;
@@ -90,7 +106,7 @@ namespace KBG.Item
             handleSpeed = 0;
             capacity = 0;
             
-            foreach (var effect in partsDict.Values
+            foreach (var effect in partsDict.Values.Where(part => part)
                          .SelectMany(part => part.partData.ingredients
                              .Where(ingredient => ingredient.requiredIngredient == part.madeBy)
                              .SelectMany(ingredient => ingredient.effects)))

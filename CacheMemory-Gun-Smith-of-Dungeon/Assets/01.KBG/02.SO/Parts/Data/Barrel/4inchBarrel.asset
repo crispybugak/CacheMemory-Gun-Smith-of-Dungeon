@@ -13,11 +13,24 @@ MonoBehaviour:
   m_Name: 4inchBarrel
   m_EditorClassIdentifier: 
   <icon>k__BackingField: {fileID: -6056460199035020419, guid: 41374edaea1d6a4479ac70283ad4c58c, type: 3}
+  <upScaling>k__BackingField: 1.5
   <itemName>k__BackingField: "4\uC778\uCE58 \uCD1D\uC5F4"
-  <mass>k__BackingField: 0
   type: 2
   requirePartType: 3
   partDegree: 0
   localPos: {x: -0.5937, y: 0.1875}
-  effects: []
-  ingredients: []
+  ingredients:
+  - requiredIngredient: 0
+    requiredAmount: 2
+    effects:
+    - effectType: 1
+      effectAmount: 10
+    - effectType: 4
+      effectAmount: 20
+    - effectType: 0
+      effectAmount: -10
+    - effectType: 3
+      effectAmount: -10
+    - effectType: 2
+      effectAmount: -10
+    durability: 350

@@ -1,0 +1,345 @@
+fileFormatVersion: 2
+guid: 8ad2b6118d08b134e8dfcbd669a4ec0e
+TextureImporter:
+  internalIDToNameTable:
+  - first:
+      213: 4441328502528221108
+    second: MousePointer-Sheet_0
+  - first:
+      213: -8714315074641289941
+    second: MousePointer-Sheet_1
+  - first:
+      213: 7918239576169453673
+    second: MousePointer-Sheet_2
+  - first:
+      213: 342638340847261237
+    second: MousePointer-Sheet_3
+  - first:
+      213: -1738982089405805526
+    second: MousePointer-Sheet_4
+  - first:
+      213: -7987188281422318748
+    second: MousePointer-Sheet_5
+  - first:
+      213: 3637041131279322930
+    second: MousePointer-Sheet_6
+  - first:
+      213: -2014428028555852156
+    second: MousePointer-Sheet_7
+  - first:
+      213: -5472968290856693972
+    second: MousePointer-Sheet_8
+  - first:
+      213: 780397389191111469
+    second: MousePointer-Sheet_9
+  - first:
+      213: 394250824587933845
+    second: MousePointer-Sheet_10
+  - first:
+      213: 4237405041557882866
+    second: MousePointer-Sheet_11
+  - first:
+      213: -1916961709976422899
+    second: MousePointer-Sheet_12
+  - first:
+      213: 3030107406332261869
+    second: MousePointer-Sheet_13
+  - first:
+      213: 155438012172872803
+    second: MousePointer-Sheet_14
+  - first:
+      213: -740754161383024923
+    second: MousePointer-Sheet_15
+  - first:
+      213: 8795253622656535268
+    second: MousePointer-Sheet_16
+  - first:
+      213: -1041295588007083752
+    second: MousePointer-Sheet_17
+  - first:
+      213: 5658978898648058596
+    second: MousePointer-Sheet_18
+  - first:
+      213: -3487862200404988140
+    second: MousePointer-Sheet_19
+  - first:
+      213: 6327601239366928492
+    second: MousePointer-Sheet_20
+  - first:
+      213: 8114827585466708821
+    second: MousePointer-Sheet_21
+  - first:
+      213: -7725445847037330823
+    second: MousePointer-Sheet_22
+  - first:
+      213: -345545063188096385
+    second: MousePointer-Sheet_23
+  externalObjects: {}
+  serializedVersion: 13
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 0
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 32
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 4
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 1
+    textureFormat: -1
+    textureCompression: 0
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: MousePointer-Sheet_0
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 36
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f57292332d7deef42b8f3f4eb50fac6d
+      internalID: 4441328502528221108
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MousePointer-Sheet_1
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 36
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 59905159b002a9e4ead1ad0261cf60cd
+      internalID: -8714315074641289941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MousePointer-Sheet_2
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 36
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b2a33b050495e674087ea0c387f78b1f
+      internalID: 7918239576169453673
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MousePointer-Sheet_3
+      rect:
+        serializedVersion: 2
+        x: 4
+        y: 4
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8579ce71af2379468b74b4230f0626d
+      internalID: 342638340847261237
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MousePointer-Sheet_4
+      rect:
+        serializedVersion: 2
+        x: 36
+        y: 4
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 7a05638b382965d45a5723d296fb704a
+      internalID: -1738982089405805526
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: MousePointer-Sheet_5
+      rect:
+        serializedVersion: 2
+        x: 68
+        y: 4
+        width: 23
+        height: 24
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      customData: 
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 66c5fc7b67df23c42912965ae40c3504
+      internalID: -7987188281422318748
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    customData: 
+    physicsShape: []
+    bones: []
+    spriteID: 3f2162fd5d208774a96d97eb9cea12a9
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable:
+      MousePointer-Sheet_0: 4441328502528221108
+      MousePointer-Sheet_1: -8714315074641289941
+      MousePointer-Sheet_10: 394250824587933845
+      MousePointer-Sheet_11: 4237405041557882866
+      MousePointer-Sheet_12: -1916961709976422899
+      MousePointer-Sheet_13: 3030107406332261869
+      MousePointer-Sheet_14: 155438012172872803
+      MousePointer-Sheet_15: -740754161383024923
+      MousePointer-Sheet_16: 8795253622656535268
+      MousePointer-Sheet_17: -1041295588007083752
+      MousePointer-Sheet_18: 5658978898648058596
+      MousePointer-Sheet_19: -3487862200404988140
+      MousePointer-Sheet_2: 7918239576169453673
+      MousePointer-Sheet_20: 6327601239366928492
+      MousePointer-Sheet_21: 8114827585466708821
+      MousePointer-Sheet_22: -7725445847037330823
+      MousePointer-Sheet_23: -345545063188096385
+      MousePointer-Sheet_3: 342638340847261237
+      MousePointer-Sheet_4: -1738982089405805526
+      MousePointer-Sheet_5: -7987188281422318748
+      MousePointer-Sheet_6: 3637041131279322930
+      MousePointer-Sheet_7: -2014428028555852156
+      MousePointer-Sheet_8: -5472968290856693972
+      MousePointer-Sheet_9: 780397389191111469
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
