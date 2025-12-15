@@ -24,3 +24,11 @@ MonoBehaviour:
     requiredAmount: 1
     effects: []
     durability: 0
+  - requiredIngredient: 1
+    requiredAmount: 1
+    effects: []
+    durability: 0
+  - requiredIngredient: 3
+    requiredAmount: 1
+    effects: []
+    durability: 0
