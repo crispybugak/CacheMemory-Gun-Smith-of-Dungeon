@@ -13,6 +13,5 @@ MonoBehaviour:
   m_Name: New Bullet Item
   m_EditorClassIdentifier: 
   bulletData: {fileID: 11400000, guid: ef85e1cb7f997c443bff482f37982476, type: 2}
-  <Damage>k__BackingField: 5.72
-  usedIngredientType: 0
-  usedAmount: 0
+  <Damage>k__BackingField: 1
+  usedGunpowderAmount: 1

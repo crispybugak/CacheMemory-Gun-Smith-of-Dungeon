@@ -32,6 +32,10 @@ namespace KBG.Inventory
         {
             base.Awake();
                 _gridLayout = GetComponent<GridLayoutGroup>();
+                for (int i = 0; i < transform.childCount; i++)
+                {
+                    Destroy(transform.GetChild(0).gameObject);
+                }
             _gridLayout.constraintCount = slotSize.x;
             for (int i = 0; i < slotSize.x; i++)
                 for (int j = 0; j < slotSize.y; j++)
