@@ -26,36 +26,32 @@ public class LobbyUI : MonoBehaviour
     public Button GameExitBtn;
     public Image GameExitYesBtn;
 
-    // ====== 배낭(로비 버튼 / 배낭 UI 루트들) ======
     [Header("C. Backpack (Open/Close)")]
     public Button bagBtn;
     public GameObject bagCanvasRoot;
     public GameObject bagExtraObject;
 
-    // ====== 카테고리 바 별도 캔바스 ======
     [Header("C-0. Category Bar Root (Separate Canvas)")]
     public GameObject categoryBarRoot;
 
-    // ====== 배낭 내부 카테고리 ======
     [Header("C-1. Backpack Category Bar")]
     public Button categoryBagBtn;
     public Button categoryCraftBtn;
 
-    // ====== C-2: 이제 배낭 콘텐츠만 유지 ======
     [Header("C-2. Bag Content Canvas")]
     public GameObject bagContentCanvas;
 
-    // ====== C-3: 제작(Create Content) 캔바스로 사용 ======
     [Header("C-3. Create Content Canvas (Craft)")]
-    public GameObject createContentCanvas; // 기존 inventoryCanvasRoot 역할
+    public GameObject createContentCanvas;
 
     private float fadeDuration = 0.2f;
 
-    // ====== 팝업(창) 열림 상태 잠금 ======
     private enum LobbyPopup { None, Character, Option, Exit, Backpack }
     private LobbyPopup _popup = LobbyPopup.None;
 
-    // ====== 버튼 클릭 사운드 유틸 ======
+    // ====== [추가] 옵션 패널 한번에 페이드용 CanvasGroup 캐시 ======
+    private CanvasGroup _optionCg;
+
     private void PlayClickSound()
     {
         if (AudioManager.Instance == null) return;
@@ -78,10 +74,19 @@ public class LobbyUI : MonoBehaviour
         InitializePanels(Ria);
         InitializePanels(Rin);
         InitializePanels(optionPanel);
+        InitializePanels(GameExitPanel);
+        InitializePanels(GameExitYesBtn);
 
-        Color fadeColor = fadePanel.color;
-        fadeColor.a = 0f;
-        fadePanel.color = fadeColor;
+        if (fadePanel != null)
+        {
+            Color fadeColor = fadePanel.color;
+            fadeColor.a = 0f;
+            fadePanel.color = fadeColor;
+            fadePanel.raycastTarget = false;
+        }
+
+        // ====== [추가] 옵션 패널 CanvasGroup 준비 ======
+        PrepareOptionCanvasGroup();
 
         InitializeBackpackObjects();
         BindCategoryButtons();
@@ -97,9 +102,10 @@ public class LobbyUI : MonoBehaviour
         Color panelColor = panel.color;
         panelColor.a = 0f;
         panel.color = panelColor;
+
+        panel.raycastTarget = false;
     }
 
-    // ====== 배낭/카테고리바 오브젝트 초기 상태 세팅 ======
     private void InitializeBackpackObjects()
     {
         if (bagCanvasRoot)
@@ -133,7 +139,6 @@ public class LobbyUI : MonoBehaviour
         }
     }
 
-    // ====== 오브젝트 단위 레이캐스트 On/Off ======
     private void SetRaycastForObject(GameObject root, bool on)
     {
         if (root == null) return;
@@ -143,14 +148,11 @@ public class LobbyUI : MonoBehaviour
         {
             cg.blocksRaycasts = on;
             cg.interactable = on;
-            return;
         }
 
         Graphic[] graphics = root.GetComponentsInChildren<Graphic>(true);
         for (int i = 0; i < graphics.Length; i++)
-        {
             graphics[i].raycastTarget = on;
-        }
     }
 
     private void BindCategoryButtons()
@@ -206,7 +208,6 @@ public class LobbyUI : MonoBehaviour
         OpenExitPanel(GameExitYesBtn);
     }
 
-    // ====== 배낭 버튼(로비) ======
     public void OnClickBagButton()
     {
         if (_popup == LobbyPopup.Backpack)
@@ -247,7 +248,6 @@ public class LobbyUI : MonoBehaviour
         Debug.Log("허공이 눌림");
     }
 
-    // 배낭 닫기용(허공 버튼에서 호출)
     public void OnClickBagExitButton()
     {
         if (_popup != LobbyPopup.Backpack) return;
@@ -302,16 +302,63 @@ public class LobbyUI : MonoBehaviour
         sequence.Join(panel.GetComponentInChildren<TextMeshProUGUI>().DOFade(1, 0.2f).OnComplete(() => panel.raycastTarget = true));
     }
 
+    // ====== [수정] 옵션은 CanvasGroup으로 한번에 페이드 ======
+    public void OpenOptionPanel(Image panel)
+    {
+        if (panel == null) return;
+
+        panel.gameObject.SetActive(true);
+
+        // CanvasGroup 준비/캐시
+        if (_optionCg == null) PrepareOptionCanvasGroup();
+
+        panel.raycastTarget = true; // 기존 흐름 유지(허공 클릭 받을 때 필요하면)
+        _optionCg.blocksRaycasts = true;
+        _optionCg.interactable = true;
+
+        _optionCg.DOKill();
+        _optionCg.alpha = 0f;
+        _optionCg.DOFade(1f, 0.2f);
+    }
+
+    // ====== [수정] 옵션만 CanvasGroup으로 닫고, 나머지는 기존대로 ======
     private void OnClickemptiness(Image panel)
     {
         if (panel == null) return;
 
+        // 옵션 패널이면: 자식까지 한번에 페이드
+        if (panel == optionPanel)
+        {
+            if (_optionCg == null) PrepareOptionCanvasGroup();
+
+            panel.raycastTarget = false;
+            _optionCg.blocksRaycasts = false;
+            _optionCg.interactable = false;
+
+            _optionCg.DOKill();
+            _optionCg.DOFade(0f, 0.2f).OnComplete(() =>
+            {
+                panel.gameObject.SetActive(false);
+
+                if (_popup == LobbyPopup.Option)
+                {
+                    _popup = LobbyPopup.None;
+                    SetMainButtonsInteractable(true);
+                }
+            });
+
+            return;
+        }
+
+        // 기존 로직 (Exit 등)
         Sequence sequence = DOTween.Sequence();
         sequence.Append(panel.DOFade(0, 0.2f).OnComplete(() => panel.raycastTarget = false));
         sequence.Join(panel.GetComponentInChildren<TextMeshProUGUI>().DOFade(0, 0.2f).OnComplete(() => panel.raycastTarget = false));
 
         sequence.OnComplete(() =>
         {
+            panel.gameObject.SetActive(false);
+
             if (_popup == LobbyPopup.Option && panel == optionPanel)
             {
                 _popup = LobbyPopup.None;
@@ -325,15 +372,20 @@ public class LobbyUI : MonoBehaviour
         });
     }
 
-    public void OpenOptionPanel(Image panel)
+    // ====== [추가] 옵션 CanvasGroup 준비 함수 ======
+    private void PrepareOptionCanvasGroup()
     {
-        if (panel == null) return;
+        if (optionPanel == null) return;
 
-        Sequence sequence = DOTween.Sequence();
-        sequence.Append(panel.DOFade(1, 0.2f).OnComplete(() => panel.raycastTarget = true));
+        _optionCg = optionPanel.GetComponent<CanvasGroup>();
+        if (_optionCg == null) _optionCg = optionPanel.gameObject.AddComponent<CanvasGroup>();
+
+        // 초기 상태는 기존 InitializePanels와 맞춰서 투명
+        _optionCg.alpha = 0f;
+        _optionCg.interactable = false;
+        _optionCg.blocksRaycasts = false;
     }
 
-    // ====== 배낭 열기/닫기 (카테고리바도 같이) ======
     private void OpenBackpack()
     {
         Debug.Log("가방 열려버리기");
@@ -356,7 +408,6 @@ public class LobbyUI : MonoBehaviour
             SetRaycastForObject(bagExtraObject, true);
         }
 
-        // 기본은 "배낭(C-2)" 화면
         ShowBagView();
     }
 
@@ -386,8 +437,6 @@ public class LobbyUI : MonoBehaviour
         SetMainButtonsInteractable(true);
     }
 
-    // ====== 카테고리 버튼 이벤트 ======
-    // 배낭 버튼: C-2 ON, C-3 OFF
     private void OnClickCategoryBag()
     {
         if (_popup != LobbyPopup.Backpack) return;
@@ -396,7 +445,6 @@ public class LobbyUI : MonoBehaviour
         ShowBagView();
     }
 
-    // 제작 버튼: C-3 ON, C-2 OFF
     private void OnClickCategoryCraft()
     {
         if (_popup != LobbyPopup.Backpack) return;
@@ -405,7 +453,6 @@ public class LobbyUI : MonoBehaviour
         ShowCreateContentView();
     }
 
-    // ====== 표시 유틸 (뷰 전환) ======
     private void HideAllContentViews()
     {
         SetBagBaseVisible(false);
@@ -414,19 +461,16 @@ public class LobbyUI : MonoBehaviour
 
     private void ShowBagView()
     {
-        // 요구사항: 배낭 버튼 누르면 C-2(배낭) 켜고, C-3 꺼짐
         SetCreateContentVisible(false);
         SetBagBaseVisible(true);
     }
 
     private void ShowCreateContentView()
     {
-        // 요구사항: 제작 버튼 누르면 C-3 켜고, C-2 꺼짐
         SetBagBaseVisible(false);
         SetCreateContentVisible(true);
     }
 
-    // ====== C-2 (Bag) ======
     private void SetBagBaseVisible(bool on)
     {
         if (!bagContentCanvas) return;
@@ -443,7 +487,6 @@ public class LobbyUI : MonoBehaviour
         }
     }
 
-    // ====== C-3 (Create Content) ======
     private void SetCreateContentVisible(bool on)
     {
         if (!createContentCanvas) return;

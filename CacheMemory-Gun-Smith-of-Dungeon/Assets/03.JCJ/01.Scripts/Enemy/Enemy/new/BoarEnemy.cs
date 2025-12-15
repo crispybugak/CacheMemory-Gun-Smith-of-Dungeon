@@ -11,7 +11,6 @@ public class BoarEnemy : BaseEnemy
     {
         base.Start();
         hashSleepTransition = Animator.StringToHash("sleepTransition");
-        attackSoundName = "boar-attack-sound";
     }
 
     protected override void Attack()
@@ -44,14 +43,10 @@ public class BoarEnemy : BaseEnemy
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
-        if (GetAnimator() != null)
-            GetAnimator().SetTrigger("isHurt");
     }
 
     protected override void Die()
     {
-        if (GetAnimator() != null)
-            GetAnimator().SetTrigger("isDead");
         base.Die();
     }
 }

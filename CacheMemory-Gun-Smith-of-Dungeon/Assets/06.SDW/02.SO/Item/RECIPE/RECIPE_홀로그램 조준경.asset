@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ccbe3d811ea2477eb9d28d7472a63444, type: 3}
+  m_Name: "RECIPE_\uD640\uB85C\uADF8\uB7A8 \uC870\uC900\uACBD"
+  m_EditorClassIdentifier: 
+  resultPart: {fileID: 11400000, guid: 576d0221c8da61d4dbf3b8a0e792e79f, type: 2}
+  displayNameOverride: 
+  listIconOverride: {fileID: 0}
+  previewIconOverride: {fileID: 0}
+  partTypeOverride: 0
+  requirePartTypeOverride: 0
+  autoRenameAsset: 1
+  assetNamePrefix: RECIPE_
+  preferItemName: 1
+  _lastResultPart: {fileID: 11400000, guid: 576d0221c8da61d4dbf3b8a0e792e79f, type: 2}

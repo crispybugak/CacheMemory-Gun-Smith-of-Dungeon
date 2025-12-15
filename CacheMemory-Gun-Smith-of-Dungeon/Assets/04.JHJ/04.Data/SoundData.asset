@@ -17,13 +17,13 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 1bf98d1cef578224b949010a1b424db7, type: 3}
     name: "\uBC84\uD2BC\uD074\uB9AD"
     loop: 0
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
     startSound: 0
   - soundType: 1
     clip: {fileID: 8300000, guid: 8703248cb194309418e3e5a9866ff0fe, type: 3}
     name: "\uB85C\uBE44"
     loop: 0
-    volume: 0
-    pitch: 0
+    volume: 1
+    pitch: 1
     startSound: 0

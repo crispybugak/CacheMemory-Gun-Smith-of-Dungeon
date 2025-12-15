@@ -48,7 +48,7 @@ MonoBehaviour:
     - effectType: 4
       effectAmount: -10
     durability: 750
-  - requiredIngredient: 4
+  - requiredIngredient: 3
     requiredAmount: 5
     effects:
     - effectType: 0
