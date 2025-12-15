@@ -715,6 +715,51 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1546201323
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1546201325}
+  - component: {fileID: 1546201324}
+  m_Layer: 0
+  m_Name: FloatingTextManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1546201324
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546201323}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36f4832c24d590c428168b2b7e4a7192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  floatingTextPrefab: {fileID: 3369771599450522596, guid: 76a42b4b04787324b9ba5adb954a6516, type: 3}
+--- !u!4 &1546201325
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1546201323}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -944.7841, y: -487.79343, z: -0.36861748}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1811452741039138805}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1568940797
 GameObject:
   m_ObjectHideFlags: 0
@@ -901,7 +946,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiManager: {fileID: 2667399074160513251}
   _zoom: {fileID: 1324050555}
-  _gameUi: {fileID: 1988703384}
+  _gameUi: {fileID: 0}
   characterDatabase:
   - id: Ria
     prefab: {fileID: 3753103667826068608, guid: daffbc11428acff44aa47820b070c759, type: 3}
@@ -1134,14 +1179,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 168067ac899d2ff4a96458bdd4c61c54, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  players:
-  - {fileID: 3753103667826068608, guid: daffbc11428acff44aa47820b070c759, type: 3}
-  - {fileID: 4371259015201184535, guid: 1c360575dabd0624c931e070cf9b9645, type: 3}
-  startPoints:
-  - {fileID: 3496547501617830388, guid: d791d18cccee3e745b20728ce6cbece4, type: 3}
-  - {fileID: 3496547501617830388, guid: 288175f2f2c1e2f418fc91dc6b951234, type: 3}
-  - {fileID: 3496547501617830388, guid: 3f38950c0b6173f4dbfae3919ac748ae, type: 3}
-  - {fileID: 3496547501617830388, guid: 1e49fa12e7310454696f8122f41e6eec, type: 3}
+  players: []
+  startPoints: []
   alsoApplyNextFrame: 1
   resetRigidbody2DVelocity: 1
 --- !u!4 &1988703386
@@ -1552,6 +1591,7 @@ RectTransform:
   - {fileID: 8334425507921906870}
   - {fileID: 723189528069885922}
   - {fileID: 1568940798}
+  - {fileID: 1546201325}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
