@@ -9744,7 +9744,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomController: {fileID: 6652258714070278408}
   enterTrigger: {fileID: 4697493790100717951}
-  bossPrefab: {fileID: 0}
+  bossPrefab: {fileID: 4570899733826965302, guid: 441f2b29499bdb64fb37cb0fd6295146, type: 3}
 --- !u!1 &8331766842874259135
 GameObject:
   m_ObjectHideFlags: 0
