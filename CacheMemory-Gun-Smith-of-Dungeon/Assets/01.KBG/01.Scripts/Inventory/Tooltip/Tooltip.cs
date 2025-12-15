@@ -43,6 +43,7 @@ namespace KBG.Inventory
         protected override void Awake()
         {
             base.Awake();
+            DontDestroyOnLoad(canvas);
             OnValidate();
         }
 

@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ad628dc88818c4b96851d20f57271a, type: 3}
   m_Name: FMJ
   m_EditorClassIdentifier: 
-  <icon>k__BackingField: {fileID: 0}
-  <itemName>k__BackingField: 
-  <mass>k__BackingField: 0
+  <icon>k__BackingField: {fileID: 2831536276704324927, guid: c3e4d180c46b87e45b6a619343f86acf, type: 3}
+  <upScaling>k__BackingField: 2
+  <itemName>k__BackingField: 5.56X45mm FMJ
+  <BulletPrefab>k__BackingField: {fileID: 0}
+  <CasingPrefab>k__BackingField: {fileID: 0}
   defaultDamage: 0
   damageRatePerPowder: 0
-  powderStatuses: []
   defaultStrain: 0
   strainRatePerPowder: 0

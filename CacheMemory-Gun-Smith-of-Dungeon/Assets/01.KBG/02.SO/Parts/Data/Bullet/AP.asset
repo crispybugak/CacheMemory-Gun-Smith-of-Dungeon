@@ -12,11 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89ad628dc88818c4b96851d20f57271a, type: 3}
   m_Name: AP
   m_EditorClassIdentifier: 
-  <icon>k__BackingField: {fileID: 0}
-  <itemName>k__BackingField: 
-  <mass>k__BackingField: 0
-  defaultDamage: 0
-  damageRatePerPowder: 0
-  powderStatuses: []
-  defaultStrain: 0
-  strainRatePerPowder: 0
+  <icon>k__BackingField: {fileID: 7702472977544574770, guid: d7276e1bf80e52a4b829cd697fc0d333, type: 3}
+  <upScaling>k__BackingField: 2
+  <itemName>k__BackingField: 5.56X45mm AP
+  <BulletPrefab>k__BackingField: {fileID: 0}
+  <CasingPrefab>k__BackingField: {fileID: 0}
+  defaultDamage: 3
+  damageRatePerPowder: 2
+  defaultStrain: 1
+  strainRatePerPowder: 2

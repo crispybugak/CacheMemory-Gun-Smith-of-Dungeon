@@ -45,11 +45,10 @@ public class Gun : MonoBehaviour
     {
         _isReloading = true;
         BulletItem bullet = Inventory.Instance.GetItem(typeof(BulletItem)) as BulletItem;
-        if (!bullet) 
+        if (!bullet) yield break;
         yield return new WaitForSeconds(_gunManager.defaultData.reloadTime);
         Debug.Log("reload");
-        for (int i = 0; i < reloadAmountPerBullet; i++)
-            _gunManager.gunStatusData.Reload(bullet);
+        
         if(Inventory.Instance.RemoveItem(bullet))
             Debug.Log("remove bullet");
         _isReloading = false;
