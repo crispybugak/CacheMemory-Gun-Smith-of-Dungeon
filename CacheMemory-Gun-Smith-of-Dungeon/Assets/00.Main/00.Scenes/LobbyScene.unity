@@ -1783,6 +1783,7 @@ GameObject:
   - component: {fileID: 613865841}
   - component: {fileID: 613865842}
   - component: {fileID: 613865843}
+  - component: {fileID: 613865844}
   m_Layer: 0
   m_Name: GameObject
   m_TagString: Untagged
@@ -1831,6 +1832,24 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _target: {fileID: 2745451293616539185}
+--- !u!114 &613865844
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 613865840}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfdad68e2d52c8b47a0254b147d9f912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items:
+  - {fileID: 11400000, guid: 831797a59b2f64c41941a86afab7212b, type: 2}
+  - {fileID: 11400000, guid: 831797a59b2f64c41941a86afab7212b, type: 2}
+  - {fileID: 11400000, guid: 831797a59b2f64c41941a86afab7212b, type: 2}
+  - {fileID: 11400000, guid: 831797a59b2f64c41941a86afab7212b, type: 2}
+  - {fileID: 11400000, guid: 831797a59b2f64c41941a86afab7212b, type: 2}
 --- !u!1 &646364757
 GameObject:
   m_ObjectHideFlags: 0
@@ -10516,6 +10535,7 @@ MonoBehaviour:
   agentMovement: {fileID: 11400000, guid: 60090acda56e3c04a8b3e39bd902f166, type: 2}
   cursor: {fileID: 0}
   reloadAmountPerBullet: 0
+  agentStamina: {fileID: 0}
 --- !u!224 &5765212270784888105
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17753,7 +17773,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   gunName: 
   canvas: {fileID: 9170832531569172166}
-  tooltipRect: {fileID: 3001943246969252447}
   nameText: {fileID: 7272403992462829272}
   statusTextParent: {fileID: 7874883166111697873}
   statusTexts:
@@ -17783,6 +17802,7 @@ MonoBehaviour:
   - key: Durability
     text: {fileID: 6797802745721673223}
     amountText: {fileID: 2119811140981330355}
+  <RectTransform>k__BackingField: {fileID: 0}
 --- !u!224 &8022749338142193677
 RectTransform:
   m_ObjectHideFlags: 0

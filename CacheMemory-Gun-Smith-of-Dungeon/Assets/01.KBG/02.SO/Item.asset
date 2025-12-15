@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 15ddd9ed1e70d7d4b9b11d9e857767c8, type: 3}
   m_Name: Item
   m_EditorClassIdentifier: 
-  partData: {fileID: 0}
+  partData: {fileID: 11400000, guid: d390ee0beb4dbf740ab55235847b4dc6, type: 2}
   durability: 0
   madeBy: 0
   gunPowderUsed: 0
