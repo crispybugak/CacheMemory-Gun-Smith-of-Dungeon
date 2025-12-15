@@ -382,15 +382,26 @@ public class CraftingUIController : MonoBehaviour
         var opt = GetSelectedOption(recipe);
         if (opt == null) return false;
 
-        Part newPart = ScriptableObject.CreateInstance<Part>();
+        // [수정 1] 무조건 Part로 만드는 게 아니라, 레시피에 등록된 원본 타입(MagazineItem 등)을 따라 생성합니다.
+        // 이렇게 해야 MagazineItem일 때 gunPowderUsed 공간이 메모리에 생깁니다.
+        Part newPart = (Part)ScriptableObject.CreateInstance(recipe.resultPart.GetType());
+    
         var craftedPartData = recipe.resultPart as PartData;
         if (craftedPartData == null) return false;
+    
+        // 기본 데이터 세팅
         newPart.partData = craftedPartData;
         newPart.madeBy = opt.requiredIngredient;
         newPart.durability = opt.durability;
 
-        // 기존 필드명(gunPowderUsed)에 가변 자원 사용량 기록(총알 등 예외 레시피에서만 >0)
-        newPart.gunPowderUsed = Mathf.Max(0, variableUsed);
+        // [수정 2] 생성된 파츠가 MagazineItem인 경우에만 형변환하여 gunPowderUsed를 넣습니다.
+        if (newPart is MagazineItem magazineItem)
+        {
+            magazineItem.gunPowderUsed = Mathf.Max(0, variableUsed);
+        
+            // MagazineItem.cs에 정의된 bulletItem 등 추가 초기화가 필요하면 여기서 처리
+            // 예: magazineItem.bulletItem = ...; 
+        }
 
         return Inventory.Instance.AddItem(newPart);
     }
