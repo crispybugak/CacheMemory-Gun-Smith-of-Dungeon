@@ -51,6 +51,7 @@ namespace KBG.Inventory
             Inventory.Instance.SetParent(gameObject);
             var dropable = Inventory.Instance.RequestDropable(this);
             transform.position =  _startPos;
+            isDragging = false;
             if (dropable)
             {
                 if (dropable.RequestCanChangeItem(item))
@@ -58,10 +59,10 @@ namespace KBG.Inventory
                     (dropable.item, item) = (item, dropable.item);
                     SetIcon();
                     dropable.SetIcon();
+                    
+                    OnPointerMove(eventData);
                 }
             }
-            isDragging = false;
-            OnPointerMove(eventData);
         }
 
         public virtual bool RequestCanChangeItem(IItem item)
