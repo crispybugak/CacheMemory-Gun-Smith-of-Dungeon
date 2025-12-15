@@ -11,6 +11,7 @@ namespace KBG.Inventory
     [DefaultExecutionOrder(-1000)]
     public class Inventory : MonoSingleton<Inventory>
     {
+        public InventorySO inventorySO;
 
         [Header("Slot Setting")]
         public Vector2Int slotSize;
@@ -18,7 +19,7 @@ namespace KBG.Inventory
         public List<Slot> slots  =  new List<Slot>();
         public List<Slot> inventorySlots = new List<Slot>();
         
-        [FormerlySerializedAs("draggingItem")] [Header("Dragging Item")]
+        [Header("Dragging Item")]
         public GameObject draggingPanel;
         
         private GameObject _startParent;
@@ -50,6 +51,11 @@ namespace KBG.Inventory
         private void OnEnable()
         {
             Tooltip.Instance.gameObject.SetActive(false);
+            for (int i = 0; i < inventorySO.items.Count; i++)
+            {
+                inventorySlots[i].item = inventorySO.items[i];
+                inventorySlots[i].SetIcon();
+            }
         }
 
         public void SetParent(GameObject child)
@@ -86,8 +92,10 @@ namespace KBG.Inventory
             if  (emptySlot)
             {
                 emptySlot.SetItem(item);
+                inventorySO.items = inventorySlots.Select(s => s.item).ToList();
                 return true;
             }
+            inventorySO.items = inventorySlots.Select(s => s.item).ToList();
             return false;
         }
         public bool RemoveItem(IItem item)

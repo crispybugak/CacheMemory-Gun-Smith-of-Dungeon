@@ -71,7 +71,8 @@ public class Gun : MonoBehaviour
         {
             currentAttackDeleyTime = Time.time;
             float recoil = Mathf.Lerp(_gunManager.defaultData.minRebound, _gunManager.defaultData.minRebound, 1-_gunManager.gunStatusData.recoilControl/100);
-                cursor.AddRecoil(new Vector2(Random.Range(-recoil,recoil),Random.Range(-recoil,recoil)));
+            if (!cursor) return;
+            cursor.AddRecoil(new Vector2(Random.Range(-recoil,recoil),Random.Range(-recoil,recoil)));
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(cursor.transform.position);
             float angle = Mathf.Atan2(mousePos.y - transform.position.y, mousePos.x - transform.position.x) *
                 Mathf.Rad2Deg + 180;

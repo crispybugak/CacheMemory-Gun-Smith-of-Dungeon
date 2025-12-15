@@ -110,11 +110,11 @@ public class LobbyUI : MonoBehaviour
 
     private void InitializeBackpackObjects()
     {
-        if (bagCanvasRoot)
-        {
-            bagCanvasRoot.SetActive(false);
-            SetRaycastForObject(bagCanvasRoot, false);
-        }
+        // if (bagCanvasRoot)
+        // {
+        //     bagCanvasRoot.SetActive(false);
+        //     SetRaycastForObject(bagCanvasRoot, false);
+        // }
 
         if (categoryBarRoot)
         {

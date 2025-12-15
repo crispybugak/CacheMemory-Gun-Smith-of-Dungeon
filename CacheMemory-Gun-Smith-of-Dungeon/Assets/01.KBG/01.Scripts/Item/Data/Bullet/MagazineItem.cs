@@ -14,7 +14,5 @@ namespace KBG.Item
         public MagazineItem(PartData data, uint durability, IngredientType ingredientType) : base(data, durability, ingredientType)
         {
         }
-        
-        
     }
 }

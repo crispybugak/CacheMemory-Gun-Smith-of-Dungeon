@@ -12,13 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29d36121678cd494888a2f1760c1a7e2, type: 3}
   m_Name: GunDefaultData
   m_EditorClassIdentifier: 
-  minSpread: 65
-  maxSpread: 107
-  minRebound: 1.26
-  maxRebound: 0.44
-  minRange: 0
-  maxRange: 0
-  maxMoveSpeed: 0.76
-  minMoveSpeed: 0.58
-  fireRate: 1.1
+  minSpread: 5
+  maxSpread: 10
+  minRebound: 0.5
+  maxRebound: 5
+  minRange: 10
+  maxRange: 30
+  maxMoveSpeed: -5
+  minMoveSpeed: 5
+  fireRate: 700
   reloadTime: 1

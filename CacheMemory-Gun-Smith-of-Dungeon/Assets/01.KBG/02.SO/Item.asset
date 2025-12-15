@@ -17,4 +17,4 @@ MonoBehaviour:
   madeBy: 0
   gunPowderUsed: 0
   madeOptionIndex: 0
-  bulletItem: {fileID: 0}
+  bulletItem: {fileID: 11400000, guid: 2f242fcb64984f94489d6c0aa62c5263, type: 2}

@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Stanag
   m_EditorClassIdentifier: 
   <icon>k__BackingField: {fileID: 5751815570291801452, guid: 5a412d7a40130934d94d1b71368f11ec, type: 3}
-  <upScaling>k__BackingField: 1
+  <upScaling>k__BackingField: 2
   <itemName>k__BackingField: "Staneg\uD0C4\uCC3D"
   type: 5
   requirePartType: 3
