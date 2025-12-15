@@ -59,11 +59,12 @@ public class Gun : MonoBehaviour
     private bool isAttacking = false;
     private void Update()
     {
-        agentStamina.
+        var speed = Mathf.Lerp(_gunManager.defaultData.minMoveSpeed, _gunManager.defaultData.maxMoveSpeed, _gunManager.gunStatusData.handleSpeed);
+        agentStamina.RunSpeed = agentStamina.DefaultRunSpeed - speed;
+        agentStamina.MoveSpeed = agentStamina.DefaultSpeed - speed;
         if (Time.time - currentAttackDeleyTime > 1 / (_gunManager.defaultData.fireRate / 60) && !_isReloading && isAttacking)
         {
             currentAttackDeleyTime = Time.time;
-            var dataApplier = KBG.Item.GunDataApplier.Instance;
             float recoil = Mathf.Lerp(_gunManager.defaultData.minRebound, _gunManager.defaultData.minRebound, _gunManager.gunStatusData.recoilControl/100);
                 cursor.AddRecoil(new Vector2(Random.Range(-recoil,recoil),Random.Range(-recoil,recoil)));
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(cursor.transform.position);
