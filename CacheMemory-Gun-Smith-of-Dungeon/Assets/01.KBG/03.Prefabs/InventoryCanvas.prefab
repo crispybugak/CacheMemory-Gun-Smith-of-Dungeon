@@ -1295,6 +1295,7 @@ GameObject:
   - component: {fileID: 3967010957703184941}
   - component: {fileID: 8995783114009479719}
   - component: {fileID: 4616779219111350392}
+  - component: {fileID: 6633594448226592645}
   m_Layer: 5
   m_Name: InventoryCanvas
   m_TagString: Untagged
@@ -1388,6 +1389,18 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 40947
+--- !u!114 &6633594448226592645
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2745451292900422629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b0a9db77915a21b4bbb5764cb291d99a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3114182151765865750
 GameObject:
   m_ObjectHideFlags: 0
@@ -3745,6 +3758,7 @@ GameObject:
   - component: {fileID: 6489762422125246958}
   - component: {fileID: 3924463629415751277}
   - component: {fileID: 1757173906431037362}
+  - component: {fileID: 8301448333048515481}
   m_Layer: 5
   m_Name: GunImage
   m_TagString: Untagged
@@ -3807,6 +3821,18 @@ MonoBehaviour:
     width: 1
     height: 1
 --- !u!114 &1757173906431037362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7711365866706824986}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bc0faba574e53a346a63b7f8dc13ccb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8301448333048515481
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
