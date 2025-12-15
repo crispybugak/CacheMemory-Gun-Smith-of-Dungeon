@@ -109,7 +109,7 @@ public class LobbyUI : MonoBehaviour
         panel.raycastTarget = false;
 
         // (선택) 처음부터 꺼두고 필요할 때 켜는 방식이면 더 안전
-        panel.gameObject.SetActive(false);
+       // panel.gameObject.SetActive(false);
     }
 
     // ====== 배낭/카테고리바 오브젝트 초기 상태 세팅 ======
