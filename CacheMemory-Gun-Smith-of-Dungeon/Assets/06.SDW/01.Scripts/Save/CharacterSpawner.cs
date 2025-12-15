@@ -17,6 +17,7 @@ namespace _06.SDW._01.Scripts.Save
         [SerializeField] private GameObject uiManager;
         [SerializeField] private GameObject _zoom;
         [SerializeField] private GameObject _gameUi;
+        [SerializeField] private string StartPosName;
         
         [SerializeField] private CharacterData[] characterDatabase;
 
@@ -56,6 +57,8 @@ namespace _06.SDW._01.Scripts.Save
                 dead.health = player.GetComponent<Health>();
                 var gameui = player.GetComponent<Health>();
                 gameui._gameUI = _gameUi.GetComponent<GameUI>();
+                GameObject startPos = GameObject.Find(StartPosName);
+                player.transform.position = startPos.transform.position;
                 OnCharacterSpawned?.Invoke();
             }
             else
