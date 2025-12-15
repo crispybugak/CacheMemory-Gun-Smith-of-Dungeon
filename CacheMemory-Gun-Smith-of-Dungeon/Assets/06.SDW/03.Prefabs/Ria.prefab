@@ -147,9 +147,7 @@ MonoBehaviour:
   <HealthData>k__BackingField: {fileID: 11400000, guid: 515a517f1087b3c4f8cc3567829fcbca, type: 2}
   <CurrentHealth>k__BackingField: 0
   <bonusMaxHealth>k__BackingField: 0
-  OnDead:
-    m_PersistentCalls:
-      m_Calls: []
+  _gameUI: {fileID: 0}
 --- !u!50 &7006854343210904636
 Rigidbody2D:
   serializedVersion: 5
@@ -211,8 +209,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0077838423, y: -0.10597515}
-  m_Size: {x: 0.22912279, y: 0.43932343}
+  m_Offset: {x: 0.029183185, y: -0.060006376}
+  m_Size: {x: 0.26241085, y: 0.47419626}
   m_Direction: 0
 --- !u!114 &7488197734037008423
 MonoBehaviour:
@@ -255,6 +253,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _zoom: {fileID: 0}
+  health: {fileID: 0}
 --- !u!114 &8709099801831422646
 MonoBehaviour:
   m_ObjectHideFlags: 0
