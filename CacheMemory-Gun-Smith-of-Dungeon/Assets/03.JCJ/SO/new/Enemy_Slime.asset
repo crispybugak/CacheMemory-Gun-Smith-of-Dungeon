@@ -16,13 +16,13 @@ MonoBehaviour:
   maxHealth: 30
   detectionRange: 5
   attackRange: 3.5
-  attackCooldown: 3
+  attackCooldown: 1.5
   attackDamage: 10
   pathUpdateInterval: 0.3
   stoppingDistance: 0.2
-  specialAbilityCooldown: 3
+  specialAbilityCooldown: 2.5
   specialAbilityRange: 4
-  specialAbilityDamage: 6
+  specialAbilityDamage: 10
   sleepDuration: 2.5
   explosionRadius: 2
   explosionForce: 10
