@@ -109,7 +109,7 @@ public abstract class BaseEnemy : MonoBehaviour
     private float sqrMeleeMinDistance;
     private float sqrRangedMinDistance;
     private float sqrRangedKeepDistance;
-
+    private bool isDead = false;
     protected bool IsSafeToUpdate => enemyData != null && playerTransform != null && enabled;
 
     protected void RaiseHealthChanged()
@@ -729,9 +729,11 @@ public abstract class BaseEnemy : MonoBehaviour
 
     protected virtual void Die()
     {
+        if (isDead) return;
+        isDead = true;
+
         isChasing = false;
         moveDirection = Vector2.zero;
-
         DisablePathfinding();
 
         if (rb != null)
@@ -743,15 +745,15 @@ public abstract class BaseEnemy : MonoBehaviour
 
         if (animator != null)
         {
-            animator.SetBool(hashIsMoving, false); // 걷기 애니 끄기
+            animator.SetBool(hashIsMoving, false);
         }
 
         OnDeath?.Invoke(this);
 
-        PlayDeadAnim();  // isDead 있는 애는 죽는 애니, 없는 애는 패스
-        enabled = false; // Update 멈춤
+        PlayDeadAnim();
+        enabled = false;
 
-        StartCoroutine(DeathFadeAndDestroy()); // 서서히 페이드아웃
+        StartCoroutine(DeathFadeAndDestroy());
     }
 
 

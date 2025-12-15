@@ -12,6 +12,14 @@ public class EnemyDropper : MonoBehaviour
 
     private void Awake()
     {
+        var droppers = GetComponents<EnemyDropper>();
+        if (droppers.Length > 1)
+        {
+            Debug.LogWarning($"[EnemyDropper] 중복 감지 {name}에 EnemyDropper가 여러 개 있습니다. 하나만 남기고 나머지 제거.", this);
+            Destroy(this);
+            return;
+        }
+
         enemy = GetComponent<BaseEnemy>();
         if (enemy != null)
         {
