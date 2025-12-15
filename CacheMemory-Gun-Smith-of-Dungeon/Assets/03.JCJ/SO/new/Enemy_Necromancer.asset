@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Enemy_Necromancer
   m_EditorClassIdentifier: 
   moveSpeed: 7
-  maxHealth: 100
+  maxHealth: 1000
   detectionRange: 20
-  attackRange: 6
+  attackRange: 12
   attackCooldown: 1.5
   attackDamage: 15
   pathUpdateInterval: 0.4
   stoppingDistance: 1
-  specialAbilityCooldown: 2
+  specialAbilityCooldown: 4.5
   specialAbilityRange: 5
   specialAbilityDamage: 20
   sleepDuration: 2.5

@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: Enemy_Boar
   m_EditorClassIdentifier: 
   moveSpeed: 5
-  maxHealth: 35
+  maxHealth: 30
   detectionRange: 20
   attackRange: 1
-  attackCooldown: 1.5
+  attackCooldown: 3
   attackDamage: 2
   pathUpdateInterval: 0.3
   stoppingDistance: 0.2
