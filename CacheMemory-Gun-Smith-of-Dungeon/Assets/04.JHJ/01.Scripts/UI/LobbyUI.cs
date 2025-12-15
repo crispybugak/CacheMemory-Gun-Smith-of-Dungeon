@@ -59,7 +59,7 @@ public class LobbyUI : MonoBehaviour
     private void PlayClickSound()
     {
         if (AudioManager.Instance == null) return;
-        AudioManager.Instance.PlaySound("버튼클릭", 0.5f, 0.5f);
+        //AudioManager.Instance.PlaySound("버튼클릭", 0.5f, 0.5f);
     }
 
     private void SetMainButtonsInteractable(bool on)
@@ -72,7 +72,7 @@ public class LobbyUI : MonoBehaviour
 
     private void Start()
     {
-        AudioManager.Instance.PlaySound("로비", 0.7f, 1f);
+        //AudioManager.Instance.PlaySound("로비", 0.7f, 1f);
         _volume.enabled = false;
 
         InitializePanels(Ria);

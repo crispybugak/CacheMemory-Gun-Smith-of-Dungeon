@@ -55,9 +55,10 @@ namespace KBG.Item
         }
         
         
-        [field:SerializeField] public Sprite icon { get; set; }
-        [field:SerializeField] public float upScaling { get; set; }
-        [field:SerializeField] public string itemName { get; set; }
+        [field: SerializeField] public override Sprite icon { get; set; }
+        [field: SerializeField] public override float upScaling { get; set; }
+        [field: SerializeField] public override string itemName { get; set; }
+
         public PartType type;
         public PartType requirePartType;
 

@@ -122,7 +122,10 @@ namespace _06.SDW._01.Scripts
             {
                 var slot = inv.inventorySlots[i];
                 if (slot != null)
-                    slot.SetItem(null);
+                {
+                    slot.item = null;
+                    slot.SetIcon();
+                }
             }
 
             Debug.Log("[IngredientDebugSpawner] 인벤토리를 비웠습니다.", this);

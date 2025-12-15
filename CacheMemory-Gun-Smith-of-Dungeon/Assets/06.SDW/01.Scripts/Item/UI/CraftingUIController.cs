@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using KBG.Item;
+using KBG.Inventory; // ★ 추가
 
 public class CraftingUIController : MonoBehaviour
 {
@@ -38,6 +39,11 @@ public class CraftingUIController : MonoBehaviour
     private CraftingRecipeSO _selectedRecipe;
     private CraftListItemUI _selectedLeftUI;
 
+    // ============================
+    // ★ 추가: "선택된 재료 옵션" (UI에서 선택하게 될 값)
+    // ============================
+    private IngredientType _selectedIngredientOption = IngredientType.None;
+
     private void Awake()
     {
         BuildLeftList();
@@ -49,12 +55,40 @@ public class CraftingUIController : MonoBehaviour
         }
     }
 
+    private void OnEnable()
+    {
+        if (MatInv != null)
+            MatInv.OnChanged += HandleMaterialChanged;
+    }
+
+    private void OnDisable()
+    {
+        if (MatInv != null)
+            MatInv.OnChanged -= HandleMaterialChanged;
+    }
+
     private void Start()
     {
         if (recipes != null && recipes.Count > 0 && _leftItems.Count > 0 && _leftItems[0] != null)
             SelectRecipe(recipes[0], _leftItems[0]);
         else
             RefreshRightPanel(null);
+    }
+
+    // ============================
+    // ★ UI 붙일 때 사용할 API (지금은 자동선택이 기본)
+    // ============================
+    public void SetSelectedIngredientOption(IngredientType type)
+    {
+        _selectedIngredientOption = type;
+        RefreshRightPanel(_selectedRecipe);
+    }
+
+    private void HandleMaterialChanged()
+    {
+        // 재료 수량이 바뀌면, 만들 수 있는 옵션을 자동 선택해서 버튼 상태도 자연스럽게 갱신
+        AutoSelectCraftableIngredientOption(_selectedRecipe);
+        RefreshRightPanel(_selectedRecipe);
     }
 
     private void BuildLeftList()
@@ -92,6 +126,10 @@ public class CraftingUIController : MonoBehaviour
         _selectedLeftUI.SetSelected(true);
 
         _selectedRecipe = recipe;
+
+        // ★ 레시피 선택 시에도 자동으로 "제작 가능한 옵션"을 선택
+        AutoSelectCraftableIngredientOption(_selectedRecipe);
+
         RefreshRightPanel(_selectedRecipe);
     }
 
@@ -103,7 +141,9 @@ public class CraftingUIController : MonoBehaviour
         if (rightItemName != null)
             rightItemName.text = recipe != null ? recipe.DisplayName : string.Empty;
 
-        // ★ 단일 텍스트로 재료 출력(재료명 포함)
+        // (UI는 나중에 수정 예정)
+        // 지금은 기존대로 3개 옵션이 모두 보이게 둬도 되고,
+        // 다음 단계에서 "선택된 옵션만" 표시하도록 바꾸면 됩니다.
         if (materialTextUI != null)
             materialTextUI.Render(recipe, GetOwnedIngredientCount, GetIngredientName);
 
@@ -112,18 +152,75 @@ public class CraftingUIController : MonoBehaviour
         if (craftButtonLabel != null) craftButtonLabel.text = recipe == null ? "-" : (canCraft ? "제작" : "재료 부족");
     }
 
+    // ============================
+    // ★ 핵심: 옵션 3개 중 "선택된 1개"만 사용
+    // ============================
+
+    private PartData.RequireIngredient GetSelectedOption(CraftingRecipeSO recipe)
+    {
+        if (recipe == null || recipe.resultPart == null) return null;
+
+        var list = recipe.resultPart.ingredients;
+        if (list == null || list.Count == 0) return null;
+
+        // 현재 선택된 재료 옵션이 리스트에 있으면 그걸 사용
+        if (_selectedIngredientOption != IngredientType.None)
+        {
+            for (int i = 0; i < list.Count; i++)
+            {
+                if (list[i].requiredIngredient == _selectedIngredientOption)
+                    return list[i];
+            }
+        }
+
+        // 없으면 첫 번째 옵션
+        return list[0];
+    }
+
+    private void AutoSelectCraftableIngredientOption(CraftingRecipeSO recipe)
+    {
+        if (recipe == null || recipe.resultPart == null) return;
+        var list = recipe.resultPart.ingredients;
+        if (list == null || list.Count == 0) return;
+
+        // 1) 현재 선택된 옵션이 제작 가능하면 유지
+        var cur = GetSelectedOption(recipe);
+        if (cur != null)
+        {
+            int ownedCur = GetOwnedIngredientCount(cur.requiredIngredient);
+            int needCur = Mathf.Max(1, cur.requiredAmount);
+            if (ownedCur >= needCur)
+            {
+                _selectedIngredientOption = cur.requiredIngredient;
+                return;
+            }
+        }
+
+        // 2) 제작 가능한 옵션을 우선 선택
+        for (int i = 0; i < list.Count; i++)
+        {
+            var opt = list[i];
+            int owned = GetOwnedIngredientCount(opt.requiredIngredient);
+            int need = Mathf.Max(1, opt.requiredAmount);
+            if (owned >= need)
+            {
+                _selectedIngredientOption = opt.requiredIngredient;
+                return;
+            }
+        }
+
+        // 3) 아무것도 제작 불가면 첫 옵션으로 고정
+        _selectedIngredientOption = list[0].requiredIngredient;
+    }
+
     private bool CheckCanCraft(CraftingRecipeSO recipe)
     {
-        if (recipe == null || recipe.Ingredients == null) return false;
+        var opt = GetSelectedOption(recipe);
+        if (opt == null) return false;
 
-        for (int i = 0; i < recipe.Ingredients.Count; i++)
-        {
-            var req = recipe.Ingredients[i];
-            int owned = GetOwnedIngredientCount(req.requiredIngredient);
-            int need = Mathf.Max(1, req.requiredAmount);
-            if (owned < need) return false;
-        }
-        return true;
+        int owned = GetOwnedIngredientCount(opt.requiredIngredient);
+        int need = Mathf.Max(1, opt.requiredAmount);
+        return owned >= need;
     }
 
     private void OnClickCraft()
@@ -136,21 +233,63 @@ public class CraftingUIController : MonoBehaviour
             return;
         }
 
-        // 1) 재료 소모(슬롯에서 실제로 제거)
-        if (!TryConsumeIngredients(_selectedRecipe))
+        // 인벤 빈 칸 체크(재료만 날리는 사고 방지)
+        if (Inventory.Instance == null || Inventory.Instance.GetEmptyInventorySlot() == null)
+        {
+            Debug.LogWarning("[Crafting] 인벤토리가 가득 차서 제작할 수 없습니다.");
+            RefreshRightPanel(_selectedRecipe);
+            return;
+        }
+
+        // 1) 선택된 옵션 1개만 소모
+        if (!TryConsumeSelectedOption(_selectedRecipe))
         {
             RefreshRightPanel(_selectedRecipe);
             return;
         }
 
-        // 2) UI 갱신
+        // 2) 결과 파츠를 인벤에 추가 (선택된 옵션으로 madeBy/durability 결정)
+        if (!TryAddCraftedPartToInventory(_selectedRecipe))
+        {
+            Debug.LogWarning("[Crafting] 파츠 인벤 추가 실패.");
+            RefreshRightPanel(_selectedRecipe);
+            return;
+        }
+
         RefreshRightPanel(_selectedRecipe);
     }
 
+    private bool TryConsumeSelectedOption(CraftingRecipeSO recipe)
+    {
+        if (recipe == null || MatInv == null) return false;
 
+        var opt = GetSelectedOption(recipe);
+        if (opt == null) return false;
+
+        int need = Mathf.Max(1, opt.requiredAmount);
+        return MatInv.TryConsumeFromSlots(opt.requiredIngredient, need);
+    }
+
+    private bool TryAddCraftedPartToInventory(CraftingRecipeSO recipe)
+    {
+        if (recipe == null || recipe.resultPart == null) return false;
+        if (Inventory.Instance == null) return false;
+
+        var opt = GetSelectedOption(recipe);
+        if (opt == null) return false;
+
+        Part newPart = ScriptableObject.CreateInstance<Part>();
+        newPart.partData = recipe.resultPart;
+
+        // ★ 선택된 옵션이 곧 "이 파츠를 만든 재료"
+        newPart.madeBy = opt.requiredIngredient;
+        newPart.durability = opt.durability;
+
+        return Inventory.Instance.AddItem(newPart);
+    }
 
     // ============================
-    // 프로젝트에 맞게 채워야 하는 부분
+    // 기존: 재료 수량 / 이름
     // ============================
 
     private int GetOwnedIngredientCount(IngredientType type)
@@ -159,31 +298,11 @@ public class CraftingUIController : MonoBehaviour
         return MatInv.GetCount(type);
     }
 
-    private bool TryConsumeIngredients(CraftingRecipeSO recipe)
-    {
-        if (recipe == null || recipe.Ingredients == null) return false;
-        if (MatInv == null) return false;
-
-        // ※ 주의: MatInv가 슬롯에서 실제로 빼는 TryConsumeFromSlots를 제공해야 함
-        for (int i = 0; i < recipe.Ingredients.Count; i++)
-        {
-            var req = recipe.Ingredients[i];
-            int need = Mathf.Max(1, req.requiredAmount);
-
-            if (!MatInv.TryConsumeFromSlots(req.requiredIngredient, need))
-                return false;
-        }
-
-        return true;
-    }
-
-
     private string GetIngredientName(IngredientType type)
     {
         if (ingredientNameTable != null)
             return ingredientNameTable.GetName(type);
 
-        // 테이블이 없으면 enum 이름 폴백
         return type.ToString();
     }
 }

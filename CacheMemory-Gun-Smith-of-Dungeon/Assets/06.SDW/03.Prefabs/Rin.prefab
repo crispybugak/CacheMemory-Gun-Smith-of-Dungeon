@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6859910140041701346}
   - component: {fileID: 8879836405156986498}
   - component: {fileID: 387284631846692908}
-  - component: {fileID: 6887898076281411794}
+  - component: {fileID: 6057285584934584834}
   m_Layer: 12
   m_Name: Visual
   m_TagString: Untagged
@@ -124,7 +124,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1df6d8c8b18dc04da646d1e82421d73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &6887898076281411794
+--- !u!114 &6057285584934584834
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -285,7 +285,19 @@ MonoBehaviour:
   <bonusMaxHealth>k__BackingField: 0
   OnDead:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 0}
+        m_TargetAssemblyTypeName: 
+        m_MethodName: 
+        m_Mode: 0
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: 
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!50 &3984724758082478044
 Rigidbody2D:
   serializedVersion: 5

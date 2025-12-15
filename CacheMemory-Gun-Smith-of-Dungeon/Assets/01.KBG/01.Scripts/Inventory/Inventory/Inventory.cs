@@ -8,8 +8,10 @@ using UnityEngine.UI;
 
 namespace KBG.Inventory
 {
+    [DefaultExecutionOrder(-1000)]
     public class Inventory : MonoSingleton<Inventory>
     {
+
         [Header("Slot Setting")]
         public Vector2Int slotSize;
         public GameObject slotPrefab;
@@ -82,7 +84,7 @@ namespace KBG.Inventory
             var slot = inventorySlots.FirstOrDefault(slot => slot.item == item);
             if (slot)
             {
-                slot.item = null;
+                slot.SetItem(null); // SetItem을 통해 카운트/아이콘/UI 갱신까지 같이 처리
                 return true;
             }
             return false;
