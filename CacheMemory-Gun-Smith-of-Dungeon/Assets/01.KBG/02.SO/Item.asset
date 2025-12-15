@@ -9,11 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 958d14b511684ea7ba63d7a1ec09a0c4, type: 3}
-  m_Name: CircleDotFieldSkill
+  m_Script: {fileID: 11500000, guid: 15ddd9ed1e70d7d4b9b11d9e857767c8, type: 3}
+  m_Name: Item
   m_EditorClassIdentifier: 
-  damage: 15
-  coolTime: 20
-  skillIcon: {fileID: 0}
-  animationName: 
-  fieldPrefab: {fileID: 5341883316481157948, guid: 87c15b3e36c4dba47b8b969aebc6ad1d, type: 3}
+  partData: {fileID: 0}
+  durability: 0
+  madeBy: 0
+  gunPowderUsed: 0
+  madeOptionIndex: 0
+  bulletItem: {fileID: 0}

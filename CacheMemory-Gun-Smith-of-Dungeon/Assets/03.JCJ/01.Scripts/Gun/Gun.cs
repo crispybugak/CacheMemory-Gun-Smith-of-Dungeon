@@ -14,6 +14,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private AgentMovementSO agentMovement;
     [SerializeField] private MousePointer cursor;
     [SerializeField] private int reloadAmountPerBullet;
+    [SerializeField] private AgentStaminaSO agentStamina;
 
     private GunDataApplier _gunManager;
     
@@ -58,11 +59,15 @@ public class Gun : MonoBehaviour
     private bool isAttacking = false;
     private void Update()
     {
+        var speed = Mathf.Lerp(_gunManager.defaultData.minMoveSpeed, _gunManager.defaultData.maxMoveSpeed, _gunManager.gunStatusData.handleSpeed);
+        agentStamina.RunSpeed = agentStamina.DefaultRunSpeed - speed;
+        agentStamina.MoveSpeed = agentStamina.DefaultSpeed - speed;
         if (Time.time - currentAttackDeleyTime > 1 / (_gunManager.defaultData.fireRate / 60) && !_isReloading && isAttacking)
         {
             currentAttackDeleyTime = Time.time;
-            cursor.AddRecoil(new Vector2(0, -100));
-            Vector2 mousePos = Camera.main.ScreenToWorldPoint(agentMovement.mouseDir);
+            float recoil = Mathf.Lerp(_gunManager.defaultData.minRebound, _gunManager.defaultData.minRebound, _gunManager.gunStatusData.recoilControl/100);
+                cursor.AddRecoil(new Vector2(Random.Range(-recoil,recoil),Random.Range(-recoil,recoil)));
+            Vector2 mousePos = Camera.main.ScreenToWorldPoint(cursor.transform.position);
             float angle = Mathf.Atan2(mousePos.y - transform.position.y, mousePos.x - transform.position.x) *
                 Mathf.Rad2Deg + 180;
             ShotBullet(angle);
@@ -82,7 +87,7 @@ public class Gun : MonoBehaviour
     
     private void FixedUpdate()
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(agentMovement.mouseDir);
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(cursor.transform.position);
         Vector2 gunPos = transform.position;
         
         RotateGun(mousePos, gunPos, transform);

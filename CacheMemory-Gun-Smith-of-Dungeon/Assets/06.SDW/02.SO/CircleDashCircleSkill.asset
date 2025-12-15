@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8443265b7cde4152b1bc98baa534a7d4, type: 3}
   m_Name: CircleDashCircleSkill
   m_EditorClassIdentifier: 
-  damage: 10
-  coolTime: 1
+  damage: 5
+  coolTime: 3
   skillIcon: {fileID: 0}
   animationName: 
   attackEffectPrefab: {fileID: 3404008320031178102, guid: 488da4c8de98c9e40a28a8d6dd069e40, type: 3}
@@ -22,5 +22,5 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 32768
-  dashDistance: 3
+  dashDistance: 6
   dashDuration: 0.2
