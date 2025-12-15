@@ -13,16 +13,16 @@ MonoBehaviour:
   m_Name: Enemy_Bomb
   m_EditorClassIdentifier: 
   moveSpeed: 3
-  maxHealth: 25
+  maxHealth: 15
   detectionRange: 8
   attackRange: 2.06
-  attackCooldown: 2.5
-  attackDamage: 15
+  attackCooldown: 1
+  attackDamage: 8
   pathUpdateInterval: 0.4
   stoppingDistance: 0.3
   specialAbilityCooldown: 3
   specialAbilityRange: 4
-  specialAbilityDamage: 6
+  specialAbilityDamage: 18
   sleepDuration: 2.5
   explosionRadius: 4
   explosionForce: 10

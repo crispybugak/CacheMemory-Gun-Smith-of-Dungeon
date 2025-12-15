@@ -13,17 +13,17 @@ MonoBehaviour:
   m_Name: Enemy_Boar
   m_EditorClassIdentifier: 
   moveSpeed: 4
-  maxHealth: 45
+  maxHealth: 35
   detectionRange: 10
   attackRange: 0.98
   attackCooldown: 1.5
-  attackDamage: 15
+  attackDamage: 2
   pathUpdateInterval: 0.3
   stoppingDistance: 0.2
   specialAbilityCooldown: 2
   specialAbilityRange: 3
   specialAbilityDamage: 6
-  sleepDuration: 2
+  sleepDuration: 3.5
   explosionRadius: 2
   explosionForce: 10
   maxMinions: 3
