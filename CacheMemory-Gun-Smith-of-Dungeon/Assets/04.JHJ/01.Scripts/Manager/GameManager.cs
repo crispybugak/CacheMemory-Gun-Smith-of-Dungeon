@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoSingleton<GameManager>
 {
@@ -18,4 +19,9 @@ public class GameManager : MonoSingleton<GameManager>
    {
         StartCoroutine(TimeScaleCT(3, 0.3f));
    }
+
+    public void SceneMoveToLobby()
+    {
+        SceneManager.LoadScene("LobbyScene");
+    }
 }

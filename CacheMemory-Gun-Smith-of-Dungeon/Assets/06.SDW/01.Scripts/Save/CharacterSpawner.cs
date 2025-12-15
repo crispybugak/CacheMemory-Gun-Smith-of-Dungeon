@@ -16,6 +16,7 @@ namespace _06.SDW._01.Scripts.Save
     {
         [SerializeField] private GameObject uiManager;
         [SerializeField] private GameObject _zoom;
+        [SerializeField] private GameObject _gameUi;
         
         [SerializeField] private CharacterData[] characterDatabase;
 
@@ -51,6 +52,10 @@ namespace _06.SDW._01.Scripts.Save
                 player.GetComponent<Dead>()._zoom = _zoom.GetComponent<CameraZoom>();
                 _health.Health = player.GetComponent<Health>();
                 _stamina.stamina = player.GetComponent<Stamina>();
+                var dead = player.GetComponent<Dead>();
+                dead.health = player.GetComponent<Health>();
+                var gameui = player.GetComponent<Health>();
+                gameui._gameUI = _gameUi.GetComponent<GameUI>();
                 OnCharacterSpawned?.Invoke();
             }
             else

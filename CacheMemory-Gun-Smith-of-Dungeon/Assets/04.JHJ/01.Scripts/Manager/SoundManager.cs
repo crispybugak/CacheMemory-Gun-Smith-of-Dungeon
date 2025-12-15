@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using _1.Script.Lrw.FileSystem;
-using _1.Script.Lrw.FileSystem.Data;
 using UnityEngine;
 
 namespace _04.JHJ._01.Scripts.Manager

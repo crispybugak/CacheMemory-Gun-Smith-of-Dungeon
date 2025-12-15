@@ -1,10 +1,20 @@
 ﻿using DG.Tweening;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
 
 public class Dead : MonoBehaviour
 {
     public CameraZoom _zoom;
+    public Health health;
+
+    private void OnEnable()
+    {
+
+    }
+
+    private void OnDisable()
+    {
+        
+    }
     public void PlayerDead(GameObject player)
     {
         Sequence sequence = DOTween.Sequence();

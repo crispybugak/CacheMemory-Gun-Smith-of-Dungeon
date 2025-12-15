@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using _1.Script.Lrw.FileSystem;
 using _1.Script.Lrw.FileSystem.Data;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Audio;
 
 public enum SoundType
 {
