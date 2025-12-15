@@ -11,11 +11,12 @@ public class IngredientOptionItemUI : MonoBehaviour
     [Header("UI")]
     [SerializeField] private EventTrigger eventTrigger;
     [SerializeField] private Image icon;
-    [SerializeField] private TMP_Text nameText;          // "재료이름 n/n"
+    [SerializeField] private TMP_Text nameText;
     [SerializeField] private GameObject selectedOutline;
 
     private IngredientType _type;
-    private Action<IngredientType> _onClick;
+    private Sprite _iconSprite;
+    private Action<IngredientType, Sprite> _onClick;
 
     private void Awake()
     {
@@ -23,7 +24,6 @@ public class IngredientOptionItemUI : MonoBehaviour
         if (eventTrigger == null) eventTrigger = gameObject.AddComponent<EventTrigger>();
         if (eventTrigger.triggers == null) eventTrigger.triggers = new List<EventTrigger.Entry>();
 
-        // 클릭 받을 배경 Graphic 보장 (레이캐스트 타겟이 있어야 EventTrigger가 먹음)
         var bg = GetComponent<Image>();
         if (bg == null) bg = gameObject.AddComponent<Image>();
         bg.raycastTarget = true;
@@ -35,11 +35,12 @@ public class IngredientOptionItemUI : MonoBehaviour
         string matName,
         int owned,
         int required,
-        Action<IngredientType> onClick)
+        Action<IngredientType, Sprite> onClick)
     {
-        gameObject.SetActive(true); // ★ 고정 3슬롯이지만 혹시 꺼져있을 수 있으니 보장
+        gameObject.SetActive(true);
 
         _type = type;
+        _iconSprite = matIcon;
         _onClick = onClick;
 
         if (icon != null) icon.sprite = matIcon;
@@ -59,7 +60,7 @@ public class IngredientOptionItemUI : MonoBehaviour
         }
 
         var entry = new EventTrigger.Entry { eventID = EventTriggerType.PointerClick };
-        entry.callback.AddListener(_ => _onClick?.Invoke(_type));
+        entry.callback.AddListener(_ => _onClick?.Invoke(_type, _iconSprite));
         eventTrigger.triggers.Add(entry);
     }
 

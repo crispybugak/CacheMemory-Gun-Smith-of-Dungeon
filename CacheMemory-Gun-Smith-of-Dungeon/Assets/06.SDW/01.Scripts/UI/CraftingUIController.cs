@@ -163,19 +163,21 @@ public class CraftingUIController : MonoBehaviour
         }
 
         var list = recipe.resultPart.ingredients;
+        HashSet<IngredientType> seenIngredients = new HashSet<IngredientType>();
 
-        for (int i = 0; i < optionSlots.Length; i++)
+        int validIndex = 0; // 유효한 슬롯 인덱스
+        for (int i = 0; i < list.Count; i++)
         {
-            var slotUI = optionSlots[i];
-            if (slotUI == null) continue;
-
-            if (i >= list.Count)
-            {
-                slotUI.gameObject.SetActive(false);
-                continue;
-            }
-
             var opt = list[i];
+            if (opt.requiredIngredient == IngredientType.None || seenIngredients.Contains(opt.requiredIngredient))
+                continue;
+
+            seenIngredients.Add(opt.requiredIngredient);
+
+            if (validIndex >= optionSlots.Length) break;
+
+            var slotUI = optionSlots[validIndex];
+            if (slotUI == null) continue;
 
             int owned = GetOwnedIngredientCount(opt.requiredIngredient);
             int need = Mathf.Max(1, opt.requiredAmount);
@@ -184,8 +186,23 @@ public class CraftingUIController : MonoBehaviour
             Sprite icon = null; // 필요하면 IngredientType->Ingredient SO 매핑 추가해서 넣기
 
             slotUI.gameObject.SetActive(true);
-            slotUI.Bind(opt.requiredIngredient, icon, name, owned, need, SetSelectedIngredientOption);
+            slotUI.Bind(
+                opt.requiredIngredient,
+                icon,
+                name,
+                owned,
+                need,
+                (type, sprite) => SetSelectedIngredientOption(type)
+            );
             slotUI.SetSelected(opt.requiredIngredient == _selectedIngredientOption);
+
+            validIndex++;
+        }
+
+        // 남은 슬롯 비활성화
+        for (int i = validIndex; i < optionSlots.Length; i++)
+        {
+            if (optionSlots[i] != null) optionSlots[i].gameObject.SetActive(false);
         }
     }
 
