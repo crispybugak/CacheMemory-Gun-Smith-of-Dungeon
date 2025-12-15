@@ -98,6 +98,7 @@ public class Health : MonoBehaviour, IGetDamage
     {
         CurrentHealth = Mathf.Clamp(CurrentHealth - damage, 0f, Maxhealth);
         OnDamagedPlayer?.Invoke();
+        Camera.main.GetComponent<CameraShake>().ShakeCamera(0.2f, 0.1f);
         lastDamagedTime = 0;
 
         StopAllCoroutines();

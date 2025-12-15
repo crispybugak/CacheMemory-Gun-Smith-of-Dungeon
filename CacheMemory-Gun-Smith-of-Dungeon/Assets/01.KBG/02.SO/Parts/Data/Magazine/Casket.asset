@@ -20,7 +20,7 @@ MonoBehaviour:
   partDegree: 0
   localPos: {x: -0.1924, y: 0.132}
   ingredients:
-  - requiredIngredient: 0
+  - requiredIngredient: 3
     requiredAmount: 5
     effects:
     - effectType: 5
