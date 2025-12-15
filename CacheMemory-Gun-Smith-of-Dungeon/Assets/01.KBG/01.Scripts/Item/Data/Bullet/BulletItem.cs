@@ -16,10 +16,12 @@ namespace KBG.Item
         }
         [field: SerializeField] public float Damage { get; private set; }
         public float usedGunpowderAmount;
+        public float Strain { get; private set; }
 
         public void Initialize()
         {
             Damage = bulletData.defaultDamage + (usedGunpowderAmount * bulletData.damageRatePerPowder);
+            Strain = bulletData.defaultStrain + (usedGunpowderAmount * bulletData.strainRatePerPowder);
         }
     }
 }

@@ -3,22 +3,18 @@ using UnityEngine;
 
 namespace KBG.Item
 {
-    public class MagazineItem : IItem
+    [CreateAssetMenu(fileName = "Item", menuName = "SO/Item/Magazine")]
+    public class MagazineItem : Part
     {
-        public override IItemData ItemData { get; set; }
-
-        public PartData PartData
+        public int gunPowderUsed; // 가변 자원 사용량(기본: 화약)
+        public int madeOptionIndex; // 필요 시 1/2번 옵션 저장
+        
+        public BulletItem bulletItem;
+        
+        public MagazineItem(PartData data, uint durability, IngredientType ingredientType) : base(data, durability, ingredientType)
         {
-            get => ItemData as PartData;
-            set { if (value.type == PartType.Magazine) ItemData = value; }
         }
-
-        public uint remain;
-        public BulletItem bullet;
-
-        public MagazineItem(PartData data, uint durability, BulletItem bullet)
-        {
-            
-        }
+        
+        
     }
 }
