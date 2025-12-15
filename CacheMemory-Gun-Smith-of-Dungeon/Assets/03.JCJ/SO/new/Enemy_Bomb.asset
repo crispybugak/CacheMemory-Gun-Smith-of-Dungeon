@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96c943b316fa194a8f082be2cd14f73, type: 3}
   m_Name: Enemy_Bomb
   m_EditorClassIdentifier: 
-  moveSpeed: 3
+  moveSpeed: 5.1
   maxHealth: 15
   detectionRange: 8
-  attackRange: 2.06
+  attackRange: 3.4
   attackCooldown: 1
   attackDamage: 8
   pathUpdateInterval: 0.4
@@ -24,7 +24,7 @@ MonoBehaviour:
   specialAbilityRange: 4
   specialAbilityDamage: 18
   sleepDuration: 2.5
-  explosionRadius: 4
+  explosionRadius: 6.8
   explosionForce: 10
   maxMinions: 3
   spawnCooldown: 4
