@@ -22,7 +22,6 @@ namespace KBG.Item
         public float capacity;
         
         [field:SerializeField] public BulletItem Chamber { get; private set; }
-        private Stack<BulletItem> _magazine = new Stack<BulletItem>();
 
         public void Initialize()
         {
@@ -70,25 +69,25 @@ namespace KBG.Item
             var temp = Chamber;
             Chamber = null;
             ReloadChamber();
-            Debug.Log(_magazine.Count + (Chamber ? 1  : 0));
             return temp;
         }
 
         public bool ReloadChamber()
         {
-            if (_magazine.Count <= 0) return false;
-            Chamber = _magazine.Pop();
+            var mag = partsDict[PartType.Magazine] as MagazineItem;
+            if (mag?.durability <= 0) return false;
+            Chamber = mag?.bulletItem; mag.durability -= 1;
             return true;
         }
 
-        public bool Reload(BulletItem bullet)
-        {
-            if (_magazine.Count >= capacity) return false;
-            _magazine.Push(Chamber);
-            Chamber = bullet;
-            Debug.Log(_magazine.Count + (Chamber ? 1  : 0));
-            return true;
-        }
+        // public bool Reload(BulletItem bullet)
+        // {
+        //     if (_magazine.Count >= capacity) return false;
+        //     _magazine.Push(Chamber);
+        //     Chamber = bullet;
+        //     Debug.Log(_magazine.Count + (Chamber ? 1  : 0));
+        //     return true;
+        // }
 
         public bool CheckEndModding()
         {
