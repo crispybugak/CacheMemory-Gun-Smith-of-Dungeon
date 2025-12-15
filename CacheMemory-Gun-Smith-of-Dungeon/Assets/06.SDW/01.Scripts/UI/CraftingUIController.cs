@@ -172,7 +172,7 @@ public class CraftingUIController : MonoBehaviour
         var list = partDataForSlots.ingredients;
         HashSet<IngredientType> seenIngredients = new HashSet<IngredientType>();
 
-        int validIndex = 0; // 유효한 슬롯 인덱스
+        int validIndex = 0;
         for (int i = 0; i < list.Count; i++)
         {
             var opt = list[i];
@@ -188,14 +188,17 @@ public class CraftingUIController : MonoBehaviour
 
             int owned = GetOwnedIngredientCount(opt.requiredIngredient);
             int need = Mathf.Max(1, opt.requiredAmount);
-            string name = GetIngredientName(opt.requiredIngredient);
-
-            Sprite icon = null; // 필요하면 IngredientType->Ingredient SO 매핑 추가해서 넣기
+            
+            // ★ 수정됨: 이름과 아이콘을 모두 Table에서 가져옴
+            string name = GetIngredientName(opt.requiredIngredient); 
+            Sprite icon = GetIngredientIcon(opt.requiredIngredient); // 아래에 헬퍼 메서드 추가됨
 
             slotUI.gameObject.SetActive(true);
+            
+            // Bind에 icon 전달
             slotUI.Bind(
                 opt.requiredIngredient,
-                icon,
+                icon, 
                 name,
                 owned,
                 need,
@@ -206,11 +209,18 @@ public class CraftingUIController : MonoBehaviour
             validIndex++;
         }
 
-        // 남은 슬롯 비활성화
         for (int i = validIndex; i < optionSlots.Length; i++)
         {
             if (optionSlots[i] != null) optionSlots[i].gameObject.SetActive(false);
         }
+    }
+    
+    private Sprite GetIngredientIcon(IngredientType type)
+    {
+        if (ingredientNameTable != null)
+            return ingredientNameTable.GetIcon(type);
+
+        return null;
     }
 
     private PartData.RequireIngredient GetSelectedOption(CraftingRecipeSO recipe)
