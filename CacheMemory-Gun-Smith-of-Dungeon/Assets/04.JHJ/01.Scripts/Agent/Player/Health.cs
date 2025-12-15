@@ -2,7 +2,7 @@
 using System;
 using System.Collections;
 using Random = UnityEngine.Random;
-using UnityEngine.Events;
+using System.Security.Cryptography.X509Certificates;
 
 public class Health : MonoBehaviour, IGetDamage
 {
@@ -20,7 +20,8 @@ public class Health : MonoBehaviour, IGetDamage
     public float Maxhealth => HealthData.Maxhealth + bonusMaxHealth;
 
     private Dead _dead;
-    public UnityEvent OnDead;
+    public Action OnDead;
+    public GameUI _gameUI;
 
     // 이벤트
     public event Action OnDamagedPlayer;
@@ -29,6 +30,7 @@ public class Health : MonoBehaviour, IGetDamage
     private void Awake()
     {
         _dead = GetComponent<Dead>();
+        _gameUI = GetComponent<GameUI>();
     }
 
     private void OnEnable()
@@ -45,6 +47,11 @@ public class Health : MonoBehaviour, IGetDamage
     private void Update()
     {
         lastDamagedTime += Time.deltaTime;
+        if(CurrentHealth <= 0)
+        {
+            _dead.PlayerDead(gameObject);
+            _gameUI.GameEnd();
+        }
     }
     
     public void InitFromSO()

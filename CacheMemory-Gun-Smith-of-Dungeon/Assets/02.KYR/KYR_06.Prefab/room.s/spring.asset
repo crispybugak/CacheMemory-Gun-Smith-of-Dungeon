@@ -18,7 +18,10 @@ MonoBehaviour:
   - {fileID: 332381807155455280, guid: 75a918d4633a1194aa1aaaff45fe8290, type: 3}
   monsterRoomPrefabs:
   - {fileID: 3245718599316629969, guid: 21ff422030f73e64bab5e269c76dbe2d, type: 3}
-  - {fileID: 4725323978475011910, guid: cccd2cd26511b544a93269e04a94bf46, type: 3}
   - {fileID: 6739564960200233114, guid: 4d73bf50f23cd0846bb895861b5a5c61, type: 3}
+  - {fileID: 4725323978475011910, guid: cccd2cd26511b544a93269e04a94bf46, type: 3}
+  - {fileID: 6739564960200233114, guid: 62ef3c3a497c8c443b18cad29bd0004d, type: 3}
+  - {fileID: 4725323978475011910, guid: 737a0130bc570a24492a158317621f00, type: 3}
+  - {fileID: 3245718599316629969, guid: 20af412f249f7634abfe91d308dec3d3, type: 3}
   horizontalCorridorPrefab: {fileID: 2824340568639790942, guid: 4bfc6767ecd35794792ecf33e2064453, type: 3}
   verticalCorridorPrefab: {fileID: 3538303557526842944, guid: 60c226533cb0e34498cd27ca953e8ca3, type: 3}

@@ -9,17 +9,17 @@ EditorBuildSettings:
     path: Assets/04.JHJ/00.Scenes/JHJ.TitleScene.unity
     guid: b8080874d5a82514a80042faf11cff13
   - enabled: 1
-    path: Assets/04.JHJ/00.Scenes/JHJ.LobbyScene.unity
-    guid: 7b8fbba7175a5b048ae93fea2ff070fa
-  - enabled: 1
     path: Assets/04.JHJ/00.Scenes/JHJGameScene.unity
     guid: 5376e308763204d4b8cdcda042d08d29
   - enabled: 1
-    path: Assets/06.SDW/00.Scene/SDWGameScene.unity
-    guid: c669f1436d0abf442888aea6c3812c31
-  - enabled: 1
     path: Assets/00.Main/00.Scenes/GameScene.unity
     guid: 61f333cc7ca6031409c60eff6097b499
+  - enabled: 1
+    path: Assets/00.Main/00.Scenes/LobbyScene.unity
+    guid: 76662e931a838814bac41796392b9044
+  - enabled: 1
+    path: Assets/00.Main/00.Scenes/TutorialScene.unity
+    guid: 5e16672b75c12ca46af803326b2526d8
   m_configObjects:
     com.unity.dt.app-ui: {fileID: 11400000, guid: 99f9c9493070a9d4c979a8fec7c5a8d3, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 2bcd2660ca9b64942af0de543d8d7100, type: 3}

@@ -766,6 +766,7 @@ MonoBehaviour:
   lootPanel: {fileID: 952684671}
   exitToLobbyBtn: {fileID: 1395862441}
   exitToLobbyBtnText: {fileID: 787755189}
+  item: 0
 --- !u!114 &824301860
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -778,7 +779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4133c432f8fa5a245945f0d726381d37, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  <Health>k__BackingField: {fileID: 0}
+  <Health>k__BackingField: {fileID: 4252996531627746239}
   _healthBar: {fileID: 1214412260}
   _hitEffect: {fileID: 0}
 --- !u!114 &824301861
@@ -795,7 +796,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _staminaBar: {fileID: 1680732321}
   _backStaminaBar: {fileID: 1895419224}
-  stamina: {fileID: 0}
+  stamina: {fileID: 802870720310917515}
 --- !u!4 &824301862
 Transform:
   m_ObjectHideFlags: 0
@@ -934,6 +935,7 @@ MonoBehaviour:
   maxEventRooms: 3
   randomStart: 1
   corridorGenerator: {fileID: 1616903167}
+  autoGenerate: 0
 --- !u!4 &1150796101
 Transform:
   m_ObjectHideFlags: 0
@@ -961,12 +963,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84bdc2e8d3e9ead47978c8bbc996a381, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showConnections: 1
-  showRoomLabels: 1
-  connectionColor: {r: 0, g: 1, b: 1, a: 1}
-  startRoomColor: {r: 0, g: 1, b: 0, a: 1}
-  bossRoomColor: {r: 1, g: 0, b: 0, a: 1}
-  lineWidth: 0.2
 --- !u!1 &1214412258
 GameObject:
   m_ObjectHideFlags: 0
@@ -2406,6 +2402,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _zoom: {fileID: 1508553554}
+  health: {fileID: 4252996531627746239}
 --- !u!70 &2252484155412163631
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -2604,9 +2601,6 @@ MonoBehaviour:
   <HealthData>k__BackingField: {fileID: 11400000, guid: 515a517f1087b3c4f8cc3567829fcbca, type: 2}
   <CurrentHealth>k__BackingField: 0
   <bonusMaxHealth>k__BackingField: 0
-  OnDead:
-    m_PersistentCalls:
-      m_Calls: []
 --- !u!4 &4341374474152124907
 Transform:
   m_ObjectHideFlags: 0

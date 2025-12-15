@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
@@ -29,30 +30,35 @@ namespace KBG.Item
     }
     
     [CreateAssetMenu(menuName = "SO/Item/Part")]
-    public class PartData : ScriptableObject, IItemData
+    public class PartData : ItemDataBase
     {
 
         [Serializable]
-        public struct PartEffect
+        public class PartEffect
         {
             public PartEffectType effectType;
             public float effectAmount;
         }
     
         [Serializable]
-        public struct RequireIngredient
+        public class RequireIngredient : IEnumerable
         {
             public IngredientType requiredIngredient;
             public int requiredAmount;
         
             public List<PartEffect> effects;
-            public float durability;
+            public uint durability;
+            public IEnumerator GetEnumerator()
+            {
+                return effects.GetEnumerator();
+            }
         }
         
         
-        [field:SerializeField] public Sprite icon { get; set; }
-        [field:SerializeField] public float upScaling { get; set; }
-        [field:SerializeField] public string itemName { get; set; }
+        [field: SerializeField] public override Sprite icon { get; set; }
+        [field: SerializeField] public override float upScaling { get; set; }
+        [field: SerializeField] public override string itemName { get; set; }
+
         public PartType type;
         public PartType requirePartType;
 

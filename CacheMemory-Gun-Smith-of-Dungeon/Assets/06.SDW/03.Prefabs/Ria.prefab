@@ -22,7 +22,7 @@ GameObject:
   - component: {fileID: 8709099801831422646}
   m_Layer: 10
   m_Name: Ria
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -211,8 +211,8 @@ CapsuleCollider2D:
   m_UsedByEffector: 0
   m_CompositeOperation: 0
   m_CompositeOrder: 0
-  m_Offset: {x: 0.0077838423, y: -0.0058699134}
-  m_Size: {x: 0.22912279, y: 0.6395446}
+  m_Offset: {x: 0.0077838423, y: -0.10597515}
+  m_Size: {x: 0.22912279, y: 0.43932343}
   m_Direction: 0
 --- !u!114 &7488197734037008423
 MonoBehaviour:
@@ -279,7 +279,8 @@ GameObject:
   - component: {fileID: 8327238117024740763}
   - component: {fileID: 1376249048278381137}
   - component: {fileID: 5524853354920819257}
-  m_Layer: 10
+  - component: {fileID: 2029750570517087522}
+  m_Layer: 12
   m_Name: Visual
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -342,8 +343,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -2116695181
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 4326607834422402477, guid: 3e02d9aa340c88042937fb27691f8adf, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -390,3 +391,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c1df6d8c8b18dc04da646d1e82421d73, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2029750570517087522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9006714738556784102}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 613c11c9550fe9c47b29cc35a627f3d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingMultiplier: 100
