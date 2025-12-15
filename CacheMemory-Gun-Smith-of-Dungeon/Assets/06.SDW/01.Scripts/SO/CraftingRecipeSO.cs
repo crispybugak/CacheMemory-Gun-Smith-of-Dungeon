@@ -90,7 +90,7 @@ namespace _06.SDW._01.Scripts.SO
 
             // 같은 값이면 불필요한 Rename 방지
             if (_lastResultPart == resultPart) return;
-            _lastResultPart = resultPart;
+            _lastResultPart = (PartData)resultPart;
 
             // 새 파일명 결정
             string baseName = null;
