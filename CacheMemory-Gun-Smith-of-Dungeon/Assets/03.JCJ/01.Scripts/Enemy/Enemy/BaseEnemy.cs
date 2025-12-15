@@ -74,6 +74,8 @@ public abstract class BaseEnemy : MonoBehaviour
     [Header("피격 효과")]
     [SerializeField] private float hitFlashDuration = 0.1f;
     [SerializeField] private Color hitFlashColor = Color.red;
+    
+    private Color originalSpriteColor;
 
     [Header("사망 연출")]
     [SerializeField] private float deathFadeDuration = 0.6f;
@@ -138,7 +140,10 @@ public abstract class BaseEnemy : MonoBehaviour
         patrolDirection = Random.insideUnitCircle.normalized;
 
         if (spriteRenderer != null)
+        {
             originalColor = spriteRenderer.color;
+            originalSpriteColor = spriteRenderer.color;
+        }
 
         RaiseHealthChanged();
     }
@@ -689,7 +694,6 @@ public abstract class BaseEnemy : MonoBehaviour
         }
     }
 
-
     private IEnumerator ResetHurtBool()
     {
         yield return new WaitForSeconds(hurtBoolDuration);
@@ -704,7 +708,6 @@ public abstract class BaseEnemy : MonoBehaviour
             animator.SetBool(deadBoolName, true);
         }
     }
-
     public virtual void TakeDamage(float damage)
     {
         if (isDead) return;
@@ -721,12 +724,11 @@ public abstract class BaseEnemy : MonoBehaviour
     {
         if (spriteRenderer == null) yield break;
 
-        Color original = spriteRenderer.color;
         spriteRenderer.color = hitFlashColor;
-
         yield return new WaitForSeconds(hitFlashDuration);
 
-        spriteRenderer.color = original;
+        if (spriteRenderer != null)
+            spriteRenderer.color = originalSpriteColor;
     }
 
     protected virtual void Die()
@@ -757,7 +759,6 @@ public abstract class BaseEnemy : MonoBehaviour
 
         StartCoroutine(DeathFadeAndDestroy());
     }
-
 
     private IEnumerator DeathFadeAndDestroy()
     {
