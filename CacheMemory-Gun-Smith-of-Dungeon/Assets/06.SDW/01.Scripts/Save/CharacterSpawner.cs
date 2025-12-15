@@ -59,6 +59,7 @@ namespace _06.SDW._01.Scripts.Save
                 gameui._gameUI = _gameUi.GetComponent<GameUI>();
                 GameObject startPos = GameObject.Find(StartPosName);
                 player.transform.position = startPos.transform.position;
+                
                 OnCharacterSpawned?.Invoke();
             }
             else
