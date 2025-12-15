@@ -17,7 +17,7 @@ namespace _01.KBG._01.Scripts.View
         [SerializeField] private Ease ease = Ease.OutCubic;
         public float recoverySpeed;
         
-        private RectTransform rectTransform;
+        public RectTransform rectTransform {get; private set;}
         
         private Vector2 mousePos => agentMovement.mouseDir;
         [SerializeField] private Vector2 recoveryPos;

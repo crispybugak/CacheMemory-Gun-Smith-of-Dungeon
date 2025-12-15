@@ -1,5 +1,6 @@
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using _01.KBG._01.Scripts.View;
 using KBG.Inventory;
 using KBG.Item;
@@ -14,7 +15,7 @@ public class Gun : MonoBehaviour
     [SerializeField] private AgentMovementSO agentMovement;
     [SerializeField] private MousePointer cursor;
     [SerializeField] private int reloadAmountPerBullet;
-    [SerializeField] private AgentStaminaSO agentStamina;
+    [SerializeField] private List<AgentStaminaSO> agentStamina;
 
     private GunDataApplier _gunManager;
     
@@ -59,13 +60,17 @@ public class Gun : MonoBehaviour
     private bool isAttacking = false;
     private void Update()
     {
-        var speed = Mathf.Lerp(_gunManager.defaultData.minMoveSpeed, _gunManager.defaultData.maxMoveSpeed, _gunManager.gunStatusData.handleSpeed);
-        agentStamina.RunSpeed = agentStamina.DefaultRunSpeed - speed;
-        agentStamina.MoveSpeed = agentStamina.DefaultSpeed - speed;
+        foreach (var stamina in agentStamina)
+        {
+            var speed = Mathf.Lerp(_gunManager.defaultData.minMoveSpeed, _gunManager.defaultData.maxMoveSpeed,
+                _gunManager.gunStatusData.handleSpeed);
+            stamina.RunSpeed = stamina.DefaultRunSpeed - speed;
+            stamina.MoveSpeed = stamina.DefaultSpeed - speed;
+        }
         if (Time.time - currentAttackDeleyTime > 1 / (_gunManager.defaultData.fireRate / 60) && !_isReloading && isAttacking)
         {
             currentAttackDeleyTime = Time.time;
-            float recoil = Mathf.Lerp(_gunManager.defaultData.minRebound, _gunManager.defaultData.minRebound, _gunManager.gunStatusData.recoilControl/100);
+            float recoil = Mathf.Lerp(_gunManager.defaultData.minRebound, _gunManager.defaultData.minRebound, 1-_gunManager.gunStatusData.recoilControl/100);
                 cursor.AddRecoil(new Vector2(Random.Range(-recoil,recoil),Random.Range(-recoil,recoil)));
             Vector2 mousePos = Camera.main.ScreenToWorldPoint(cursor.transform.position);
             float angle = Mathf.Atan2(mousePos.y - transform.position.y, mousePos.x - transform.position.x) *
@@ -87,7 +92,7 @@ public class Gun : MonoBehaviour
     
     private void FixedUpdate()
     {
-        Vector2 mousePos = Camera.main.ScreenToWorldPoint(cursor.transform.position);
+        Vector2 mousePos = Camera.main.ScreenToWorldPoint(cursor == null? Vector3.zero : cursor.rectTransform.position);
         Vector2 gunPos = transform.position;
         
         RotateGun(mousePos, gunPos, transform);
@@ -103,7 +108,7 @@ public class Gun : MonoBehaviour
 
     private void ShotBullet(float dir)
     {
-        float accuracy = Mathf.Lerp(_gunManager.defaultData.maxSpread, _gunManager.defaultData.minSpread, _gunManager.gunStatusData.accuracy/100);
+        float accuracy = Mathf.Lerp(_gunManager.defaultData.maxSpread, _gunManager.defaultData.minSpread, 1-_gunManager.gunStatusData.accuracy/100);
         dir += Random.Range(-accuracy, accuracy);
         BulletItem bullet = _gunManager.gunStatusData.ShootBullet();
         Instantiate(bullet.bulletData.BulletPrefab, transform.position, Quaternion.Euler(0, 0, dir));
