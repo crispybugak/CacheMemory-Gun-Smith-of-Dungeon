@@ -454,6 +454,9 @@ MonoBehaviour:
   leftItemPrefab: {fileID: 2083076741089847285, guid: d6f1d34b6b0270542b47e6e532b3bcc7, type: 3}
   rightPreviewImage: {fileID: 5945077950003132824}
   rightItemName: {fileID: 7072911560538939118}
+  gunpowderRow: {fileID: 0}
+  gunpowderSlider: {fileID: 0}
+  gunpowderValueText: {fileID: 0}
   ingredientNameTable: {fileID: 11400000, guid: cd30d30ecc94e9143869c82d3debc04f, type: 2}
   optionSlots:
   - {fileID: 9078653908770249944}
@@ -1083,7 +1086,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 449, y: 350}
-  m_SizeDelta: {x: 307, y: 0}
+  m_SizeDelta: {x: 307, y: 116}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &332048710
 MonoBehaviour:
@@ -2987,7 +2990,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 449, y: 251}
-  m_SizeDelta: {x: 307, y: 0}
+  m_SizeDelta: {x: 307, y: 116}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1287796360
 MonoBehaviour:
@@ -6002,7 +6005,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 0}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -6226,7 +6229,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 449, y: 451}
-  m_SizeDelta: {x: 307, y: 0}
+  m_SizeDelta: {x: 307, y: 116}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1558894630582028589
 MonoBehaviour:

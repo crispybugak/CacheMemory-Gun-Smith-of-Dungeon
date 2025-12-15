@@ -101,11 +101,10 @@ public class Stamina : MonoBehaviour
     {
         lastUseStaminaTime = 0f;
 
-        // 1) 현재바는 즉시(빠르게) 감소
+        // 1) 현재바 감소
         _currentStamina -= UseStaminaGage * Time.deltaTime;
 
-        // 2) 백바는 "현재바를 따라 내려오되" 초당 속도로 느리게 따라오게
-        //    BackFollowStaminaBar를 "초당 따라오는 양"으로 해석
+        // 2) 백바가 현재바를 따라 내려옴
         if (_backStamina > _currentStamina)
         {
             _backStamina = Mathf.MoveTowards(
@@ -115,9 +114,11 @@ public class Stamina : MonoBehaviour
             );
         }
 
-        // 3) 현재바는 백바를 절대 넘지 못함(=백바가 현재 최대치 역할)
+        // 3) 현재바 클램프
         _currentStamina = Mathf.Clamp(_currentStamina, 0f, _backStamina);
-        _currentMaxStamina = _backStamina;
+
+        // [삭제] 이 줄 때문에 최대치가 계속 깎였습니다.
+        // _currentMaxStamina = _backStamina; 
 
         if (_staminaUI != null)
             _staminaUI.UpdateUI();
@@ -130,22 +131,25 @@ public class Stamina : MonoBehaviour
 
         if (lastUseStaminaTime >= 1.5f)
         {
-            // 1) 백바(캡) 먼저 천천히 회복
+            // 1) 백바(캡) 먼저 천천히 회복 (목표치: MaxStaminaWithPassive)
             if (_backStamina < MaxStaminaWithPassive)
             {
                 _backStamina += BackBarRechargeSpeed * Time.deltaTime;
                 _backStamina = Mathf.Min(_backStamina, MaxStaminaWithPassive);
             }
 
-            // 2) 현재바는 백바까지만 더 빠르게 회복
+            // 2) 현재바 회복
             if (_currentStamina < _backStamina)
             {
                 _currentStamina += RechargeSpeed * Time.deltaTime;
-                _currentStamina = Mathf.Min(_currentStamina, _backStamina); // ★ 이 줄이 핵심
             }
+            
+            // 안전장치: 현재바는 백바를 절대 넘을 수 없음 (if문 밖에서 강제)
+            _currentStamina = Mathf.Min(_currentStamina, _backStamina);
         }
 
-        _currentMaxStamina = _backStamina; // 캡 반영
+        // [삭제] 여기서도 이 줄을 지워야 합니다.
+        // _currentMaxStamina = _backStamina; 
 
         if (_staminaUI != null)
             _staminaUI.UpdateUI();
