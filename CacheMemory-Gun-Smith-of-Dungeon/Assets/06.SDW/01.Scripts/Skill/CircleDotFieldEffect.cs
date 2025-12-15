@@ -79,10 +79,10 @@ namespace _06.SDW._01.Scripts.Skill
                 Collider2D col = _overlapResults[i];
                 if (col == null) continue;
 
-                IGetDamage damageTarget = col.GetComponent<IGetDamage>();
-                if (damageTarget != null)
+                BaseEnemy enemy = col.GetComponent<BaseEnemy>();
+                if (enemy != null)
                 {
-                    damageTarget.OnDamaged(_damage);
+                    enemy.TakeDamage(_damage);
                 }
             }
         }

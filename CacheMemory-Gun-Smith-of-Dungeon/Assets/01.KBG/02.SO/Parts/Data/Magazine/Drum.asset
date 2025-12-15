@@ -20,11 +20,29 @@ MonoBehaviour:
   partDegree: -12.8
   localPos: {x: -0.1441, y: 0.132}
   ingredients:
-  - requiredIngredient: 3
+  - requiredIngredient: 0
     requiredAmount: 3
     effects:
-    - effectType: 0
-      effectAmount: 0
-    - effectType: 0
-      effectAmount: 0
+    - effectType: 5
+      effectAmount: 175
+    - effectType: 1
+      effectAmount: 20
+    - effectType: 2
+      effectAmount: 20
+    durability: Infinity
+  - requiredIngredient: 1
+    requiredAmount: 3
+    effects:
+    - effectType: 2
+      effectAmount: 10
+    - effectType: 1
+      effectAmount: 10
+    durability: Infinity
+  - requiredIngredient: 4
+    requiredAmount: 3
+    effects:
+    - effectType: 1
+      effectAmount: 30
+    - effectType: 2
+      effectAmount: 10
     durability: Infinity

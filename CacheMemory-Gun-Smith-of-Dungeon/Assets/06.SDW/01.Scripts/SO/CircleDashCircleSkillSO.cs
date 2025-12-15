@@ -96,10 +96,10 @@ namespace _06.SDW._01.Scripts.SO
             Collider2D[] hits = Physics2D.OverlapCircleAll(center, radius, targetLayer);
             foreach (var hit in hits)
             {
-                IGetDamage damageTarget = hit.GetComponent<IGetDamage>();
-                if (damageTarget != null)
+                BaseEnemy enemy = hit.GetComponent<BaseEnemy>();
+                if (enemy != null)
                 {
-                    damageTarget.OnDamaged(Damage);
+                    enemy.TakeDamage(Damage);
                 }
             }
         }
