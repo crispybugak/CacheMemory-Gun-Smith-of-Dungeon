@@ -707,6 +707,7 @@ public abstract class BaseEnemy : MonoBehaviour
 
     public virtual void TakeDamage(float damage)
     {
+        if (isDead) return;
         currentHealth -= Mathf.RoundToInt(damage);
 
         RaiseHealthChanged();
