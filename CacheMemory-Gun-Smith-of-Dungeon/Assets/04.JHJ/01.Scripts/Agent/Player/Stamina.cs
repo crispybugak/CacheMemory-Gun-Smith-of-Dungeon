@@ -101,8 +101,14 @@ public class Stamina : MonoBehaviour
     private void UseStamina()
     {
         lastUseStaminaTime = 0f;
-        _currentStamina -= UseStaminaGage * Time.deltaTime;
 
+        // ★ 최대치는 고정(패시브 포함)
+        _currentMaxStamina = MaxStaminaWithPassive;
+
+        _currentStamina -= UseStaminaGage * Time.deltaTime;
+        _currentStamina = Mathf.Clamp(_currentStamina, 0f, _currentMaxStamina);
+
+        // ★ 뒷바는 "연출용"으로만 따라오게 (max를 바꾸지 않음)
         if (_backStamina > _currentStamina)
         {
             _backStamina = Mathf.Lerp(
@@ -112,13 +118,17 @@ public class Stamina : MonoBehaviour
             );
         }
 
-        _currentMaxStamina = _backStamina;
-        _currentStamina = Mathf.Clamp(_currentStamina, 0f, _currentMaxStamina);
-        _staminaUI.UpdateUI();
+        _backStamina = Mathf.Clamp(_backStamina, 0f, _currentMaxStamina);
+
+        if (_staminaUI != null)
+            _staminaUI.UpdateUI();
     }
 
     private void RechargeStamina()
     {
+        // ★ 최대치는 고정(패시브 포함)
+        _currentMaxStamina = MaxStaminaWithPassive;
+
         if (!_isRunning)
         {
             lastUseStaminaTime = Mathf.Clamp(lastUseStaminaTime, 0, 10);
@@ -128,15 +138,17 @@ public class Stamina : MonoBehaviour
             {
                 _currentStamina += RechargeSpeed * Time.deltaTime;
 
-                // 패시브 포함 최대치까지 회복
-                if (_backStamina < MaxStaminaWithPassive)
+                // 뒷바도 최대치까지 회복(연출용)
+                if (_backStamina < _currentMaxStamina)
                     _backStamina += BackBarRechargeSpeed * Time.deltaTime;
             }
         }
 
-        _currentMaxStamina = _backStamina;
         _currentStamina = Mathf.Clamp(_currentStamina, 0f, _currentMaxStamina);
-        _staminaUI.UpdateUI();
+        _backStamina = Mathf.Clamp(_backStamina, 0f, _currentMaxStamina);
+
+        if (_staminaUI != null)
+            _staminaUI.UpdateUI();
     }
 
     public void SetRunning(bool isRunning)
