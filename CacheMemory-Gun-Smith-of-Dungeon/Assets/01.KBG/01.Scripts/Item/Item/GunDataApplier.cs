@@ -23,7 +23,7 @@ namespace KBG.Item
         protected override void Awake()
         {
             base.Awake();
-            
+            InitializeRenderer(); 
             gunStatusData.Initialize();
         }
 

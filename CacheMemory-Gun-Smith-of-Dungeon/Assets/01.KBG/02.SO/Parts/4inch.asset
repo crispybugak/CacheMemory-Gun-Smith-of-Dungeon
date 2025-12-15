@@ -9,16 +9,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 29d36121678cd494888a2f1760c1a7e2, type: 3}
-  m_Name: GunDefaultData
+  m_Script: {fileID: 11500000, guid: b65688dc21e49d14faa0e9604f956427, type: 3}
+  m_Name: 4inch
   m_EditorClassIdentifier: 
-  minSpread: 5
-  maxSpread: 10
-  minRebound: 0.5
-  maxRebound: 5
-  minRange: 10
-  maxRange: 30
-  maxMoveSpeed: -5
-  minMoveSpeed: 5
-  fireRate: 700
-  reloadTime: 1
+  partData: {fileID: 11400000, guid: 23b8db1e523b15b41a759c77e36bc64a, type: 2}
+  durability: 0
+  madeBy: 2

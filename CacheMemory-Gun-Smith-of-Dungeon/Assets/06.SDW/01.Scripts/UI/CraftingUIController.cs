@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using _06.SDW._01.Scripts.Item;
 using _06.SDW._01.Scripts.SO;
 using UnityEngine;
@@ -375,25 +376,69 @@ public class CraftingUIController : MonoBehaviour
     }
 
     private bool TryAddCraftedPartToInventory(CraftingRecipeSO recipe, int variableUsed)
+{
+    if (recipe == null || recipe.resultPart == null) return false;
+    if (Inventory.Instance == null) return false;
+
+    var opt = GetSelectedOption(recipe);
+    if (opt == null) return false;
+
+    // 1. 레시피의 결과물 데이터(PartData) 가져오기
+    var targetPartData = recipe.resultPart as PartData;
+    if (targetPartData == null) return false;
+
+    // 2. 생성할 인스턴스 타입 결정 (Part vs MagazineItem)
+    // PartData에 있는 'type' 정보를 활용합니다.
+    Type typeToCreate = typeof(Part);
+
+    // 만약 파츠 타입이 Magazine(탄창)이라면 MagazineItem 클래스로 생성
+    // (MagazineItem 클래스가 존재한다고 가정)
+    if (targetPartData.type == PartType.Magazine)
     {
-        if (recipe == null || recipe.resultPart == null) return false;
-        if (Inventory.Instance == null) return false;
-
-        var opt = GetSelectedOption(recipe);
-        if (opt == null) return false;
-
-        Part newPart = ScriptableObject.CreateInstance<Part>();
-        var craftedPartData = recipe.resultPart as PartData;
-        if (craftedPartData == null) return false;
-        newPart.partData = craftedPartData;
-        newPart.madeBy = opt.requiredIngredient;
-        newPart.durability = opt.durability;
-
-        // 기존 필드명(gunPowderUsed)에 가변 자원 사용량 기록(총알 등 예외 레시피에서만 >0)
-        newPart.gunPowderUsed = Mathf.Max(0, variableUsed);
-
-        return Inventory.Instance.AddItem(newPart);
+        // 주의: MagazineItem 클래스가 정의되어 있어야 합니다.
+        // using 구문에 MagazineItem이 있는 네임스페이스가 포함되어야 합니다.
+        // typeToCreate = typeof(MagazineItem); 
+        
+        // 혹은 문자열로 찾기 (클래스 이름이 정확해야 함)
+        typeToCreate = Type.GetType("KBG.Item.MagazineItem"); 
+        
+        // 만약 Type.GetType으로 못 찾는다면(네임스페이스 문제 등), 
+        // 그냥 typeof(MagazineItem)을 쓰시고 컴파일 에러가 나면 해당 클래스 정의를 확인하세요.
     }
+
+    // 3. 실제 아이템(Runtime Instance) 생성
+    // typeToCreate가 null이면 기본 Part로 생성
+    if (typeToCreate == null) typeToCreate = typeof(Part);
+    
+    Part newPart = (Part)ScriptableObject.CreateInstance(typeToCreate);
+
+    // 4. 데이터 주입 (ScriptableObject는 생성자를 직접 호출하지 못하므로 필드에 할당)
+    newPart.partData = targetPartData;
+    newPart.madeBy = opt.requiredIngredient;
+    newPart.durability = opt.durability;
+
+    // 5. 탄창일 경우 추가 처리 (화약 소모량 등)
+    // 리플렉션이나 타입 체크를 통해 MagazineItem 속성 접근
+    if (targetPartData.type == PartType.Magazine)
+    {
+        // 리플렉션으로 gunPowderUsed 필드에 값 넣기 (MagazineItem 클래스를 직접 참조할 수 없다면)
+        var field = typeToCreate.GetField("gunPowderUsed");
+        if (field != null)
+        {
+            field.SetValue(newPart, Mathf.Max(0, variableUsed));
+        }
+        
+        // 만약 코드 상에서 MagazineItem 타입을 직접 쓸 수 있다면 아래처럼 쓰는 게 더 좋습니다:
+        /*
+        if (newPart is MagazineItem magazine)
+        {
+            magazine.gunPowderUsed = Mathf.Max(0, variableUsed);
+        }
+        */
+    }
+
+    return Inventory.Instance.AddItem(newPart);
+}
 
     // ============================
     // Count / Name

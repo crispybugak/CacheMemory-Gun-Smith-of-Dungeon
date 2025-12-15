@@ -273,6 +273,7 @@ MonoBehaviour:
   - key: Durability
     text: {fileID: 6797802745903162323}
     amountText: {fileID: 2119811139692553319}
+  <RectTransform>k__BackingField: {fileID: 0}
 --- !u!225 &1593534020614446987
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -1295,7 +1296,6 @@ GameObject:
   - component: {fileID: 3967010957703184941}
   - component: {fileID: 8995783114009479719}
   - component: {fileID: 4616779219111350392}
-  - component: {fileID: 6633594448226592645}
   m_Layer: 5
   m_Name: InventoryCanvas
   m_TagString: Untagged
@@ -1389,18 +1389,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 40947
---- !u!114 &6633594448226592645
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2745451292900422629}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0a9db77915a21b4bbb5764cb291d99a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &3114182151765865750
 GameObject:
   m_ObjectHideFlags: 0

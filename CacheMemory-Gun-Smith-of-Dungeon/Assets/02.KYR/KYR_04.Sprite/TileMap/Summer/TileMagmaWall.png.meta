@@ -247,8 +247,8 @@ TextureImporter:
       physicsShape:
       - - {x: 16, y: 32}
         - {x: -16, y: 32}
-        - {x: -16, y: 11}
-        - {x: 16, y: 11}
+        - {x: -16, y: 0}
+        - {x: 16, y: 0}
       tessellationDetail: 0
       bones: []
       spriteID: 5c89ca099963a3a4382a0a78255b7717
@@ -273,8 +273,8 @@ TextureImporter:
       physicsShape:
       - - {x: 16, y: 32}
         - {x: -16, y: 32}
-        - {x: -16, y: 11}
-        - {x: 16, y: 11}
+        - {x: -16, y: 0}
+        - {x: 16, y: 0}
       tessellationDetail: 0
       bones: []
       spriteID: 9e1c7f1f08a3e9446bad83266f37b201
@@ -299,8 +299,8 @@ TextureImporter:
       physicsShape:
       - - {x: 16, y: 32}
         - {x: -16, y: 32}
-        - {x: -16, y: 11}
-        - {x: 16, y: 11}
+        - {x: -16, y: 0}
+        - {x: 16, y: 0}
       tessellationDetail: 0
       bones: []
       spriteID: 7011bd18115150344b00cbf4da1b0ca2
@@ -325,8 +325,8 @@ TextureImporter:
       physicsShape:
       - - {x: 16, y: 32}
         - {x: -16, y: 32}
-        - {x: -16, y: 11}
-        - {x: 16, y: 11}
+        - {x: -16, y: 0}
+        - {x: 16, y: 0}
       tessellationDetail: 0
       bones: []
       spriteID: 3487be54b2c2aca49bd347a6843a5376
@@ -631,8 +631,8 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape:
-      - - {x: 48, y: -1}
-        - {x: -48, y: 0}
+      - - {x: 48, y: -16}
+        - {x: -48, y: -16}
         - {x: -48, y: -4}
         - {x: 48, y: -4}
       tessellationDetail: 0
@@ -657,14 +657,14 @@ TextureImporter:
       customData: 
       outline: []
       physicsShape:
-      - - {x: -20, y: -1}
-        - {x: -48, y: -1}
+      - - {x: -20, y: -4}
         - {x: -48, y: -4}
-        - {x: -20, y: -4}
+        - {x: -48, y: -16}
+        - {x: -20, y: -16}
       - - {x: 20, y: -4}
         - {x: 48, y: -4}
-        - {x: 48, y: -1}
-        - {x: 20, y: -1}
+        - {x: 48, y: -16}
+        - {x: 20, y: -16}
       tessellationDetail: 0
       bones: []
       spriteID: f88b0d924efa16043853c668f349fd40

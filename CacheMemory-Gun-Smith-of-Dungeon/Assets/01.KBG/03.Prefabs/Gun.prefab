@@ -5609,7 +5609,6 @@ GameObject:
   - component: {fileID: 5122561572959817716}
   - component: {fileID: 9140784964353072209}
   - component: {fileID: 3489718913024161930}
-  - component: {fileID: 2269199960955631375}
   m_Layer: 11
   m_Name: Gun
   m_TagString: Untagged
@@ -5668,7 +5667,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8498652124530732612}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 147577d5f46fe9d4da5dc7e27c837e69, type: 3}
   m_Name: 
@@ -5678,6 +5677,7 @@ MonoBehaviour:
   agentMovement: {fileID: 11400000, guid: 60090acda56e3c04a8b3e39bd902f166, type: 2}
   cursor: {fileID: 0}
   reloadAmountPerBullet: 0
+  agentStamina: []
 --- !u!114 &3489718913024161930
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5692,15 +5692,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   recoilAmount: 0.1
   recoilSpeed: 1
---- !u!114 &2269199960955631375
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8498652124530732612}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0a9db77915a21b4bbb5764cb291d99a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

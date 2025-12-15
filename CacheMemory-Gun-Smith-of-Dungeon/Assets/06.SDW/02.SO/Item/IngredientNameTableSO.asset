@@ -15,9 +15,13 @@ MonoBehaviour:
   entries:
   - type: 1
     displayName: "\uD3F4\uB9AC\uC544\uBBF8\uB4DC"
+    icon: {fileID: 6006945509410346830, guid: 0e7d279de5ac47641b221bac92d7596c, type: 3}
   - type: 2
     displayName: "\uAC15\uCCA0"
+    icon: {fileID: 5163415756020489457, guid: fa6e7da84ff73e04d94c54f65ef5054c, type: 3}
   - type: 3
     displayName: "\uC2A4\uD14C\uC778\uB808\uC2A4"
+    icon: {fileID: 1009489074493083331, guid: fb3165b2be5c90a4bb6158f8eb254a02, type: 3}
   - type: 4
     displayName: "\uD654\uC57D"
+    icon: {fileID: 7599401663068907718, guid: 2be5e71e235c2ad4c902e42d45dd4c7c, type: 3}

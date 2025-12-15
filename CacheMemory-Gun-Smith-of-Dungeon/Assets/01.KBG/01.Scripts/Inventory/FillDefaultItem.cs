@@ -13,7 +13,7 @@ namespace KBG.Inventory
         {
             foreach (var item in items)
             {
-                Inventory.Instance.AddItem(item);
+                Inventory.Instance.AddItem(Instantiate(item));
             }
         }
     }
