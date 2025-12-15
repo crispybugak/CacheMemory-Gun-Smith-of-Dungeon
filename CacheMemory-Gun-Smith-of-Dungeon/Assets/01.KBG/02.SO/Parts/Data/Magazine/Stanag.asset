@@ -42,5 +42,5 @@ MonoBehaviour:
     - effectType: 4
       effectAmount: 30
     - effectType: 5
-      effectAmount: 210
+      effectAmount: 30
     durability: 0
