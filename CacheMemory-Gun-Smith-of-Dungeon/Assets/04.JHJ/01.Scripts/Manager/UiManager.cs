@@ -16,6 +16,8 @@ public class UiManager : MonoSingleton<UiManager>
 
     private Coroutine _errCo;
 
+    public LobbyUI _lobbyUI;
+
     private void Start()
     {
         if (_errorMessageImage != null)

@@ -8,9 +8,11 @@ public class Stamina : MonoBehaviour
     [Header("SO")]
     public float DefaultSpeed => AgentStaminaData.DefaultSpeed;
     public float RunSpeed => AgentStaminaData.RunSpeed;
-    public float RechargeSpeed => AgentStaminaData.RechargeSpeed;
-    public float BackBarRechargeSpeed => AgentStaminaData.BackBarRechargeSpeed;
-    public float UseStaminaGage => AgentStaminaData.UseStaminaGage;
+    public float RechargeSpeed => AgentStaminaData.RechargeSpeed;                 // 현재바 회복 속도(초당)
+    public float BackBarRechargeSpeed => AgentStaminaData.BackBarRechargeSpeed;   // 백바 회복 속도(초당)
+    public float UseStaminaGage => AgentStaminaData.UseStaminaGage;               // 현재바 소모 속도(초당)
+
+    // 이 값은 "Lerp t"에 쓰지 말고, "백바가 현재바를 따라 내려오는 속도(초당)"로 쓰자
     public float BackFollowStaminaBar => AgentStaminaData.BackFollowStaminaBar;
 
     [Header("Max/Current")]
@@ -23,9 +25,9 @@ public class Stamina : MonoBehaviour
     [Header("패시브 보너스")]
     [field: SerializeField] public float bonusMaxStamina { get; private set; }
 
-    bool _isMove;
-    bool _runRequested;                    // 달리기 키 입력 상태
-    public bool _isRunning { get; private set; }  // 실제로 달리는 상태
+    private bool _isMove;
+    private bool _runRequested;
+    public bool _isRunning { get; private set; }
     private bool _isSpawn;
 
     private AgentMovement _agentMovement;
@@ -36,15 +38,16 @@ public class Stamina : MonoBehaviour
 
     private void OnEnable()
     {
-        CharacterSpawner.Instance.OnCharacterSpawned += ResetStamina;
+        if (CharacterSpawner.Instance != null)
+            CharacterSpawner.Instance.OnCharacterSpawned += ResetStamina;
     }
-    
+
     private void Awake()
     {
         _agentMovement = GetComponent<AgentMovement>();
         _agent = GetComponent<Agent>();
     }
-    
+
     private void Start()
     {
         AgentStaminaData.MoveSpeed = DefaultSpeed;
@@ -55,11 +58,7 @@ public class Stamina : MonoBehaviour
     {
         _isMove = _agent.RidCompo.linearVelocity.sqrMagnitude > 0.1f;
 
-        bool canRun =
-            _runRequested &&
-            _isMove &&
-            _currentStamina > 0f;
-
+        bool canRun = _runRequested && _isMove && _currentStamina > 0f;
         _isRunning = canRun;
 
         if (canRun)
@@ -67,29 +66,29 @@ public class Stamina : MonoBehaviour
             AgentStaminaData.MoveSpeed = RunSpeed;
             UseStamina();
         }
-        else if(_isSpawn)
+        else if (_isSpawn)
         {
             AgentStaminaData.MoveSpeed = DefaultSpeed;
             RechargeStamina();
         }
     }
-    
+
     private void OnDisable()
     {
-        CharacterSpawner.Instance.OnCharacterSpawned -= ResetStamina;
+        if (CharacterSpawner.Instance != null)
+            CharacterSpawner.Instance.OnCharacterSpawned -= ResetStamina;
     }
-    
+
     private void ResetStamina()
     {
         InitFromSO();
         _isSpawn = true;
     }
-    
+
     public void InitFromSO()
     {
         lastUseStaminaTime = 0f;
 
-        // 처음 켜질 때는 항상 꽉 찬 상태
         _currentMaxStamina = MaxStaminaWithPassive;
         _currentStamina = _currentMaxStamina;
         _backStamina = _currentMaxStamina;
@@ -102,23 +101,23 @@ public class Stamina : MonoBehaviour
     {
         lastUseStaminaTime = 0f;
 
-        // ★ 최대치는 고정(패시브 포함)
-        _currentMaxStamina = MaxStaminaWithPassive;
-
+        // 1) 현재바는 즉시(빠르게) 감소
         _currentStamina -= UseStaminaGage * Time.deltaTime;
-        _currentStamina = Mathf.Clamp(_currentStamina, 0f, _currentMaxStamina);
 
-        // ★ 뒷바는 "연출용"으로만 따라오게 (max를 바꾸지 않음)
+        // 2) 백바는 "현재바를 따라 내려오되" 초당 속도로 느리게 따라오게
+        //    BackFollowStaminaBar를 "초당 따라오는 양"으로 해석
         if (_backStamina > _currentStamina)
         {
-            _backStamina = Mathf.Lerp(
+            _backStamina = Mathf.MoveTowards(
                 _backStamina,
                 _currentStamina,
-                BackFollowStaminaBar * Time.deltaTime * 30f
+                BackFollowStaminaBar * Time.deltaTime
             );
         }
 
-        _backStamina = Mathf.Clamp(_backStamina, 0f, _currentMaxStamina);
+        // 3) 현재바는 백바를 절대 넘지 못함(=백바가 현재 최대치 역할)
+        _currentStamina = Mathf.Clamp(_currentStamina, 0f, _backStamina);
+        _currentMaxStamina = _backStamina;
 
         if (_staminaUI != null)
             _staminaUI.UpdateUI();
@@ -126,26 +125,27 @@ public class Stamina : MonoBehaviour
 
     private void RechargeStamina()
     {
-        // ★ 최대치는 고정(패시브 포함)
-        _currentMaxStamina = MaxStaminaWithPassive;
+        lastUseStaminaTime = Mathf.Clamp(lastUseStaminaTime, 0f, 10f);
+        lastUseStaminaTime += Time.deltaTime;
 
-        if (!_isRunning)
+        if (lastUseStaminaTime >= 1.5f)
         {
-            lastUseStaminaTime = Mathf.Clamp(lastUseStaminaTime, 0, 10);
-            lastUseStaminaTime += Time.deltaTime;
+            // 1) 백바(캡) 먼저 천천히 회복
+            if (_backStamina < MaxStaminaWithPassive)
+            {
+                _backStamina += BackBarRechargeSpeed * Time.deltaTime;
+                _backStamina = Mathf.Min(_backStamina, MaxStaminaWithPassive);
+            }
 
-            if (1.5f < lastUseStaminaTime)
+            // 2) 현재바는 백바까지만 더 빠르게 회복
+            if (_currentStamina < _backStamina)
             {
                 _currentStamina += RechargeSpeed * Time.deltaTime;
-
-                // 뒷바도 최대치까지 회복(연출용)
-                if (_backStamina < _currentMaxStamina)
-                    _backStamina += BackBarRechargeSpeed * Time.deltaTime;
+                _currentStamina = Mathf.Min(_currentStamina, _backStamina); // ★ 이 줄이 핵심
             }
         }
 
-        _currentStamina = Mathf.Clamp(_currentStamina, 0f, _currentMaxStamina);
-        _backStamina = Mathf.Clamp(_backStamina, 0f, _currentMaxStamina);
+        _currentMaxStamina = _backStamina; // 캡 반영
 
         if (_staminaUI != null)
             _staminaUI.UpdateUI();
@@ -160,7 +160,6 @@ public class Stamina : MonoBehaviour
     {
         bonusMaxStamina += amount;
 
-        // 패시브 적용 시점에 새 최대치 기준으로 풀 충전
         _currentMaxStamina = MaxStaminaWithPassive;
         _currentStamina = _currentMaxStamina;
         _backStamina = _currentMaxStamina;
