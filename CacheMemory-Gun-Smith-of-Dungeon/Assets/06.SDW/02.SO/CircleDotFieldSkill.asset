@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 958d14b511684ea7ba63d7a1ec09a0c4, type: 3}
   m_Name: CircleDotFieldSkill
   m_EditorClassIdentifier: 
-  damage: 15
-  coolTime: 3
+  damage: 1
+  coolTime: 10
   skillIcon: {fileID: 0}
   animationName: 
   fieldPrefab: {fileID: 5341883316481157948, guid: 87c15b3e36c4dba47b8b969aebc6ad1d, type: 3}

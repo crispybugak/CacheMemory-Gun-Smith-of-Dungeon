@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96c943b316fa194a8f082be2cd14f73, type: 3}
   m_Name: Enemy_Necromancer
   m_EditorClassIdentifier: 
-  moveSpeed: 3.4
+  moveSpeed: 7
   maxHealth: 100
-  detectionRange: 17
-  attackRange: 10.2
+  detectionRange: 20
+  attackRange: 6
   attackCooldown: 1.5
   attackDamage: 15
   pathUpdateInterval: 0.4
