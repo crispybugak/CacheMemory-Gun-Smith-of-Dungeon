@@ -10,7 +10,17 @@ namespace _06.SDW._01.Scripts.SO
     {
         [Header("Result Part")]
         [Tooltip("제작 결과 파츠 데이터(PartData). 재료 요구사항은 PartData.ingredients를 사용합니다.")]
-        public PartData resultPart;
+        public ItemDataBase resultPart;
+
+        [Header("Row3 Variable Resource (Ammo 등 예외용)")]
+        [Tooltip("이 레시피는 3번 Row를 슬라이더(가변 재료)로 사용합니다.")]
+        public bool useVariableResourceForRow3 = false;
+
+        [Tooltip("슬라이더로 사용할 가변 재료 타입(예: GunPowder)")]
+        public IngredientType variableResourceType = IngredientType.GunPowder;
+
+        [Tooltip("가변 재료 최소 사용량(0 또는 1 등)")]
+        public int minVariableUse = 0;
 
         [Header("Display Overrides (Optional)")]
         [Tooltip("비워두면 PartData.itemName을 사용")]
@@ -41,10 +51,18 @@ namespace _06.SDW._01.Scripts.SO
         public Sprite ListIcon => listIconOverride != null ? listIconOverride : (resultPart != null ? resultPart.icon : null);
         public Sprite PreviewIcon => previewIconOverride != null ? previewIconOverride : (resultPart != null ? resultPart.icon : null);
 
-        public PartType ResultPartType => partTypeOverride != PartType.None ? partTypeOverride : (resultPart != null ? resultPart.type : PartType.None);
-        public PartType RequirePartType => requirePartTypeOverride != PartType.None ? requirePartTypeOverride : (resultPart != null ? resultPart.requirePartType : PartType.None);
+        public PartType ResultPartType
+            => partTypeOverride != PartType.None
+                ? partTypeOverride
+                : ((resultPart as PartData) != null ? (resultPart as PartData).type : PartType.None);
 
-        public List<PartData.RequireIngredient> Ingredients => resultPart != null ? resultPart.ingredients : null;
+        public PartType RequirePartType
+            => requirePartTypeOverride != PartType.None
+                ? requirePartTypeOverride
+                : ((resultPart as PartData) != null ? (resultPart as PartData).requirePartType : PartType.None);
+
+        public List<PartData.RequireIngredient> Ingredients
+            => (resultPart as PartData) != null ? (resultPart as PartData).ingredients : null;
 
 #if UNITY_EDITOR
         [Header("Editor Convenience")]

@@ -6,7 +6,7 @@ using UnityEngine.Serialization;
 namespace KBG.Item
 {
     [CreateAssetMenu(menuName = "SO/Item/Bullet")]
-    public class BulletData : ScriptableObject, IItemData
+    public class BulletData : ItemDataBase
     {
         [Serializable]
         public class PowderStatus
@@ -15,9 +15,9 @@ namespace KBG.Item
             public float extraDamageRate;
         }
         
-        [field: SerializeField] public Sprite icon { get; set; }
-        [field:SerializeField] public float upScaling { get; set; }
-        [field: SerializeField] public string itemName { get; set; }
+        [field: SerializeField] public override Sprite icon { get; set; }
+        [field:SerializeField] public override float upScaling { get; set; }
+        [field: SerializeField] public override string itemName { get; set; }
         
         [field: SerializeField] public GameObject BulletPrefab{ get; private set; }
         [field: SerializeField] public GameObject CasingPrefab{ get; private set; }

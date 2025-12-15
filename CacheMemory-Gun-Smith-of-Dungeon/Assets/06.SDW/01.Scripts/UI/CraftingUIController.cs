@@ -21,6 +21,11 @@ public class CraftingUIController : MonoBehaviour
     [SerializeField] private Image rightPreviewImage;
     [SerializeField] private TMP_Text rightItemName;
 
+    [Header("Right Detail - Row3 (Variable Resource Slider)")]
+    [SerializeField] private GameObject gunpowderRow; // 3번 Row 컨테이너(가변 자원용)
+    [SerializeField] private Slider gunpowderSlider;  // 슬라이더
+    [SerializeField] private TMP_Text gunpowderValueText; // 라벨
+
     [Header("Ingredient Name Table")]
     [SerializeField] private IngredientNameTableSO ingredientNameTable;
 
@@ -46,6 +51,7 @@ public class CraftingUIController : MonoBehaviour
     {
         BuildLeftList();
         BindCraftButtonTrigger();
+        BindGunpowderSlider();
     }
 
     private void OnEnable()
@@ -155,27 +161,30 @@ public class CraftingUIController : MonoBehaviour
     {
         if (optionSlots == null || optionSlots.Length == 0) return;
 
-        if (recipe == null || recipe.resultPart == null || recipe.resultPart.ingredients == null)
+        var partDataForSlots = recipe != null ? recipe.resultPart as PartData : null;
+        if (partDataForSlots == null || partDataForSlots.ingredients == null)
         {
             for (int i = 0; i < optionSlots.Length; i++)
                 if (optionSlots[i] != null) optionSlots[i].gameObject.SetActive(false);
             return;
         }
 
-        var list = recipe.resultPart.ingredients;
+        var list = partDataForSlots.ingredients;
+        HashSet<IngredientType> seenIngredients = new HashSet<IngredientType>();
 
-        for (int i = 0; i < optionSlots.Length; i++)
+        int validIndex = 0; // 유효한 슬롯 인덱스
+        for (int i = 0; i < list.Count; i++)
         {
-            var slotUI = optionSlots[i];
-            if (slotUI == null) continue;
-
-            if (i >= list.Count)
-            {
-                slotUI.gameObject.SetActive(false);
-                continue;
-            }
-
             var opt = list[i];
+            if (opt.requiredIngredient == IngredientType.None || seenIngredients.Contains(opt.requiredIngredient))
+                continue;
+
+            seenIngredients.Add(opt.requiredIngredient);
+
+            if (validIndex >= optionSlots.Length) break;
+
+            var slotUI = optionSlots[validIndex];
+            if (slotUI == null) continue;
 
             int owned = GetOwnedIngredientCount(opt.requiredIngredient);
             int need = Mathf.Max(1, opt.requiredAmount);
@@ -184,15 +193,31 @@ public class CraftingUIController : MonoBehaviour
             Sprite icon = null; // 필요하면 IngredientType->Ingredient SO 매핑 추가해서 넣기
 
             slotUI.gameObject.SetActive(true);
-            slotUI.Bind(opt.requiredIngredient, icon, name, owned, need, SetSelectedIngredientOption);
+            slotUI.Bind(
+                opt.requiredIngredient,
+                icon,
+                name,
+                owned,
+                need,
+                (type, sprite) => SetSelectedIngredientOption(type)
+            );
             slotUI.SetSelected(opt.requiredIngredient == _selectedIngredientOption);
+
+            validIndex++;
+        }
+
+        // 남은 슬롯 비활성화
+        for (int i = validIndex; i < optionSlots.Length; i++)
+        {
+            if (optionSlots[i] != null) optionSlots[i].gameObject.SetActive(false);
         }
     }
 
     private PartData.RequireIngredient GetSelectedOption(CraftingRecipeSO recipe)
     {
-        if (recipe == null || recipe.resultPart == null) return null;
-        var list = recipe.resultPart.ingredients;
+        var partData = recipe != null ? recipe.resultPart as PartData : null;
+        if (partData == null) return null;
+        var list = partData.ingredients;
         if (list == null || list.Count == 0) return null;
 
         if (_selectedIngredientOption != IngredientType.None)
@@ -207,8 +232,9 @@ public class CraftingUIController : MonoBehaviour
 
     private void AutoSelectCraftableIngredientOption(CraftingRecipeSO recipe)
     {
-        if (recipe == null || recipe.resultPart == null) return;
-        var list = recipe.resultPart.ingredients;
+        var partData2 = recipe != null ? recipe.resultPart as PartData : null;
+        if (partData2 == null) return;
+        var list = partData2.ingredients;
         if (list == null || list.Count == 0) return;
 
         // 현재 선택이 제작 가능하면 유지
@@ -260,10 +286,12 @@ public class CraftingUIController : MonoBehaviour
         if (rightItemName != null)
             rightItemName.text = recipe != null ? recipe.DisplayName : string.Empty;
 
-        bool canCraft = recipe != null && CheckCanCraftSelectedOption(recipe);
+        bool canCraft = recipe != null && CheckCanCraftSelectedOption(recipe) && CheckEnoughVariableResource(recipe);
 
         if (craftButtonLabel != null)
             craftButtonLabel.text = recipe == null ? "-" : (canCraft ? "제작" : "재료 부족");
+
+        RefreshVariableResourceRow(recipe);
     }
 
     private bool CheckCanCraftSelectedOption(CraftingRecipeSO recipe)
@@ -280,7 +308,7 @@ public class CraftingUIController : MonoBehaviour
     {
         if (_selectedRecipe == null) return;
 
-        if (!CheckCanCraftSelectedOption(_selectedRecipe))
+        if (!CheckCanCraftSelectedOption(_selectedRecipe) || !CheckEnoughVariableResource(_selectedRecipe))
         {
             RefreshRightPanel(_selectedRecipe);
             return;
@@ -300,8 +328,21 @@ public class CraftingUIController : MonoBehaviour
             return;
         }
 
-        // 2) 결과 파츠 생성 + 인벤 추가(선택 옵션으로 madeBy/durability)
-        if (!TryAddCraftedPartToInventory(_selectedRecipe))
+        // 2) (예외 레시피) 가변 자원 소모
+        int variableUse = GetVariableResourceToUse(_selectedRecipe);
+        if (UseVariableResourceRow(_selectedRecipe) && variableUse > 0)
+        {
+            var vType = GetVariableResourceType(_selectedRecipe);
+            if (MatInv == null || !MatInv.TryConsumeFromSlots(vType, variableUse))
+            {
+                Debug.LogWarning($"[Crafting] 가변 자원 소모 실패 ({vType}, {variableUse})");
+                RefreshRightPanel(_selectedRecipe);
+                return;
+            }
+        }
+
+        // 3) 결과 파츠 생성 + 인벤 추가(선택 옵션 + 가변 자원 정보 기록)
+        if (!TryAddCraftedPartToInventory(_selectedRecipe, variableUse))
         {
             Debug.LogWarning("[Crafting] 파츠 인벤 추가 실패.");
             RefreshRightPanel(_selectedRecipe);
@@ -323,7 +364,7 @@ public class CraftingUIController : MonoBehaviour
         return MatInv.TryConsumeFromSlots(opt.requiredIngredient, need);
     }
 
-    private bool TryAddCraftedPartToInventory(CraftingRecipeSO recipe)
+    private bool TryAddCraftedPartToInventory(CraftingRecipeSO recipe, int variableUsed)
     {
         if (recipe == null || recipe.resultPart == null) return false;
         if (Inventory.Instance == null) return false;
@@ -332,9 +373,14 @@ public class CraftingUIController : MonoBehaviour
         if (opt == null) return false;
 
         Part newPart = ScriptableObject.CreateInstance<Part>();
-        newPart.partData = recipe.resultPart;
+        var craftedPartData = recipe.resultPart as PartData;
+        if (craftedPartData == null) return false;
+        newPart.partData = craftedPartData;
         newPart.madeBy = opt.requiredIngredient;
         newPart.durability = opt.durability;
+
+        // 기존 필드명(gunPowderUsed)에 가변 자원 사용량 기록(총알 등 예외 레시피에서만 >0)
+        newPart.gunPowderUsed = Mathf.Max(0, variableUsed);
 
         return Inventory.Instance.AddItem(newPart);
     }
@@ -355,5 +401,84 @@ public class CraftingUIController : MonoBehaviour
             return ingredientNameTable.GetName(type);
 
         return type.ToString();
+    }
+
+    // ============================
+    // Row3 Variable Resource (Slider)
+    // ============================
+
+    private void BindGunpowderSlider()
+    {
+        if (gunpowderSlider == null) return;
+        gunpowderSlider.onValueChanged.RemoveAllListeners();
+        gunpowderSlider.onValueChanged.AddListener(_ =>
+        {
+            RefreshGunpowderLabel(_selectedRecipe);
+            RefreshRightPanel(_selectedRecipe);
+        });
+    }
+
+    private void RefreshVariableResourceRow(CraftingRecipeSO recipe)
+    {
+        bool show = UseVariableResourceRow(recipe);
+        if (gunpowderRow != null) gunpowderRow.SetActive(show);
+        if (!show) return;
+
+        var vType = GetVariableResourceType(recipe);
+        int owned = GetOwnedIngredientCount(vType);
+
+        if (gunpowderSlider != null)
+        {
+            float prev = gunpowderSlider.value;
+            gunpowderSlider.minValue = Mathf.Max(0, GetMinVariableUse(recipe));
+            gunpowderSlider.maxValue = owned;
+            gunpowderSlider.wholeNumbers = true;
+            gunpowderSlider.value = Mathf.Clamp(prev, gunpowderSlider.minValue, gunpowderSlider.maxValue);
+        }
+
+        RefreshGunpowderLabel(recipe);
+    }
+
+    private void RefreshGunpowderLabel(CraftingRecipeSO recipe)
+    {
+        if (gunpowderValueText == null) return;
+        var vType = GetVariableResourceType(recipe);
+        int owned = GetOwnedIngredientCount(vType);
+        int use = GetVariableResourceToUse(recipe);
+        string resName = GetIngredientName(vType);
+        gunpowderValueText.text = $"{resName}: {use}/{owned}";
+    }
+
+    private int GetVariableResourceToUse(CraftingRecipeSO recipe)
+    {
+        if (!UseVariableResourceRow(recipe) || gunpowderSlider == null) return 0;
+        int v = Mathf.RoundToInt(gunpowderSlider.value);
+        return Mathf.Max(GetMinVariableUse(recipe), v);
+    }
+
+    private bool CheckEnoughVariableResource(CraftingRecipeSO recipe)
+    {
+        if (!UseVariableResourceRow(recipe)) return true;
+        var vType = GetVariableResourceType(recipe);
+        int use = GetVariableResourceToUse(recipe);
+        int owned = GetOwnedIngredientCount(vType);
+        return owned >= use;
+    }
+
+    private bool UseVariableResourceRow(CraftingRecipeSO recipe)
+    {
+        return recipe != null && recipe.useVariableResourceForRow3;
+    }
+
+    private IngredientType GetVariableResourceType(CraftingRecipeSO recipe)
+    {
+        if (recipe == null) return IngredientType.None;
+        return recipe.variableResourceType == IngredientType.None ? IngredientType.GunPowder : recipe.variableResourceType;
+    }
+
+    private int GetMinVariableUse(CraftingRecipeSO recipe)
+    {
+        if (recipe == null) return 0;
+        return Mathf.Max(0, recipe.minVariableUse);
     }
 }
