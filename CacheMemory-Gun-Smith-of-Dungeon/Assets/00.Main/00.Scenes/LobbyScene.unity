@@ -3170,9 +3170,25 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 451307362461950169, guid: 6f55c20ae7c7243459f0f346fe3dc722, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2745451292900422629, guid: 6f55c20ae7c7243459f0f346fe3dc722, type: 3}
       propertyPath: m_Name
       value: InventoryCanvas (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 2745451292900422629, guid: 6f55c20ae7c7243459f0f346fe3dc722, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3655495473416300417, guid: 6f55c20ae7c7243459f0f346fe3dc722, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4539385120136609488, guid: 6f55c20ae7c7243459f0f346fe3dc722, type: 3}
+      propertyPath: m_Color.a
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9170832532455238418, guid: 6f55c20ae7c7243459f0f346fe3dc722, type: 3}
       propertyPath: m_Pivot.x
