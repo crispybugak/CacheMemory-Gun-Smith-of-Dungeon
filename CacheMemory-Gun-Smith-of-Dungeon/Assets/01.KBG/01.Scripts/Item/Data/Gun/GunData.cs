@@ -92,7 +92,7 @@ namespace KBG.Item
 
         public bool CheckEndModding()
         {
-            return partsDict.Where(p => p.Value).All(p => GetPart(p.Value.partData.requirePartType)) && GetPart(PartType.Base);
+            return partsDict.Where(p => p.Value!=null).All(p => GetPart(p.Value.partData.requirePartType)) && GetPart(PartType.Base);
         }
 
         private void InitializeStatus()
@@ -133,6 +133,26 @@ namespace KBG.Item
                         break;
                 }
             }
+        }
+
+        public float GetStatus(PartEffectType type)
+        {
+            switch (type)
+            {
+                case PartEffectType.Damage:
+                    return damage;
+                case PartEffectType.RecoilControl:
+                    return recoilControl;
+                case PartEffectType.Accuracy:
+                    return accuracy;
+                case PartEffectType.Range:
+                    return range;
+                case PartEffectType.HandleSpeed:
+                    return handleSpeed;
+                case PartEffectType.Capacity:
+                    return capacity;
+            }
+            return 0;
         }
     }
 }

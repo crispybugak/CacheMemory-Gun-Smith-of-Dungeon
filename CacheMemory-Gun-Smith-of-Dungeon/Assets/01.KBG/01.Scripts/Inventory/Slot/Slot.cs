@@ -37,6 +37,7 @@ namespace KBG.Inventory
             }
             _startPos = transform.position;
             Tooltip.Instance.gameObject.SetActive(false);
+            
         }
         
         public void OnDrag(PointerEventData eventData)

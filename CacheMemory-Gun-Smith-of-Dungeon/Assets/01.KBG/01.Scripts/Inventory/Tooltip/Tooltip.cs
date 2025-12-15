@@ -25,6 +25,7 @@ namespace KBG.Inventory
     
     public class Tooltip : MonoSingleton<Tooltip>
     {
+        public string gunName;
         [SerializeField] private RectTransform canvas;
         [SerializeField] private TextMeshProUGUI nameText;
         
@@ -45,7 +46,7 @@ namespace KBG.Inventory
             OnValidate();
         }
 
-        public void OpenTooltip(Part part, Vector2 position)
+        private void SetPivot( Vector2 position )
         {
             RectTransform = GetComponent<RectTransform>();
             RectTransform.pivot = new Vector2(
@@ -56,10 +57,15 @@ namespace KBG.Inventory
                     new Vector2(RectTransform.sizeDelta.x + RectTransform.anchoredPosition.x,
                         RectTransform.sizeDelta.y*RectTransform.localScale.y + RectTransform.anchoredPosition.y)) ? 0 : 1);
             RectTransform.anchoredPosition = position;
+        }
+        
+        public void OpenTooltip(Part part, Vector2 position)
+        {
+            SetPivot(position);
+            
+            if (part == null || gameObject.activeSelf ) return;
             
             gameObject.SetActive(true);
-            
-            if (part == null) return;
             
             var ingredient = part.partData.ingredients.First(i => i.requiredIngredient == part.madeBy);
             
@@ -116,23 +122,36 @@ namespace KBG.Inventory
                 }
 
                 infoTexts.First(t => t.key == "Ingredient").amountText.text = text;
-                infoTexts.First(t => t.key == "Durability").amountText.text = part.durability+"/"+ingredient.durability;;
+                infoTexts.First(t => t.key == "Durability").amountText.text = part.durability+"/"+ingredient.durability;
             }
         }
 
-        private void OnDrawGizmos()
+        public void OpenTooltip(GunData data, Vector2 position)
         {
-            if (RectTransform == null) return;
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(new Vector2(RectTransform.sizeDelta.x*RectTransform.localScale.x + RectTransform.anchoredPosition.x ,
-                RectTransform.sizeDelta.y + RectTransform.anchoredPosition.y ),100);
-            Gizmos.DrawWireSphere(new Vector2(RectTransform.sizeDelta.x + RectTransform.anchoredPosition.x,
-                RectTransform.sizeDelta.y*RectTransform.localScale.x + RectTransform.anchoredPosition.y),100);
-        }
-
-        public void OpenTooltip(GunData data)
-        {
+            SetPivot(position);
             
+            if (data == null || gameObject.activeSelf) return;
+            
+            gameObject.SetActive(true);
+
+            foreach (var status in statusTexts)
+            {
+                status.text.gameObject.SetActive(true);
+                status.amountText.gameObject.SetActive(true);
+                if (PartEffectType.TryParse(status.key, out PartEffectType effectType))
+                    status.amountText.text = data.GetStatus(effectType).ToString();
+            }
+            
+            infoTexts.First(t => t.key ==  nameof(PartEffectType.Capacity)).amountText.gameObject.SetActive(true);
+            infoTexts.First(t => t.key ==  nameof(PartEffectType.Capacity)).text.gameObject.SetActive(true);
+            infoTexts.First(t => t.key ==  nameof(PartEffectType.Capacity)).amountText.text = data.GetStatus(PartEffectType.Capacity).ToString();
+            infoTexts.First(t => t.key == "Ingredient").amountText.gameObject.SetActive(false);
+            infoTexts.First(t => t.key == "Ingredient").text.gameObject.SetActive(false);
+            infoTexts.First(t => t.key == "Durability").amountText.gameObject.SetActive(false);
+            infoTexts.First(t => t.key == "Durability").text.gameObject.SetActive(false);
+
+            nameText.text = (GunDataApplier.Instance.gunStatusData.CheckEndModding() ? gunName : "미완성 "+gunName);
+
         }
 
         private void OnValidate()

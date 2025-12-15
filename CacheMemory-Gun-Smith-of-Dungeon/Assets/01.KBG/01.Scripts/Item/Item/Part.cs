@@ -6,12 +6,6 @@ namespace  KBG.Item
     [CreateAssetMenu(fileName = "Item", menuName = "SO/Item/Data")]
     public class Part : IItem
     {
-        public enum DurabilityType
-        {
-            Infinity,
-            None
-        }
-        
         public override IItemData ItemData
         {
             get => partData;
@@ -28,7 +22,6 @@ namespace  KBG.Item
         public PartData partData;
         public uint durability;
         public IngredientType madeBy;
-        public DurabilityType durabilityType;
     }    
 }
 

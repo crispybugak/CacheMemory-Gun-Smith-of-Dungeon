@@ -40,7 +40,12 @@ namespace KBG.Inventory
                     obj.name = $"Slot({i},{j})";
                 }
         }
-        
+
+        private void OnEnable()
+        {
+            Tooltip.Instance.gameObject.SetActive(false);
+        }
+
         public void SetParent(GameObject child)
         {
             _gridLayout.enabled = false;
