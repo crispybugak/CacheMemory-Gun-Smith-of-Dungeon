@@ -31,7 +31,7 @@ MonoBehaviour:
       effectAmount: -20
     - effectType: 1
       effectAmount: -30
-    durability: Infinity
+    durability: 0
   - requiredIngredient: 1
     requiredAmount: 5
     effects:
@@ -43,7 +43,7 @@ MonoBehaviour:
       effectAmount: -20
     - effectType: 1
       effectAmount: -30
-    durability: Infinity
+    durability: 0
   - requiredIngredient: 4
     requiredAmount: 2
     effects:
@@ -55,4 +55,4 @@ MonoBehaviour:
       effectAmount: -20
     - effectType: 1
       effectAmount: -30
-    durability: Infinity
+    durability: 0
