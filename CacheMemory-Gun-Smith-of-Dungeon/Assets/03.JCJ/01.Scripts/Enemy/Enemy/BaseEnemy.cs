@@ -662,6 +662,7 @@ public abstract class BaseEnemy : MonoBehaviour
         if (dist <= effectiveRange)
         {
             playerHealth.OnDamaged(enemyData.attackDamage);
+            GameManager.Instance.HitTimeScale();
         }
     }
 

@@ -9,10 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 23c5b270edf68494fb04ade8193cd323, type: 3}
-  m_Name: Steel
+  m_Script: {fileID: 11500000, guid: d808ef2a72e31a04dbcb6e646a350686, type: 3}
+  m_Name: New Item 1
   m_EditorClassIdentifier: 
-  <icon>k__BackingField: {fileID: 5163415756020489457, guid: fa6e7da84ff73e04d94c54f65ef5054c, type: 3}
-  <upScaling>k__BackingField: 0
-  <itemName>k__BackingField: "\uAC15\uCCA0"
-  type: 2
+  itemData: {fileID: 0}

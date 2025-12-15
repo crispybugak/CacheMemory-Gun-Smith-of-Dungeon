@@ -72,16 +72,23 @@ public class LobbyUI : MonoBehaviour
 
     private void Start()
     {
-        //AudioManager.Instance.PlaySound("로비", 0.7f, 1f);
+        AudioManager.Instance.PlaySound("로비", 0.7f, 1f);
         _volume.enabled = false;
 
         InitializePanels(Ria);
         InitializePanels(Rin);
         InitializePanels(optionPanel);
+        InitializePanels(GameExitPanel);
+        InitializePanels(GameExitYesBtn);
 
-        Color fadeColor = fadePanel.color;
-        fadeColor.a = 0f;
-        fadePanel.color = fadeColor;
+        // ★ fadePanel도 초기엔 투명 + 입력 차단 OFF
+        if (fadePanel != null)
+        {
+            Color fadeColor = fadePanel.color;
+            fadeColor.a = 0f;
+            fadePanel.color = fadeColor;
+            fadePanel.raycastTarget = false;
+        }
 
         InitializeBackpackObjects();
         BindCategoryButtons();
@@ -97,6 +104,12 @@ public class LobbyUI : MonoBehaviour
         Color panelColor = panel.color;
         panelColor.a = 0f;
         panel.color = panelColor;
+
+        // ★ 핵심: 투명 상태에서는 입력을 먹지 않게
+        panel.raycastTarget = false;
+
+        // (선택) 처음부터 꺼두고 필요할 때 켜는 방식이면 더 안전
+        panel.gameObject.SetActive(false);
     }
 
     // ====== 배낭/카테고리바 오브젝트 초기 상태 세팅 ======
@@ -137,15 +150,16 @@ public class LobbyUI : MonoBehaviour
     private void SetRaycastForObject(GameObject root, bool on)
     {
         if (root == null) return;
-
+        
+        // 1) CanvasGroup이 있으면 그것도 토글
         CanvasGroup cg = root.GetComponent<CanvasGroup>();
         if (cg != null)
         {
             cg.blocksRaycasts = on;
             cg.interactable = on;
-            return;
         }
 
+        // 2) ★ CanvasGroup 유무와 관계없이 자식 Graphic들도 같이 토글
         Graphic[] graphics = root.GetComponentsInChildren<Graphic>(true);
         for (int i = 0; i < graphics.Length; i++)
         {
@@ -302,6 +316,15 @@ public class LobbyUI : MonoBehaviour
         sequence.Join(panel.GetComponentInChildren<TextMeshProUGUI>().DOFade(1, 0.2f).OnComplete(() => panel.raycastTarget = true));
     }
 
+    public void OpenOptionPanel(Image panel)
+    {
+        if (panel == null) return;
+
+        panel.gameObject.SetActive(true);
+        Sequence sequence = DOTween.Sequence();
+        sequence.Append(panel.DOFade(1, 0.2f).OnComplete(() => panel.raycastTarget = true));
+    }
+
     private void OnClickemptiness(Image panel)
     {
         if (panel == null) return;
@@ -312,6 +335,8 @@ public class LobbyUI : MonoBehaviour
 
         sequence.OnComplete(() =>
         {
+            panel.gameObject.SetActive(false);
+
             if (_popup == LobbyPopup.Option && panel == optionPanel)
             {
                 _popup = LobbyPopup.None;
@@ -323,14 +348,6 @@ public class LobbyUI : MonoBehaviour
                 SetMainButtonsInteractable(true);
             }
         });
-    }
-
-    public void OpenOptionPanel(Image panel)
-    {
-        if (panel == null) return;
-
-        Sequence sequence = DOTween.Sequence();
-        sequence.Append(panel.DOFade(1, 0.2f).OnComplete(() => panel.raycastTarget = true));
     }
 
     // ====== 배낭 열기/닫기 (카테고리바도 같이) ======
