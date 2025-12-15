@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96c943b316fa194a8f082be2cd14f73, type: 3}
   m_Name: Enemy_Skeleton
   m_EditorClassIdentifier: 
-  moveSpeed: 3.2
+  moveSpeed: 5.44
   maxHealth: 25
   detectionRange: 8
-  attackRange: 2
+  attackRange: 3.4
   attackCooldown: 1.2
   attackDamage: 12
   pathUpdateInterval: 0.2

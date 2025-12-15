@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f96c943b316fa194a8f082be2cd14f73, type: 3}
   m_Name: Enemy_Mentis
   m_EditorClassIdentifier: 
-  moveSpeed: 2.8
+  moveSpeed: 5.1
   maxHealth: 15
   detectionRange: 6
-  attackRange: 1.54
+  attackRange: 2.55
   attackCooldown: 1
   attackDamage: 4
   pathUpdateInterval: 0.3
