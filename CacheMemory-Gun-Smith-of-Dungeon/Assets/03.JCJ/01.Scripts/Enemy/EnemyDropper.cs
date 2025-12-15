@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using KBG.Item;
 using KBG.Inventory;
@@ -6,7 +7,7 @@ using KBG.Inventory;
 public class EnemyDropper : MonoBehaviour
 {
     [Header("드롭 설정")] 
-    [SerializeField] private Ingredient itemSo;
+    [SerializeField] private Ingredient[]  itemSo;
 
     private BaseEnemy enemy;
 
@@ -38,13 +39,13 @@ public class EnemyDropper : MonoBehaviour
     private void HandleEnemyDeath(BaseEnemy dead)
     {
         if (itemSo == null) return;
-
+        int i = Random.Range(0, itemSo.Length);
         var obj = new Item();
-        obj.ItemData = itemSo;
+        obj.ItemData = itemSo[i];
         Inventory.Instance.AddItem(obj);
 
         FloatingTextManager.Instance.ShowFloatingText(
-            itemSo.itemName,
+            itemSo[i].itemName,
             1, 
             dead.transform.position
         );

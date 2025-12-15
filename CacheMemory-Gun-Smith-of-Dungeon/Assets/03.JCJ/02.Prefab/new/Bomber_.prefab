@@ -333,7 +333,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69eae90244ad1514993b8c497935316f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemSo: {fileID: 11400000, guid: 95cf6d290c09ed94f9819fb745c47d72, type: 2}
+  itemSo:
+  - {fileID: 11400000, guid: 95cf6d290c09ed94f9819fb745c47d72, type: 2}
+  - {fileID: 11400000, guid: 31ea163911d4b2c4c9b87323c1ed0f3a, type: 2}
+  - {fileID: 11400000, guid: 524127b7abe2bb94b9bb8871d887f22e, type: 2}
+  - {fileID: 11400000, guid: 31739772e1d825147aba3dd0404ba675, type: 2}
 --- !u!114 &-6956134553778330460
 MonoBehaviour:
   m_ObjectHideFlags: 0
