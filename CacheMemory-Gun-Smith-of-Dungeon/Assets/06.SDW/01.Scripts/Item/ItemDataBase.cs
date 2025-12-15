@@ -4,11 +4,10 @@ namespace KBG.Item
 {
     public abstract class ItemDataBase : ScriptableObject, IItemData
     {
-        // IItemData에 있는 것들을 여기서 abstract로 선언하거나
-        // 이미 Ingredient/PartData가 구현하고 있으면 비워둬도 됩니다.
-        // (단, Ingredient/PartData가 이 클래스를 상속해야 합니다)
-        public Sprite icon { get; set; }
-        public float upScaling { get; set; }
-        public string itemName { get; set; }
+        // ★ 인터페이스 멤버를 여기서 '추상'으로 선언해야
+        //   파생 클래스(Ingredient/PartData)가 override한 값이 IItemData로 접근해도 정상 반환됩니다.
+        public abstract Sprite icon { get; set; }
+        public abstract float upScaling { get; set; }
+        public abstract string itemName { get; set; }
     }
 }

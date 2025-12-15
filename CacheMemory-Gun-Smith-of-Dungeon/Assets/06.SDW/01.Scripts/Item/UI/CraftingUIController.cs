@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 using KBG.Item;
+using KBG.Inventory; // ★ 추가
 
 public class CraftingUIController : MonoBehaviour
 {
@@ -136,6 +137,14 @@ public class CraftingUIController : MonoBehaviour
             return;
         }
 
+        // ★ 결과 파츠를 넣을 인벤 칸이 있는지 먼저 체크
+        if (Inventory.Instance == null || Inventory.Instance.GetEmptyInventorySlot() == null)
+        {
+            Debug.LogWarning("[Crafting] 인벤토리가 가득 차서 제작할 수 없습니다.");
+            RefreshRightPanel(_selectedRecipe);
+            return;
+        }
+
         // 1) 재료 소모(슬롯에서 실제로 제거)
         if (!TryConsumeIngredients(_selectedRecipe))
         {
@@ -143,11 +152,43 @@ public class CraftingUIController : MonoBehaviour
             return;
         }
 
-        // 2) UI 갱신
+        // 2) 결과 파츠 생성 + 인벤에 추가
+        if (!TryAddCraftedPartToInventory(_selectedRecipe))
+        {
+            Debug.LogWarning("[Crafting] 파츠 인벤 추가 실패 (인벤 꽉참 등).");
+            RefreshRightPanel(_selectedRecipe);
+            return;
+        }
+
+        // 3) UI 갱신
         RefreshRightPanel(_selectedRecipe);
     }
 
+    private bool TryAddCraftedPartToInventory(CraftingRecipeSO recipe)
+    {
+        if (recipe == null || recipe.resultPart == null) return false;
+        if (Inventory.Instance == null) return false;
 
+        // 런타임 Part 인스턴스 생성해서 인벤에 넣기
+        Part newPart = ScriptableObject.CreateInstance<Part>();
+        newPart.partData = recipe.resultPart;
+
+        // madeBy / durability 규칙:
+        // PartData.ingredients 중 첫 항목을 대표로 사용(프로젝트 룰에 맞게 바꿔도 됨)
+        if (recipe.resultPart.ingredients != null && recipe.resultPart.ingredients.Count > 0)
+        {
+            var baseIng = recipe.resultPart.ingredients[0];
+            newPart.madeBy = baseIng.requiredIngredient;
+            newPart.durability = Mathf.RoundToInt(baseIng.durability);
+        }
+        else
+        {
+            newPart.madeBy = IngredientType.None;
+            newPart.durability = 0;
+        }
+
+        return Inventory.Instance.AddItem(newPart);
+    }
 
     // ============================
     // 프로젝트에 맞게 채워야 하는 부분

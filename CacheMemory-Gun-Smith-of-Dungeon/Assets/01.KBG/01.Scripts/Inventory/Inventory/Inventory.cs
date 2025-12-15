@@ -8,6 +8,7 @@ using UnityEngine.UI;
 
 namespace KBG.Inventory
 {
+    [DefaultExecutionOrder(-1000)]
     public class Inventory : MonoSingleton<Inventory>
     {
         [Header("Slot Setting")]

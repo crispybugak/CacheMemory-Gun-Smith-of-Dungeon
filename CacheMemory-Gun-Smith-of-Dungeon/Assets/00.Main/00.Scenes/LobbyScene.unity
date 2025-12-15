@@ -258,6 +258,7 @@ GameObject:
   - component: {fileID: 83042530}
   - component: {fileID: 83042531}
   - component: {fileID: 83042532}
+  - component: {fileID: 83042533}
   m_Layer: 0
   m_Name: UiManager
   m_TagString: Untagged
@@ -368,6 +369,7 @@ MonoBehaviour:
   ingredientNameTable: {fileID: 11400000, guid: cd30d30ecc94e9143869c82d3debc04f, type: 2}
   craftButton: {fileID: 2295776217247582104}
   craftButtonLabel: {fileID: 2985725631483450670}
+  materialInventory: {fileID: 0}
 --- !u!114 &83042532
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -382,13 +384,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   targetInventory: {fileID: 5673090969104438593}
   entries:
-  - ingredientType: 0
-    itemSO: {fileID: 0}
-    amount: 0
+  - ingredientType: 1
+    itemSO: {fileID: 11400000, guid: 935ebe422aa3cbc438099b02a35cc9e9, type: 2}
+    amount: 1
     disabled: 0
     displayName: 
   quickItem: {fileID: 11400000, guid: d86d5fd9e402fda49b01779e5221522d, type: 2}
   quickAmount: 5
+--- !u!114 &83042533
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 83042526}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cfdad68e2d52c8b47a0254b147d9f912, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  items:
+  - {fileID: 11400000, guid: 935ebe422aa3cbc438099b02a35cc9e9, type: 2}
 --- !u!1 &120719101
 GameObject:
   m_ObjectHideFlags: 0

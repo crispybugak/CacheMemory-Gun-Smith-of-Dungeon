@@ -4,6 +4,7 @@ using UnityEngine;
 using System.Collections.Generic;
 using System.Linq;
 using KBG.Item;
+using UnityEngine.UI;
 
 namespace KBG.Inventory
 {
@@ -36,17 +37,24 @@ namespace KBG.Inventory
         [SerializeField] private List<TooltipTxt> infoTexts;
 
         public RectTransform RectTransform{get; private set;}
+        private Image image;
 
         protected override void Awake()
         {
             base.Awake();
             OnValidate();
-            RectTransform = GetComponent<RectTransform>();
         }
 
         public void OpenTooltip(Part part, Vector2 position)
         {
-            
+            RectTransform = GetComponent<RectTransform>();
+            RectTransform.pivot = new Vector2(
+                RectTransformUtility.RectangleContainsScreenPoint(canvas,
+                    new Vector2(RectTransform.sizeDelta.x*RectTransform.localScale.x + RectTransform.anchoredPosition.x,
+                        RectTransform.sizeDelta.y + RectTransform.anchoredPosition.y )) ? 0 : 1,
+                RectTransformUtility.RectangleContainsScreenPoint(canvas,
+                    new Vector2(RectTransform.sizeDelta.x + RectTransform.anchoredPosition.x,
+                        RectTransform.sizeDelta.y*RectTransform.localScale.y + RectTransform.anchoredPosition.y)) ? 0 : 1);
             RectTransform.anchoredPosition = position;
             
             gameObject.SetActive(true);
@@ -63,14 +71,14 @@ namespace KBG.Inventory
                 {
                     if (text.key == effect.effectType.ToString())
                     {
-                        text.amountText.enabled = true;
-                        text.text.enabled = true;
+                        text.amountText.gameObject.SetActive(true);
+                        text.text.gameObject.SetActive(true);
                         text.amountText.text = (effect.effectAmount > 0? "+":"")+effect.effectAmount;
                     }
                     else
                     {
-                        text.amountText.enabled = false;
-                        text.text.enabled = false;
+                        text.amountText.gameObject.SetActive(false);
+                        text.text.gameObject.SetActive(false);
                     }
                 }
 
@@ -82,13 +90,13 @@ namespace KBG.Inventory
                 var capacity = infoTexts.First(e => e.key == nameof(PartEffectType.Capacity));
                 if (effect == null)
                 {
-                    capacity.amountText.enabled = false;
-                    capacity.text.enabled = false;
+                    capacity.amountText.gameObject.SetActive(false);
+                    capacity.text.gameObject.SetActive(false);
                 }
                 else
                 {
-                    capacity.amountText.enabled = true;
-                    capacity.text.enabled = true;
+                    capacity.amountText.gameObject.SetActive(true);
+                    capacity.text.gameObject.SetActive(true);
                     capacity.amountText.text = effect.effectAmount.ToString();
                 }
 
@@ -110,6 +118,16 @@ namespace KBG.Inventory
                 infoTexts.First(t => t.key == "Ingredient").amountText.text = text;
                 infoTexts.First(t => t.key == "Durability").amountText.text = part.durability+"/"+ingredient.durability;;
             }
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (RectTransform == null) return;
+            Gizmos.color = Color.cyan;
+            Gizmos.DrawWireSphere(new Vector2(RectTransform.sizeDelta.x*RectTransform.localScale.x + RectTransform.anchoredPosition.x ,
+                RectTransform.sizeDelta.y + RectTransform.anchoredPosition.y ),100);
+            Gizmos.DrawWireSphere(new Vector2(RectTransform.sizeDelta.x + RectTransform.anchoredPosition.x,
+                RectTransform.sizeDelta.y*RectTransform.localScale.x + RectTransform.anchoredPosition.y),100);
         }
 
         public void OpenTooltip(GunData data)
