@@ -6,6 +6,7 @@ using UnityEngine.UI;
 using TMPro;
 using KBG.Item;
 using KBG.Inventory;
+using UnityEngine.EventSystems;
 
 public class CraftingUIController : MonoBehaviour
 {
@@ -24,30 +25,27 @@ public class CraftingUIController : MonoBehaviour
     [SerializeField] private IngredientNameTableSO ingredientNameTable;
 
     [Header("Ingredient Option Slots (Fixed 3)")]
-    [SerializeField] private IngredientOptionItemUI[] optionSlots = new IngredientOptionItemUI[3]; // ★ 추가
+    [SerializeField] private IngredientOptionItemUI[] optionSlots = new IngredientOptionItemUI[3];
 
-    [Header("Craft Button (ONLY Button Input)")]
-    [SerializeField] private Button craftButton;
+    [Header("Craft Button (EventTrigger Only)")]
+    [SerializeField] private EventTrigger craftButtonTrigger; // ★ Button 대신 EventTrigger
     [SerializeField] private TMP_Text craftButtonLabel;
 
     [SerializeField] private MaterialInventory materialInventory;
     private MaterialInventory MatInv => materialInventory != null ? materialInventory : MaterialInventory.Instance;
 
     private readonly List<CraftListItemUI> _leftItems = new List<CraftListItemUI>();
+
     private CraftingRecipeSO _selectedRecipe;
     private CraftListItemUI _selectedLeftUI;
 
+    // ★ 3중 1택: 현재 선택된 재료 옵션
     private IngredientType _selectedIngredientOption = IngredientType.None;
 
     private void Awake()
     {
         BuildLeftList();
-
-        if (craftButton != null)
-        {
-            craftButton.onClick.RemoveAllListeners();
-            craftButton.onClick.AddListener(OnClickCraft);
-        }
+        BindCraftButtonTrigger();
     }
 
     private void OnEnable()
@@ -70,19 +68,36 @@ public class CraftingUIController : MonoBehaviour
             RefreshRightPanel(null);
     }
 
-    public void SetSelectedIngredientOption(IngredientType type)
+    // ============================
+    // EventTrigger Craft Button
+    // ============================
+
+    private void BindCraftButtonTrigger()
     {
-        _selectedIngredientOption = type;
-        RefreshIngredientOptionSlots(_selectedRecipe);
-        RefreshRightPanel(_selectedRecipe);
+        if (craftButtonTrigger == null) return;
+
+        if (craftButtonTrigger.triggers == null)
+            craftButtonTrigger.triggers = new List<EventTrigger.Entry>();
+
+        for (int i = craftButtonTrigger.triggers.Count - 1; i >= 0; i--)
+        {
+            var e = craftButtonTrigger.triggers[i];
+            if (e != null && e.eventID == EventTriggerType.PointerClick)
+                craftButtonTrigger.triggers.RemoveAt(i);
+        }
+
+        var entry = new EventTrigger.Entry { eventID = EventTriggerType.PointerClick };
+        entry.callback.AddListener(_ => OnClickCraft());
+        craftButtonTrigger.triggers.Add(entry);
+
+        // ★ EventTrigger가 먹으려면 Graphic 레이캐스트 대상이 있어야 함
+        var g = craftButtonTrigger.GetComponent<Graphic>();
+        if (g != null) g.raycastTarget = true;
     }
 
-    private void HandleMaterialChanged()
-    {
-        AutoSelectCraftableIngredientOption(_selectedRecipe);
-        RefreshIngredientOptionSlots(_selectedRecipe);
-        RefreshRightPanel(_selectedRecipe);
-    }
+    // ============================
+    // Left List
+    // ============================
 
     private void BuildLeftList()
     {
@@ -125,27 +140,20 @@ public class CraftingUIController : MonoBehaviour
         RefreshRightPanel(_selectedRecipe);
     }
 
-    private void RefreshRightPanel(CraftingRecipeSO recipe)
+    // ============================
+    // Option Slots (3-way pick)
+    // ============================
+
+    public void SetSelectedIngredientOption(IngredientType type)
     {
-        if (rightPreviewImage != null)
-            rightPreviewImage.sprite = recipe != null ? recipe.PreviewIcon : null;
-
-        if (rightItemName != null)
-            rightItemName.text = recipe != null ? recipe.DisplayName : string.Empty;
-
-        bool canCraft = recipe != null && CheckCanCraftSelectedOption(recipe);
-        if (craftButton != null) craftButton.interactable = canCraft;
-        if (craftButtonLabel != null) craftButtonLabel.text = recipe == null ? "-" : (canCraft ? "제작" : "재료 부족");
+        _selectedIngredientOption = type;
+        RefreshIngredientOptionSlots(_selectedRecipe);
+        RefreshRightPanel(_selectedRecipe);
     }
 
-    // ============================
-    // ★ 고정 3슬롯에 값만 채우기
-    // ============================
     private void RefreshIngredientOptionSlots(CraftingRecipeSO recipe)
     {
-        // 슬롯이 없거나 레시피가 없으면 전부 숨김
-        if (optionSlots == null || optionSlots.Length == 0)
-            return;
+        if (optionSlots == null || optionSlots.Length == 0) return;
 
         if (recipe == null || recipe.resultPart == null || recipe.resultPart.ingredients == null)
         {
@@ -173,8 +181,7 @@ public class CraftingUIController : MonoBehaviour
             int need = Mathf.Max(1, opt.requiredAmount);
             string name = GetIngredientName(opt.requiredIngredient);
 
-            // 아이콘은 아직 테이블 없으니 null(원하면 나중에 매핑 추가)
-            Sprite icon = null;
+            Sprite icon = null; // 필요하면 IngredientType->Ingredient SO 매핑 추가해서 넣기
 
             slotUI.gameObject.SetActive(true);
             slotUI.Bind(opt.requiredIngredient, icon, name, owned, need, SetSelectedIngredientOption);
@@ -182,9 +189,6 @@ public class CraftingUIController : MonoBehaviour
         }
     }
 
-    // ============================
-    // 선택 옵션 기반
-    // ============================
     private PartData.RequireIngredient GetSelectedOption(CraftingRecipeSO recipe)
     {
         if (recipe == null || recipe.resultPart == null) return null;
@@ -207,6 +211,7 @@ public class CraftingUIController : MonoBehaviour
         var list = recipe.resultPart.ingredients;
         if (list == null || list.Count == 0) return;
 
+        // 현재 선택이 제작 가능하면 유지
         var cur = GetSelectedOption(recipe);
         if (cur != null)
         {
@@ -219,6 +224,7 @@ public class CraftingUIController : MonoBehaviour
             }
         }
 
+        // 제작 가능한 옵션 우선 선택
         for (int i = 0; i < list.Count; i++)
         {
             var opt = list[i];
@@ -231,7 +237,33 @@ public class CraftingUIController : MonoBehaviour
             }
         }
 
+        // 전부 불가면 첫 옵션
         _selectedIngredientOption = list[0].requiredIngredient;
+    }
+
+    // ============================
+    // Right Panel / Craft
+    // ============================
+
+    private void HandleMaterialChanged()
+    {
+        AutoSelectCraftableIngredientOption(_selectedRecipe);
+        RefreshIngredientOptionSlots(_selectedRecipe);
+        RefreshRightPanel(_selectedRecipe);
+    }
+
+    private void RefreshRightPanel(CraftingRecipeSO recipe)
+    {
+        if (rightPreviewImage != null)
+            rightPreviewImage.sprite = recipe != null ? recipe.PreviewIcon : null;
+
+        if (rightItemName != null)
+            rightItemName.text = recipe != null ? recipe.DisplayName : string.Empty;
+
+        bool canCraft = recipe != null && CheckCanCraftSelectedOption(recipe);
+
+        if (craftButtonLabel != null)
+            craftButtonLabel.text = recipe == null ? "-" : (canCraft ? "제작" : "재료 부족");
     }
 
     private bool CheckCanCraftSelectedOption(CraftingRecipeSO recipe)
@@ -246,9 +278,70 @@ public class CraftingUIController : MonoBehaviour
 
     private void OnClickCraft()
     {
-        // 여기엔 기존에 만들어둔 "선택 옵션 1개 소모 + 파츠 인벤 추가" 로직을 그대로 사용하면 됩니다.
-        // (현재 대화 맥락상 이미 적용된 상태라고 보고 생략)
+        if (_selectedRecipe == null) return;
+
+        if (!CheckCanCraftSelectedOption(_selectedRecipe))
+        {
+            RefreshRightPanel(_selectedRecipe);
+            return;
+        }
+
+        if (Inventory.Instance == null || Inventory.Instance.GetEmptyInventorySlot() == null)
+        {
+            Debug.LogWarning("[Crafting] 인벤토리가 가득 차서 제작할 수 없습니다.");
+            RefreshRightPanel(_selectedRecipe);
+            return;
+        }
+
+        // 1) 선택 옵션 1개만 소모
+        if (!TryConsumeSelectedOption(_selectedRecipe))
+        {
+            RefreshRightPanel(_selectedRecipe);
+            return;
+        }
+
+        // 2) 결과 파츠 생성 + 인벤 추가(선택 옵션으로 madeBy/durability)
+        if (!TryAddCraftedPartToInventory(_selectedRecipe))
+        {
+            Debug.LogWarning("[Crafting] 파츠 인벤 추가 실패.");
+            RefreshRightPanel(_selectedRecipe);
+            return;
+        }
+
+        RefreshIngredientOptionSlots(_selectedRecipe);
+        RefreshRightPanel(_selectedRecipe);
     }
+
+    private bool TryConsumeSelectedOption(CraftingRecipeSO recipe)
+    {
+        if (MatInv == null) return false;
+
+        var opt = GetSelectedOption(recipe);
+        if (opt == null) return false;
+
+        int need = Mathf.Max(1, opt.requiredAmount);
+        return MatInv.TryConsumeFromSlots(opt.requiredIngredient, need);
+    }
+
+    private bool TryAddCraftedPartToInventory(CraftingRecipeSO recipe)
+    {
+        if (recipe == null || recipe.resultPart == null) return false;
+        if (Inventory.Instance == null) return false;
+
+        var opt = GetSelectedOption(recipe);
+        if (opt == null) return false;
+
+        Part newPart = ScriptableObject.CreateInstance<Part>();
+        newPart.partData = recipe.resultPart;
+        newPart.madeBy = opt.requiredIngredient;
+        newPart.durability = opt.durability;
+
+        return Inventory.Instance.AddItem(newPart);
+    }
+
+    // ============================
+    // Count / Name
+    // ============================
 
     private int GetOwnedIngredientCount(IngredientType type)
     {
