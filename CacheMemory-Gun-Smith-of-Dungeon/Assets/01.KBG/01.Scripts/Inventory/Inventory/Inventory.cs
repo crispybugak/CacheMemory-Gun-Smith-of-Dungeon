@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Linq;
 using UnityEngine;
 using System.Collections.Generic;
@@ -25,6 +25,8 @@ namespace KBG.Inventory
         private int _lastIndex;
 
         private GridLayoutGroup _gridLayout;
+
+        public bool Active { get; set; }
         
         protected override void Awake()
         {

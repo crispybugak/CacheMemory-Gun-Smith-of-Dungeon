@@ -46,6 +46,8 @@ public class LobbyUI : MonoBehaviour
 
     private float fadeDuration = 0.2f;
 
+    public bool _bag;
+
     private enum LobbyPopup { None, Character, Option, Exit, Backpack }
     private LobbyPopup _popup = LobbyPopup.None;
 
@@ -225,6 +227,7 @@ public class LobbyUI : MonoBehaviour
         SetMainButtonsInteractable(false);
 
         OpenBackpack();
+        _bag = true;
     }
 
     //===============OFF=============//
@@ -252,6 +255,7 @@ public class LobbyUI : MonoBehaviour
     {
         if (_popup != LobbyPopup.Backpack) return;
         CloseBackpack();
+        _bag = false;
     }
 
     private void OpenCharacterSelectPanel(Image ria, Image rin)

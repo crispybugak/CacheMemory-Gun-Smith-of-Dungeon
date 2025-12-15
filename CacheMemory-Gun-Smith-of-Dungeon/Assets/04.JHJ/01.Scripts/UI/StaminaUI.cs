@@ -6,18 +6,23 @@ public class StaminaUI : MonoBehaviour
     [Header("UI")]
     [SerializeField] private Image _staminaBar;
     [SerializeField] private Image _backStaminaBar;
+
     public Stamina stamina;
 
     public void UpdateUI()
     {
-        // ★ 패시브 포함 최대 스태미나 기준으로 비율 계산
-        float max = Mathf.Max(1f, stamina.MaxStaminaWithPassive);
+        if (stamina == null) return;
 
-        float mainst = stamina._currentStamina / max;
-        float backst = stamina._backStamina   / max;
+        float absoluteMax = Mathf.Max(1f, stamina.MaxStaminaWithPassive);
+        float backMax = Mathf.Max(1f, stamina._backStamina); // 현재 캡(백바)
 
-        if (_backStaminaBar != null) _backStaminaBar.fillAmount = backst;
-        if (_staminaBar != null)     _staminaBar.fillAmount     = mainst;
+        // 백바: 전체 최대치 대비 (전체 길이 기준으로 백바가 어디까지 복구됐는지)
+        float backFill = stamina._backStamina / absoluteMax;
+
+        // 메인바: 백바(캡) 대비 (백바 안에서 현재가 얼마나 찼는지)
+        float mainFill = stamina._currentStamina / backMax;
+
+        if (_backStaminaBar != null) _backStaminaBar.fillAmount = Mathf.Clamp01(backFill);
+        if (_staminaBar != null) _staminaBar.fillAmount = Mathf.Clamp01(mainFill);
     }
 }
-
