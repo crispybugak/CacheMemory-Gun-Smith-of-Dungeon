@@ -18,14 +18,13 @@ public class NecromancerBoss : BaseEnemy
         isRangedEnemy = true;
         hashIsAttacking = Animator.StringToHash("isAttacking");
         hashSpawnTrigger = Animator.StringToHash("spawnTrigger");
-        attackSoundName = "necromencer-charge";
-        deathSoundName = "necromancer-dead"; 
+        
+        hurtBoolName = "";
     }
 
     protected override void Attack()
     {
         animator?.SetBool(hashIsAttacking, true);
-        PlayAttackSound();
         PerformAttack();
     }
 
@@ -37,7 +36,6 @@ public class NecromancerBoss : BaseEnemy
             Time.time - lastSpecialTime >= GetEnemyData().specialAbilityCooldown)
         {
             animator?.SetTrigger(hashSpawnTrigger);
-            PlaySummonSound();  // ← 추가!
             lastSpecialTime = Time.time;
             minionSpawned++;
             StartCoroutine(SpawnMinionAfterAnimation(0.5f));
@@ -47,11 +45,6 @@ public class NecromancerBoss : BaseEnemy
     private IEnumerator LaunchProjectileSequence()
     {
         yield return new WaitForSeconds(2.5f);
-    
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlaySound("necromencer-charge");
-        }
     
         LaunchProjectile();
     }
@@ -95,14 +88,6 @@ public class NecromancerBoss : BaseEnemy
         else
         {
             Debug.LogError($"{name}: Projectile 스크립트가 없습니다");
-        }
-    }
-
-    private void PlaySummonSound()
-    {
-        if (AudioManager.Instance != null)
-        {
-            AudioManager.Instance.PlaySound("necromencer-spawn");
         }
     }
 

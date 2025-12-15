@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class Tutorial : MonoBehaviour
@@ -52,6 +54,12 @@ public class Tutorial : MonoBehaviour
             }
             _index = prev;
             Apply();
+        }
+
+
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+        {
+            SceneManager.LoadScene("LobbyScene"); 
         }
     }
 

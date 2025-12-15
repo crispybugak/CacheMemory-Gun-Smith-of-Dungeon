@@ -15,6 +15,8 @@ GameObject:
   - component: {fileID: 5608887467425803168}
   - component: {fileID: 8424686143728004293}
   - component: {fileID: 4683442853952164241}
+  - component: {fileID: 1813774885461986197}
+  - component: {fileID: 8695993678371812629}
   m_Layer: 15
   m_Name: SlimeEnemy
   m_TagString: Enemy
@@ -32,8 +34,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5943509799800721665}
   m_Father: {fileID: 0}
@@ -79,8 +81,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -2116695181
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: 1576031485842391493, guid: c281e494f1de90647a6f385809fb097b, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -242,6 +244,7 @@ MonoBehaviour:
   pathUpdateInterval: 0.15
   hitFlashDuration: 0.2
   hitFlashColor: {r: 1, g: 1, b: 1, a: 0.6}
+  deathFadeDuration: 0.6
   rangedKeepDistance: 3
   rangedBackAwaySpeed: 0.6
   separationRadius: 0.56
@@ -251,6 +254,33 @@ MonoBehaviour:
     m_Bits: 32768
   attackAnimationDuration: 0.6
   useLineOfSightCheck: 1
+  hurtBoolDuration: 0.15
+--- !u!114 &1813774885461986197
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044206925059017212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69eae90244ad1514993b8c497935316f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSo: {fileID: 11400000, guid: 95cf6d290c09ed94f9819fb745c47d72, type: 2}
+--- !u!114 &8695993678371812629
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2044206925059017212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 613c11c9550fe9c47b29cc35a627f3d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingMultiplier: 100
 --- !u!1 &2995380448859899124
 GameObject:
   m_ObjectHideFlags: 0

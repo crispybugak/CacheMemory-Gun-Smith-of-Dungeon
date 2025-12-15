@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8855681546105323418}
   - component: {fileID: 1749520420137792007}
   - component: {fileID: 6211518754785980438}
+  - component: {fileID: 5819827855210692047}
   m_Layer: 5
   m_Name: Slot
   m_TagString: Untagged
@@ -91,6 +92,39 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   item: {fileID: 0}
   defaultSprite: {fileID: -4527173903831441922, guid: 792c5922c069c394588c64a58059b210, type: 3}
+--- !u!114 &5819827855210692047
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1237230812256996657}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0b148fe25e99eb48b9724523833bab1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Delegates:
+  - eventID: 2
+    callback:
+      m_PersistentCalls:
+        m_Calls: []
+  - eventID: 5
+    callback:
+      m_PersistentCalls:
+        m_Calls:
+        - m_Target: {fileID: 6211518754785980438}
+          m_TargetAssemblyTypeName: KBG.Inventory.InventorySlot, Assembly-CSharp
+          m_MethodName: OnDrag
+          m_Mode: 0
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1 &4541704471653071599
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,21 +1,25 @@
 using UnityEngine;
+using KBG.Item;
+using KBG.Inventory;
 
 [RequireComponent(typeof(BaseEnemy))]
 public class EnemyDropper : MonoBehaviour
 {
-    [Header("드랍 설정")]
-    [SerializeField] private GameObject dropPrefab;  // 드랍할 프리팹 하나
-    [SerializeField] private int minCount = 0;       // 최소 개수
-    [SerializeField] private int maxCount = 3;       // 최대 개수 (포함)
-    
-    [Header("드랍 위치 설정")]
-    [SerializeField] private Vector2 offset = Vector2.zero; // 적 기준 기본 오프셋
-    [SerializeField] private float spreadRadius = 0.5f;     // 주변으로 흩뿌리기 반경
+    [Header("드롭 설정")] 
+    [SerializeField] private Ingredient itemSo;
 
     private BaseEnemy enemy;
 
     private void Awake()
     {
+        var droppers = GetComponents<EnemyDropper>();
+        if (droppers.Length > 1)
+        {
+            Debug.LogWarning($"[EnemyDropper] 중복 감지 {name}에 EnemyDropper가 여러 개 있습니다. 하나만 남기고 나머지 제거.", this);
+            Destroy(this);
+            return;
+        }
+
         enemy = GetComponent<BaseEnemy>();
         if (enemy != null)
         {
@@ -33,22 +37,16 @@ public class EnemyDropper : MonoBehaviour
 
     private void HandleEnemyDeath(BaseEnemy dead)
     {
-        if (dropPrefab == null) return;
+        if (itemSo == null) return;
 
-        int min = Mathf.Max(0, minCount);
-        int max = Mathf.Max(min, maxCount);
+        var obj = new Item();
+        obj.ItemData = itemSo;
+        Inventory.Instance.AddItem(obj);
 
-        int count = Random.Range(min, max + 1);
-
-        Vector2 basePos = dead.transform.position;
-
-        for (int i = 0; i < count; i++)
-        {
-            Vector2 randomOffset = offset + Random.insideUnitCircle * spreadRadius;
-            Vector3 spawnPos = basePos + (Vector2)randomOffset;
-
-            Instantiate(dropPrefab, spawnPos, Quaternion.identity);
-        }
+        FloatingTextManager.Instance.ShowFloatingText(
+            itemSo.itemName,
+            1, 
+            dead.transform.position
+        );
     }
-    
 }

@@ -10,7 +10,6 @@ public class SlimeEnemy : BaseEnemy
         base.Start();
         isRangedEnemy = true;
         hashIsAbility = Animator.StringToHash("isAbility");
-        attackSoundName = "slime-lunch-sound"; 
     }
 
     protected override void Update()
@@ -91,14 +90,10 @@ public class SlimeEnemy : BaseEnemy
     public override void TakeDamage(float damage)
     {
         base.TakeDamage(damage);
-        if (GetAnimator() != null)
-            GetAnimator().SetTrigger("isHurt");
     }
 
     protected override void Die()
     {
-        if (GetAnimator() != null)
-            GetAnimator().SetTrigger("isDead");
         base.Die();
     }
 }

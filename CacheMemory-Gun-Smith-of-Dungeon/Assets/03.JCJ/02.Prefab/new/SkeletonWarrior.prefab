@@ -106,6 +106,8 @@ GameObject:
   - component: {fileID: 6249339360031456114}
   - component: {fileID: 8710842948711545035}
   - component: {fileID: 6739765325006289828}
+  - component: {fileID: 6171762489984111333}
+  - component: {fileID: 9128086519576346741}
   m_Layer: 15
   m_Name: SkeletonWarrior
   m_TagString: Enemy
@@ -123,8 +125,8 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
+  m_LocalScale: {x: 1.7, y: 1.7, z: 1.7}
+  m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 132969039548180810}
   m_Father: {fileID: 0}
@@ -170,8 +172,8 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
+  m_SortingLayerID: -2116695181
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_Sprite: {fileID: -7219542275010057529, guid: 89c1a6dc26813c1489b46cdefa7b2ba0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -333,6 +335,7 @@ MonoBehaviour:
   pathUpdateInterval: 0.15
   hitFlashDuration: 0.2
   hitFlashColor: {r: 1, g: 1, b: 1, a: 0.6}
+  deathFadeDuration: 0.6
   rangedKeepDistance: 1
   rangedBackAwaySpeed: 0.6
   separationRadius: 0.3
@@ -342,6 +345,33 @@ MonoBehaviour:
     m_Bits: 32768
   attackAnimationDuration: 0.6
   useLineOfSightCheck: 1
+  hurtBoolDuration: 0.15
+--- !u!114 &6171762489984111333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6389411021323192786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 69eae90244ad1514993b8c497935316f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemSo: {fileID: 11400000, guid: 95cf6d290c09ed94f9819fb745c47d72, type: 2}
+--- !u!114 &9128086519576346741
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6389411021323192786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 613c11c9550fe9c47b29cc35a627f3d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sortingMultiplier: 100
 --- !u!1 &6495274670131262146
 GameObject:
   m_ObjectHideFlags: 0

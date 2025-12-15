@@ -20,7 +20,7 @@ MonoBehaviour:
   partDegree: 0
   localPos: {x: 0, y: 0}
   ingredients:
-  - requiredIngredient: 1
+  - requiredIngredient: 3
     requiredAmount: 3
     effects:
     - effectType: 1
@@ -29,4 +29,24 @@ MonoBehaviour:
       effectAmount: 20
     - effectType: 4
       effectAmount: -20
+    durability: 0
+  - requiredIngredient: 2
+    requiredAmount: 5
+    effects:
+    - effectType: 1
+      effectAmount: 20
+    - effectType: 2
+      effectAmount: 10
+    - effectType: 4
+      effectAmount: 10
+    durability: 0
+  - requiredIngredient: 1
+    requiredAmount: 3
+    effects:
+    - effectType: 1
+      effectAmount: 30
+    - effectType: 2
+      effectAmount: 20
+    - effectType: 4
+      effectAmount: -10
     durability: 0
