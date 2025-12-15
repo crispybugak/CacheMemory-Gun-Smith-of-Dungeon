@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 23c5b270edf68494fb04ade8193cd323, type: 3}
   m_Name: Polyamid
   m_EditorClassIdentifier: 
-  <icon>k__BackingField: {fileID: 0}
-  <upScaling>k__BackingField: 0
+  <icon>k__BackingField: {fileID: 6006945509410346830, guid: 0e7d279de5ac47641b221bac92d7596c, type: 3}
+  <upScaling>k__BackingField: 1
   <itemName>k__BackingField: 
   type: 1
